@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petition/Screens/Admin.dart';
 import 'package:petition/Screens/Login.dart';
 
 void main() {
@@ -13,8 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home: Login(),
+      title: 'Petitions',
+      home: Admin(),
     );
   }
 }

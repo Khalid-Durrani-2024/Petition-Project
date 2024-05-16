@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class CustomColors {
   var backgroundColor = const Color.fromARGB(255, 79, 66, 114);
   var buttonColor = const Color.fromARGB(255, 97, 65, 187);
@@ -6,3 +7,5 @@ class CustomColors {
   var helperWhiteColor = const Color.fromARGB(255, 217, 217, 217);
   var helperBlackColor = const Color.fromARGB(255, 0, 0, 0);
 }
+
+CustomColors colors = CustomColors(); //Colors Class Object

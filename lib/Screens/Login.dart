@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:petition/Colors/Colors.dart';
 
-CustomColors _colors = CustomColors(); //Colors Class Object
-
 class Login extends StatelessWidget {
   const Login({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _colors.backgroundColor,
+      backgroundColor: colors.backgroundColor,
       body: LoginForm(),
     );
   }
@@ -44,7 +42,7 @@ class _LoginFormState extends State<LoginForm> {
               Container(
                 //Email Field
                 decoration: BoxDecoration(
-                    color: _colors.textFieldColor,
+                    color: colors.textFieldColor,
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: TextFormField(
@@ -75,7 +73,7 @@ class _LoginFormState extends State<LoginForm> {
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: _colors.textFieldColor,
+                    color: colors.textFieldColor,
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: TextFormField(
@@ -102,12 +100,17 @@ class _LoginFormState extends State<LoginForm> {
                 height: height / 30,
               ),
               InkWell(
+                onTap: () {
+                  if (_formKey.currentState!.validate()) {
+                    print('Handle Appropriate changes if the form is validate');
+                  }
+                },
                 //Log In Button
                 child: Container(
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(22),
-                      color: _colors.buttonColor),
+                      color: colors.buttonColor),
                   width: width / 5,
                   height: height / 15,
                   child: const Text(
@@ -118,6 +121,14 @@ class _LoginFormState extends State<LoginForm> {
                         fontSize: 18),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: height / 30,
+              ),
+              const Text(
+                'Forgot Password?',
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
               )
             ],
           )),
