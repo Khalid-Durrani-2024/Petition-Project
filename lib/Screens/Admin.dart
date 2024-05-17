@@ -39,6 +39,12 @@ class Admin extends StatelessWidget {
       ),
       drawer: Drawer(),
       body: AdminScreen(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: colors.textFieldColor,
+        foregroundColor: colors.helperWhiteColor,
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

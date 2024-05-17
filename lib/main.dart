@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:petition/Screens/Admin.dart';
 import 'package:petition/Screens/Login.dart';
 
+import 'Screens/User.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -12,10 +14,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Petitions',
-      home: Admin(),
+      home: Login(),
     );
   }
 }

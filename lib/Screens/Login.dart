@@ -48,11 +48,11 @@ class _LoginFormState extends State<LoginForm> {
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Enter Email Address';
+                      return 'ایمیل ادرس مو دننه کړۍ';
                     } else if (!value.contains('@')) {
-                      return 'Enter a Valid Email Address including "@"';
+                      return 'خپل ایمیل ادرس مو چیک کړۍ او بیا هڅه وکړۍ "@"';
                     } else if (!value.contains('.')) {
-                      return 'Enter a Valid Email Address including "."';
+                      return 'خپل ایمیل ادرس مو چیک کړۍ او بیا هڅه وکړۍ "."';
                     }
                     return null;
                   },
@@ -65,7 +65,7 @@ class _LoginFormState extends State<LoginForm> {
                           color: Colors.white,
                           fontSize: 12,
                           fontWeight: FontWeight.w100),
-                      label: Text('Email')),
+                      label: Text('ایمیل')),
                 ),
               ),
               SizedBox(
@@ -79,7 +79,7 @@ class _LoginFormState extends State<LoginForm> {
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Password Missing';
+                      return 'پټ نوم دننه کړۍ';
                     }
                     return null;
                   },
@@ -93,7 +93,7 @@ class _LoginFormState extends State<LoginForm> {
                           color: Colors.white,
                           fontSize: 12,
                           fontWeight: FontWeight.w100),
-                      label: Text('Password')),
+                      label: Text('پټ نوم')),
                 ),
               ),
               SizedBox(
@@ -114,7 +114,7 @@ class _LoginFormState extends State<LoginForm> {
                   width: width / 5,
                   height: height / 15,
                   child: const Text(
-                    'Sign In',
+                    'دننه شۍ',
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -126,7 +126,7 @@ class _LoginFormState extends State<LoginForm> {
                 height: height / 30,
               ),
               const Text(
-                'Forgot Password?',
+                'پټ نوم مو هیر دی؟',
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
               )
