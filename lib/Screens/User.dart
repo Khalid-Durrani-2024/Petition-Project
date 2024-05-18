@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import '../Colors/Colors.dart';
 
@@ -8,7 +9,12 @@ class User extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(),
       body: UserScreen(),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        label: Text('عریضه ولیکۍ'),
+      ),
     );
   }
 }
@@ -25,30 +31,30 @@ class _UserScreenState extends State<UserScreen> {
     {
       'id': 1,
       'Date': DateTime.now(),
-      'Sender': 'Ali',
+      'Sender': 'علی',
       'Text':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dapibus consectetur lorem, pharetra fringilla tellus tempus ac. Nulla consequat enim in velit tempus, et venenatis lorem tempor. Duis pulvinar non mauris vel porttitor. Nulla porta eros vel tincidunt consequat. Sed dictum aliquet quam elementum efficitur. Maecenas elit nib'
+          'د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته '
     },
     {
       'id': 2,
       'Date': DateTime.now(),
-      'Sender': 'Jan',
+      'Sender': 'جان',
       'Text':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dapibus consectetur lorem, pharetra fringilla tellus tempus ac. Nulla consequat enim in velit tempus, et venenatis lorem tempor. Duis pulvinar non mauris vel porttitor. Nulla porta eros vel tincidunt consequat. Sed dictum aliquet quam elementum efficitur. Maecenas elit nib'
+          'د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته '
     },
     {
       'id': 3,
       'Date': DateTime.now(),
-      'Sender': 'Zahid',
+      'Sender': 'ذاهد',
       'Text':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dapibus consectetur lorem, pharetra fringilla tellus tempus ac. Nulla consequat enim in velit tempus, et venenatis lorem tempor. Duis pulvinar non mauris vel porttitor. Nulla porta eros vel tincidunt consequat. Sed dictum aliquet quam elementum efficitur. Maecenas elit nib'
+          'د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته '
     },
     {
       'id': 4,
       'Date': DateTime.now(),
-      'Sender': 'Khan',
+      'Sender': 'خان',
       'Text':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dapibus consectetur lorem, pharetra fringilla tellus tempus ac. Nulla consequat enim in velit tempus, et venenatis lorem tempor. Duis pulvinar non mauris vel porttitor. Nulla porta eros vel tincidunt consequat. Sed dictum aliquet quam elementum efficitur. Maecenas elit nib'
+          'د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته د سید جمالدین افغانی پوهنتون ته '
     },
   ];
 
@@ -56,27 +62,15 @@ class _UserScreenState extends State<UserScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
+   
     return Container(
-      decoration: BoxDecoration(color: colors.backgroundColor),
-      width: width,
-      height: height,
-      child: ListView.builder(
-        padding: const EdgeInsets.only(top: 340),
-        itemCount: Petitions.length,
-        itemBuilder: (context, index) {
-          return Card(
-            margin: const EdgeInsets.only(left: 350, right: 350, top: 20),
-            color: colors.textFieldColor,
-            child: ListTile(
-              title: Text(
-                Petitions[index]['Sender'],
-                textAlign: TextAlign.center,
-              ),
-            ),
-          );
-        },
-      ),
-    );
+        decoration: BoxDecoration(color: colors.backgroundColor),
+        width: width,
+        height: height,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: Petitions.length,
+          itemBuilder: (context, index) => Text(Petitions[index]['Sender']),
+        ));
   }
 }

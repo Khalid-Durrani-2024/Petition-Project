@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petition/Assets/NetworkImages.dart';
 import 'package:petition/Colors/Colors.dart';
 
 class Admin extends StatelessWidget {
@@ -66,11 +67,26 @@ class _AdminScreenState extends State<AdminScreen> {
     'سیټینګ',
   ];
   List<Icon> adminIcons = const [
-    Icon(Icons.storage_outlined),
-    Icon(Icons.call_made_outlined),
-    Icon(Icons.call_received_outlined),
-    Icon(Icons.person_add_outlined),
-    Icon(Icons.settings_outlined),
+    Icon(
+      Icons.storage_outlined,
+      size: 50,
+    ),
+    Icon(
+      Icons.call_made_outlined,
+      size: 50,
+    ),
+    Icon(
+      Icons.call_received_outlined,
+      size: 50,
+    ),
+    Icon(
+      Icons.person_add_outlined,
+      size: 50,
+    ),
+    Icon(
+      Icons.settings_outlined,
+      size: 50,
+    ),
   ];
 
   @override
@@ -79,29 +95,47 @@ class _AdminScreenState extends State<AdminScreen> {
     final width = MediaQuery.of(context).size.width;
 
     return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(color: colors.backgroundColor),
-      child: ListView.builder(
-        padding: const EdgeInsets.only(top: 340),
-        itemCount: adminList.length,
-        itemBuilder: (context, index) {
-          return Card(
-            margin: const EdgeInsets.only(left: 350, right: 350, top: 20),
-            color: colors.textFieldColor,
-            child: ListTile(
-              hoverColor: colors.helperBlackColor,
-              textColor: colors.helperWhiteColor,
-              title: Text(
-                adminList[index],
-                textAlign: TextAlign.center,
-              ),
-              leading: adminIcons[index],
-              iconColor: colors.helperWhiteColor,
+        width: width,
+        height: height,
+        decoration: BoxDecoration(color: colors.backgroundColor),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              flex: 4,
+              child: Image.network(ministryImage),
             ),
-          );
-        },
-      ),
-    );
+            Expanded(
+              flex: 1,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: adminList.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: colors.buttonColor,
+                                spreadRadius: 0.2,
+                                offset:const Offset(3, 2))
+                          ],
+                          color: colors.textFieldColor,
+                          borderRadius: BorderRadius.circular(22)),
+                      width: width / 8,
+                      height: height / 4,
+                      child: ListTile(
+                        title: Text(
+                          adminList[index],
+                          style: TextStyle(color: colors.helperWhiteColor),
+                        ),
+                        subtitle: adminIcons[index],
+                        iconColor: Colors.grey.shade400,
+                      ),
+                    );
+                  }),
+            ),
+          ],
+        ));
   }
 }
