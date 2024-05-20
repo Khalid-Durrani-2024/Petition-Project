@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Assets/NetworkImages.dart';
-import 'package:petition/Colors/Colors.dart';
+import '../Assets/NetworkImages.dart';
+import '../Colors/Colors.dart';
 
 class Admin extends StatelessWidget {
   const Admin({super.key});
@@ -60,10 +60,10 @@ class AdminScreen extends StatefulWidget {
 
 class _AdminScreenState extends State<AdminScreen> {
   List adminList = [
-    'ټــــــول عرایــــض',
-    'لیږل شوي عرایض',
-    'رالیږل شوي عرایض',
-    'نوی استعمالوونکی اضافه کړۍ',
+    'ټــــــول مکتوبونه',
+    'لیږل شوي مکتوبونه',
+    'راغلي مکتوبونه',
+    'پوهنتونونه',
     'سیټینګ',
   ];
   List<Icon> adminIcons = const [
@@ -102,8 +102,29 @@ class _AdminScreenState extends State<AdminScreen> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-              flex: 4,
-              child: Image.network(ministryImage),
+              flex: 2,
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(ministryImage),
+                        radius: 80,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'کنږ پوهنتون',
+                        style: TextStyle(color: colors.helperWhiteColor),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10,
             ),
             Expanded(
               flex: 1,
@@ -112,13 +133,14 @@ class _AdminScreenState extends State<AdminScreen> {
                   itemCount: adminList.length,
                   itemBuilder: (context, index) {
                     return Container(
-                      margin: const EdgeInsets.all(5),
+                      margin:
+                          const EdgeInsets.only(left: 5, right: 5, bottom: 20),
                       decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
                                 color: colors.buttonColor,
                                 spreadRadius: 0.2,
-                                offset:const Offset(3, 2))
+                                offset: const Offset(3, 2))
                           ],
                           color: colors.textFieldColor,
                           borderRadius: BorderRadius.circular(22)),
