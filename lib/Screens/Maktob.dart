@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:petition/Screens/AddUniversities.dart';
+import 'package:petition/Screens/Admin.dart';
+import 'package:petition/Screens/Login.dart';
+
 
 import '../Colors/Colors.dart';
 
-class Maktob extends StatelessWidget {
+class Maktob extends StatefulWidget {
   const Maktob({super.key});
 
+  @override
+  State<Maktob> createState() => _MaktobState();
+}
+
+class _MaktobState extends State<Maktob> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,15 +21,69 @@ class Maktob extends StatelessWidget {
         foregroundColor: colors.helperWhiteColor,
         backgroundColor: colors.textFieldColor,
       ),
-      drawer: Drawer(),
+      drawer: Drawer(
+        backgroundColor: colors.backgroundColor,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Login(),
+                    ),
+                  );
+                },
+                label: Text('Login Screen'),
+              ),
+              FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Admin(),
+                    ),
+                  );
+                },
+                label: Text('Admin Screen'),
+              ),
+              FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Universities(),
+                    ),
+                  );
+                },
+                label: Text('University Screen'),
+              ),
+              FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Maktob(),
+                    ),
+                  );
+                },
+                label: Text('Maktob Screen'),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: maktobScreen(),
       floatingActionButton: FloatingActionButton.extended(
         foregroundColor: colors.helperWhiteColor,
         backgroundColor: colors.buttonColor,
         onPressed: () {
           Write(context);
+          setState(() {});
         },
-        label: Text('مکتوب ولیګۍ'),
+        label: const Icon(Icons.create),
       ),
     );
   }
@@ -207,23 +269,194 @@ Sheet(BuildContext context, int no) {
 
 Write(BuildContext context) {
   var noController = TextEditingController();
+  var titleController = TextEditingController();
+  var descriptionController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
   return showModalBottomSheet(
       context: context,
       builder: (index) {
         return Container(
-          width: double.infinity,
-          height: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          decoration: BoxDecoration(
+              color: colors.backgroundColor,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(22),
+                topRight: Radius.circular(22),
+              )),
+          width: MediaQuery.of(context).size.width / 2,
+          height: MediaQuery.of(context).size.height / 2,
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Container(
-                    child: TextFormField(
-                      controller: noController,
-                      validator: (validator) {},
-                      maxLines: 1,
+                  Row(
+                    //Drop Down List
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: DropdownButtonFormField(
+                          dropdownColor: colors.buttonColor,
+                          alignment: Alignment.centerRight,
+                          items: [
+                            DropdownMenuItem(
+                              child: Text(
+                                'مکتوب',
+                                style:
+                                    TextStyle(color: colors.helperWhiteColor),
+                              ),
+                            ),
+                          ],
+                          onChanged: (value) {},
+                        ),
+                      ),
+                      Text(
+                        'د مکتوب نوعه انتخاب کړۍ',
+                        style: TextStyle(color: colors.helperWhiteColor),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    //DateTime
+
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      showDate(),
+                      Text(
+                        'تاریخ',
+                        style: TextStyle(color: colors.helperWhiteColor),
+                      ),
+                    ],
+                  ),
+                  //title
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          maxLines: 1,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 10),
+                            label: Text('د مکتوب عنوان'),
+                            labelStyle: TextStyle(
+                                color: colors.helperWhiteColor, fontSize: 12),
+                          ),
+                          style: TextStyle(color: colors.helperWhiteColor),
+                          controller: titleController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'د مکتوب عنوان ولیکۍ';
+                            }
+                          },
+                        ),
+                      ),
+                      Text(
+                        'عنوان',
+                        style: TextStyle(color: colors.helperWhiteColor),
+                      ),
+                    ],
+                  ),
+                  //Description
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          style: TextStyle(color: colors.helperWhiteColor),
+                          maxLines: 5,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 10),
+                            label: Text('د مکتوب تشریح'),
+                            labelStyle: TextStyle(
+                                color: colors.helperWhiteColor, fontSize: 12),
+                          ),
+                          controller: descriptionController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "د مکتوب تشریح ولیکۍ";
+                            }
+                          },
+                        ),
+                      ),
+                      Text(
+                        'ډیسکریبشن',
+                        style: TextStyle(color: colors.helperWhiteColor),
+                      )
+                    ],
+                  ),
+                  //Reciever
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    //Drop Down List Reciever
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      DropdownMenu(
+                        width: MediaQuery.of(context).size.width / 4,
+                        menuStyle: MenuStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(colors.buttonColor)),
+                        leadingIcon: Icon(
+                          Icons.school_outlined,
+                          color: colors.helperWhiteColor,
+                        ),
+                        textStyle: TextStyle(color: colors.helperWhiteColor),
+                        label: Text(
+                          'انتخاب کړۍ',
+                          style: TextStyle(color: colors.helperWhiteColor),
+                        ),
+                        dropdownMenuEntries: [
+                          DropdownMenuEntry(
+                              style: ButtonStyle(
+                                foregroundColor: MaterialStatePropertyAll(
+                                    colors.helperWhiteColor),
+                              ),
+                              value: Text('Maktob'),
+                              label: 'کابل پوهنتون'),
+                          DropdownMenuEntry(
+                              style: ButtonStyle(
+                                foregroundColor: MaterialStatePropertyAll(
+                                    colors.helperWhiteColor),
+                              ),
+                              value: Text('Maktob'),
+                              label: 'ننګرهار پوهنتون'),
+                          DropdownMenuEntry(
+                              style: ButtonStyle(
+                                foregroundColor: MaterialStatePropertyAll(
+                                    colors.helperWhiteColor),
+                              ),
+                              value: Text('Maktob'),
+                              label: 'کنړ پوهنتون'),
+                        ],
+                      ),
+                      Text(
+                        'د مکتوب ترلاسه کوونکی اداره',
+                        style: TextStyle(color: colors.helperWhiteColor),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Center(
+                    child: FloatingActionButton.extended(
+                      backgroundColor: colors.buttonColor,
+                      foregroundColor: colors.helperWhiteColor,
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          print('Form is Valid');
+                        }
+                      },
+                      label: Text('مکتوب ولیګۍ'),
                     ),
                   ),
                 ],
@@ -232,4 +465,39 @@ Write(BuildContext context) {
           ),
         );
       });
+}
+
+//show DatePickerDialog
+class showDate extends StatefulWidget {
+  const showDate({super.key});
+
+  @override
+  State<showDate> createState() => _showDateState();
+}
+
+var dateTime = DateTime.now();
+
+class _showDateState extends State<showDate> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: TextButton(
+        onPressed: () {
+          showDatePicker(
+                  context: context,
+                  firstDate: DateTime(2024),
+                  lastDate: DateTime(2030))
+              .then((value) {
+            setState(() {
+              dateTime = value!;
+            });
+          });
+        },
+        child: Text(
+          dateTime.toString().substring(0, 10),
+          style: TextStyle(color: colors.helperWhiteColor),
+        ),
+      ),
+    );
+  }
 }
