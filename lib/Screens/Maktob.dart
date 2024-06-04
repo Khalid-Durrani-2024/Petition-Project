@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petition/Screens/AddUniversities.dart';
 import 'package:petition/Screens/Admin.dart';
 import 'package:petition/Screens/Login.dart';
+import 'package:petition/Screens/Universities.dart';
 
 
 import '../Colors/Colors.dart';
@@ -54,11 +55,11 @@ class _MaktobState extends State<Maktob> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Universities(),
+                      builder: (context) => AddUniversity(),
                     ),
                   );
                 },
-                label: Text('University Screen'),
+                label: Text('Add University Screen'),
               ),
               FloatingActionButton.extended(
                 onPressed: () {
@@ -71,6 +72,18 @@ class _MaktobState extends State<Maktob> {
                 },
                 label: Text('Maktob Screen'),
               ),
+              FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Universities(),
+                    ),
+                  );
+                },
+                label: Text('Universities Screen'),
+              ),
+          
             ],
           ),
         ),

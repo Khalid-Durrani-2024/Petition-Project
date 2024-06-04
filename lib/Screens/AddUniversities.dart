@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../Colors/Colors.dart';
 
-class Universities extends StatelessWidget {
-  const Universities({super.key});
+class AddUniversity extends StatelessWidget {
+  const AddUniversity({super.key});
 
   @override
   Widget build(BuildContext context) {
