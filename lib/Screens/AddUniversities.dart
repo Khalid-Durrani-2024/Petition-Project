@@ -8,6 +8,12 @@ class AddUniversity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        foregroundColor: colors.helperWhiteColor,
+        backgroundColor: colors.textFieldColor,
+        centerTitle: true,
+        title: Text('پوهنتون اضافه کړۍ'),
+      ),
       backgroundColor: colors.backgroundColor,
       body: UniversityScreen(),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petition/Screens/AddUniversities.dart';
+import 'package:petition/Screens/UpdateUniversities.dart';
 
 import '../Colors/Colors.dart';
 
@@ -9,6 +10,12 @@ class Universities extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        foregroundColor: colors.helperWhiteColor,
+        backgroundColor: colors.textFieldColor,
+        title: Text('پوهنتونونه'),
+      ),
       body: UniversitiesScreen(),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: colors.backgroundColor,
@@ -54,38 +61,43 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: currentWidth > 500 ? 4 : 1),
         itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              textColor: colors.helperWhiteColor,
-              tileColor: colors.textFieldColor,
-              title: Text(
-                _universities[index],
-                textAlign: TextAlign.right,
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: Icon(
-                      Icons.school_outlined,
+          return InkWell(
+            onTap: () {
+              UpdateUniversity(context);
+            },
+            child: Card(
+              child: ListTile(
+                textColor: colors.helperWhiteColor,
+                tileColor: colors.textFieldColor,
+                title: Text(
+                  _universities[index],
+                  textAlign: TextAlign.right,
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: Icon(
+                        Icons.school_outlined,
+                        color: colors.helperWhiteColor,
+                        size: 150,
+                      ),
+                    ),
+                    Divider(
+                      thickness: 2,
                       color: colors.helperWhiteColor,
-                      size: 150,
                     ),
-                  ),
-                  Divider(
-                    thickness: 2,
-                    color: colors.helperWhiteColor,
-                  ),
-                  Container(
-                    alignment: Alignment.bottomLeft,
-                    child: Text(
-                      '۳۲۱',
-                      style: TextStyle(fontSize: 30),
+                    Container(
+                      alignment: Alignment.bottomLeft,
+                      child: Text(
+                        '۳۲۱',
+                        style: TextStyle(fontSize: 30),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
