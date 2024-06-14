@@ -23,7 +23,7 @@ class _MaktobState extends State<Maktob> {
         foregroundColor: colors.helperWhiteColor,
         backgroundColor: colors.textFieldColor,
       ),
-      drawer: Drawer(
+      endDrawer: Drawer(
         backgroundColor: colors.backgroundColor,
         child: SingleChildScrollView(
           child: Column(
