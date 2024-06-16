@@ -224,8 +224,6 @@ class _FacultyScreenState extends State<FacultyScreen> {
 
 //Button to Log In Outlined Theme
 class LogInButton extends StatelessWidget {
-  const LogInButton({super.key});
-
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -235,16 +233,18 @@ class LogInButton extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.green,
+          color: colors.hoverColor,
         ),
         borderRadius: BorderRadius.circular(22),
       ),
       width: width / 5,
       height: height / 15,
-      child: const Text(
+      child: Text(
         'ثبت کړۍ',
         style: TextStyle(
-            color: Colors.green, fontWeight: FontWeight.bold, fontSize: 18),
+            color: colors.hoverColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 18),
       ),
     );
   }

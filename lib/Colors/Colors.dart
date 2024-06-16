@@ -6,24 +6,28 @@ class CustomColors {
   // var textFieldColor = const Color.fromARGB(255, 112, 102, 126);
   // var helperWhiteColor = const Color.fromARGB(255, 217, 217, 217);
   // var helperBlackColor = const Color.fromARGB(255, 0, 0, 0);
+  // var hoverColor = const Color.fromARGB(255, 98, 66, 122);
 
   var backgroundColor = const Color(0xff388697);
   var buttonColor = const Color(0xffCC2936);
   var textFieldColor = const Color(0xff08415C);
   var helperWhiteColor = const Color.fromARGB(255, 217, 217, 217);
   var helperBlackColor = const Color.fromARGB(255, 0, 0, 0);
+  var hoverColor =  Color(0xffEBBAB9);
 
   // var backgroundColor = const Color(0xffD6E4E5);
   // var buttonColor = const Color(0xff4A7174);
   // var textFieldColor = const Color(0xffEB6541);
   // var helperWhiteColor = const Color.fromARGB(255, 217, 217, 217);
   // var helperBlackColor = const Color.fromARGB(255, 0, 0, 0);
+  // var hoverColor = const Color(0xffEFF5F5);
 
   // var backgroundColor = const Color(0xff94B49F);
   // var buttonColor = const Color(0xffCEE5D0);
   // var textFieldColor = const Color(0xffFCF8E8);
   // var helperWhiteColor = const Color.fromARGB(255, 217, 217, 217);
   // var helperBlackColor = const Color.fromARGB(255, 0, 0, 0);
+  // var hoverColor = const Color(0xffECB390);
 }
 
 CustomColors colors = CustomColors(); //Colors Class Object
