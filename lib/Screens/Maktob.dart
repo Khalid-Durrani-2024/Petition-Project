@@ -8,6 +8,7 @@ import 'package:petition/Screens/AddUser.dart';
 import 'package:petition/Screens/Admin.dart';
 import 'package:petition/Screens/Faculty.dart';
 import 'package:petition/Screens/Login.dart';
+import 'package:petition/Screens/SignedPetitions.dart';
 import 'package:petition/Screens/Universities.dart';
 import 'package:file_picker/file_picker.dart';
 import '../Colors/Colors.dart';
@@ -109,6 +110,17 @@ class _MaktobState extends State<Maktob> {
                     );
                   },
                   label: Text('Add Faculty'),
+                ),
+                FloatingActionButton.extended(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SignedPetitions(),
+                      ),
+                    );
+                  },
+                  label: Text('Signed Petitions'),
                 ),
               ],
             ),
