@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -5,13 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:petition/Screens/AddUniversities.dart';
 import 'package:petition/Screens/AddUser.dart';
-import 'package:petition/Screens/Admin.dart';
 import 'package:petition/Screens/Faculty.dart';
 import 'package:petition/Screens/Login.dart';
 import 'package:petition/Screens/SignedPetitions.dart';
 import 'package:petition/Screens/Universities.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:petition/models/ApiService.dart';
 import '../Colors/Colors.dart';
+import '../models/Admin.dart';
 
 class Maktob extends StatefulWidget {
   const Maktob({super.key});
@@ -46,14 +48,7 @@ class _MaktobState extends State<Maktob> {
                   label: Text('Login Screen'),
                 ),
                 FloatingActionButton.extended(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Admin(),
-                      ),
-                    );
-                  },
+                  onPressed: () {},
                   label: Text('Admin Screen'),
                 ),
                 FloatingActionButton.extended(
@@ -171,7 +166,7 @@ class __SpeedDialState extends State<_SpeedDial> {
   }
 }
 
-//sample of petitions
+//sample of petitions n
 final List<Map> Petitions = [
   {
     'id': '۱',
@@ -225,73 +220,121 @@ final List<Map> Petitions = [
 ];
 
 //maktob screen
-class maktobScreen extends StatelessWidget {
+class maktobScreen extends StatefulWidget {
+  @override
+  State<maktobScreen> createState() => _maktobScreenState();
+}
+
+class _maktobScreenState extends State<maktobScreen> {
+  late Future _futureData;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _futureData = getDataFromServer();
+  }
+
+  getDataFromServer() async {
+    return await ApiService().fetchData('petitions');
+  }
+  // Future<List<Admin>> fetchAdmin() async {
+  //   List<dynamic> jsonData = await ApiService().fetchData('petitions');
+
+  //   return Admin.fromMapList(jsonData);
+  // }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return Container(
-        padding: const EdgeInsets.only(top: 50),
-        decoration: BoxDecoration(color: colors.backgroundColor),
-        width: width,
-        height: height,
-        child: ListView.builder(
-          itemCount: Petitions.length,
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {
-                //showing maktob from button
-                Sheet(context, index);
-              },
-              child: Card(
-                margin: const EdgeInsets.only(left: 30, right: 30, bottom: 10),
-                color: colors.textFieldColor,
-                child: ListTile(
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        Petitions[index]['Sender'],
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
+    return FutureBuilder(
+      future: _futureData,
+      builder: (context, snapshot) {
+        print(snapshot.data);
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator.adaptive(),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Icon(
+              Icons.error_outline_outlined,
+              size: 50,
+            ),
+          );
+        } else if (snapshot.hasData) {
+          return Container(
+            padding: const EdgeInsets.only(top: 50),
+            decoration: BoxDecoration(color: colors.backgroundColor),
+            width: width,
+            height: height,
+            child: ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    //showing maktob from button
+                    Sheet(context, index, snapshot.data);
+                  },
+                  child: Card(
+                    margin:
+                        const EdgeInsets.only(left: 30, right: 30, bottom: 10),
+                    color: colors.textFieldColor,
+                    child: ListTile(
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            snapshot.data[index]['sender'],
+                            style: TextStyle(
+                                fontSize: 18, color: colors.helperWhiteColor),
+                          ),
+                          Text(snapshot.data[index]['date'],
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: colors.helperWhiteColor)),
+                        ],
                       ),
-                      Text(Petitions[index]['Date'],
+                      subtitle: Text(
+                        snapshot.data[index]['description'],
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(color: colors.helperWhiteColor),
+                      ),
+                      trailing: Container(
+                        padding: const EdgeInsets.only(top: 10),
+                        decoration: BoxDecoration(
+                            color: colors.buttonColor, shape: BoxShape.circle),
+                        width: width / 15,
+                        height: height / 15,
+                        child: Text(
+                          snapshot.data[index]['id'],
+                          textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 12, color: colors.helperWhiteColor)),
-                    ],
-                  ),
-                  subtitle: Text(
-                    Petitions[index]['Text'],
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(color: colors.helperWhiteColor),
-                  ),
-                  trailing: Container(
-                    padding: const EdgeInsets.only(top: 10),
-                    decoration: BoxDecoration(
-                        color: colors.buttonColor, shape: BoxShape.circle),
-                    width: width / 15,
-                    height: height / 15,
-                    child: Text(
-                      Petitions[index]['id'],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 20, color: colors.helperWhiteColor),
+                              fontSize: 20, color: colors.helperWhiteColor),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            );
-          },
-        ));
+                );
+              },
+            ),
+          );
+        } else {
+          return Center(
+            child: Text('No Data Received'),
+          );
+        }
+      },
+    );
   }
 }
 
 //Showing Maktob
 
-Sheet(BuildContext context, int no) {
+Sheet(BuildContext context, int no, List snapshot) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -317,17 +360,17 @@ Sheet(BuildContext context, int no) {
                   ],
                 ),
                 Text(
-                  "نمبر مکتوب: " + Petitions[no]['id'],
+                  "نمبر مکتوب: " + snapshot[no]['id'],
                   style:
                       TextStyle(color: colors.helperWhiteColor, fontSize: 20),
                 ),
                 Text(
-                  "تاریخ: " + Petitions[no]['Date'],
+                  "تاریخ: " + snapshot[no]['date'],
                   style:
                       TextStyle(color: colors.helperWhiteColor, fontSize: 20),
                 ),
                 Text(
-                  "لیږوونکی: " + Petitions[no]['Sender'],
+                  snapshot[no]['sender'] + " :لیږوونکی",
                   style:
                       TextStyle(color: colors.helperWhiteColor, fontSize: 20),
                 ),
@@ -335,7 +378,7 @@ Sheet(BuildContext context, int no) {
                   height: 10,
                 ),
                 Text(
-                  Petitions[no]['Text'],
+                  snapshot[no]['description'],
                   style: TextStyle(color: colors.helperWhiteColor),
                 ),
               ],
