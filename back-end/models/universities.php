@@ -1,13 +1,13 @@
 <?php
-class Admin {
+class Universities {
     private $conn;
-    private $table_name = "admin";
+    private $table_name = "universities";
 
     public $id;
     public $name;
-    public $email;
-    public $password;
-    public $role;
+    public $location;
+   
+    public $created_at;
 
     public function __construct($db) {//constructor
         $this->conn = $db;
@@ -21,19 +21,18 @@ class Admin {
         return $stmt;
     }
 
-    public function create() { //creating an admin
-        $query = "INSERT INTO " . $this->table_name . " SET name=:name, email=:email, password=:password, role=:role";
+    public function create() { //creating an univeristy into database
+        $query = "INSERT INTO " . $this->table_name . " SET name=:name, location=:location, created_at=:created_at";
         $stmt = $this->conn->prepare($query);
 
+
         $this->name = htmlspecialchars(strip_tags($this->name));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->password = htmlspecialchars(strip_tags($this->password));
-        $this->role = htmlspecialchars(strip_tags($this->role));
+        $this->location = htmlspecialchars(strip_tags($this->location));
+        $this->created_at = htmlspecialchars(strip_tags($this->created_at));
 
         $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":password", $this->password);
-        $stmt->bindParam(":role", $this->role);
+        $stmt->bindParam(":location", $this->location);
+        $stmt->bindParam(":created_at", $this->created_at);
 
         if($stmt->execute()) {
             return true;
@@ -42,20 +41,18 @@ class Admin {
         return false;
     }
 
-    public function update() {//updating the admin 
-        $query = "UPDATE " . $this->table_name . " SET name = :name, email = :email, password = :password, role = :role WHERE id = :id";
+    public function update() {//updating the University in database 
+        $query = "UPDATE " . $this->table_name . " SET name = :name, location = :location, created_at = :created_at WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
         $this->name = htmlspecialchars(strip_tags($this->name));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->password = htmlspecialchars(strip_tags($this->password));
-        $this->role = htmlspecialchars(strip_tags($this->role));
+        $this->location = htmlspecialchars(strip_tags($this->location));
+        $this->created_at = htmlspecialchars(strip_tags($this->created_at));
         $this->id = htmlspecialchars(strip_tags($this->id));
 
         $stmt->bindParam(':name', $this->name);
-        $stmt->bindParam(':email', $this->email);
-        $stmt->bindParam(':password', $this->password);
-        $stmt->bindParam(':role', $this->role);
+        $stmt->bindParam(':location', $this->location);
+        $stmt->bindParam(':created_at', $this->created_at);
         $stmt->bindParam(':id', $this->id);
 
         if ($stmt->execute()) {
@@ -65,7 +62,7 @@ class Admin {
         return false;
     }
 
-    public function delete() { //deleting the admin recored
+    public function delete() { //deleting the University
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 

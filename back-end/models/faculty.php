@@ -24,7 +24,7 @@ class Faculty {
         return $stmt;
     }
 
-    public function create() { //creating an admin
+    public function create() { //creating an faculty
         $query = "INSERT INTO " . $this->table_name . " SET name=:name,university_id=:university_id ,email=:email, password=:password,university_name=:university_name, role=:role";
         $stmt = $this->conn->prepare($query);
 
@@ -49,7 +49,7 @@ class Faculty {
         return false;
     }
 
-    public function update() {//updating the admin 
+    public function update() {//updating the faculty 
         $query = "UPDATE " . $this->table_name . " SET name = :name,university_id=:university_id, email = :email, password = :password,university_name=:university_name ,role = :role WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
@@ -76,7 +76,7 @@ class Faculty {
         return false;
     }
 
-    public function delete() { //deleting the admin recored
+    public function delete() { //deleting the faculty recored
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
