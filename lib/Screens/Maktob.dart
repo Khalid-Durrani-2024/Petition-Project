@@ -227,19 +227,41 @@ class maktobScreen extends StatefulWidget {
   @override
   State<maktobScreen> createState() => _maktobScreenState();
 }
+late Future _getUniversities;
+List<String> universitiesInFaculty = [
+  '...',
 
+];
 class _maktobScreenState extends State<maktobScreen> {
   late Future _futureData;
+  
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _futureData = getDataFromServer();
+    _getUniversities=getUniversities();
+    parsingData();
   }
 
   getDataFromServer() async {
     return await ApiService().fetchData('petitions');
   }
+  getUniversities()async{
+    return await ApiService().fetchData('universities');
+  }
+
+  Future parsingData()async{
+    try{
+      var data=await _getUniversities;
+      for(int i=0;i<data.length;i++){
+        universitiesInFaculty.add(data[i]['name']);
+      }
+    }catch(e){
+      print(e);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -249,7 +271,7 @@ class _maktobScreenState extends State<maktobScreen> {
     return FutureBuilder(
       future: _futureData,
       builder: (context, snapshot) {
-        print(snapshot.data);
+
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: CircularProgressIndicator.adaptive(),
@@ -391,6 +413,9 @@ Sheet(BuildContext context, int no, List snapshot) {
 //Creating new maktob
 
 Write(BuildContext context) {
+
+
+  String _selectedUniversity = universitiesInFaculty.first;
    String type='مکتوب';
  
   TextEditingController titleController=TextEditingController();
@@ -529,49 +554,100 @@ Write(BuildContext context) {
                   ),
                   Row(
                     //Drop Down List Reciever
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      DropdownMenu(
-                        width: MediaQuery.of(context).size.width / 4,
-                        menuStyle: MenuStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(colors.buttonColor)),
-                        leadingIcon: Icon(
-                          Icons.school_outlined,
-                          color: colors.helperWhiteColor,
-                        ),
-                        textStyle: TextStyle(color: colors.helperWhiteColor),
-                        label: Text(
-                          'انتخاب کړۍ',
-                          style: TextStyle(color: colors.helperWhiteColor),
-                        ),
-                        dropdownMenuEntries: [
-                          DropdownMenuEntry(
-                              style: ButtonStyle(
-                                foregroundColor: MaterialStatePropertyAll(
-                                    colors.helperWhiteColor),
-                              ),
-                              value: 'کابل پوهنتون',
-                              label: 'کابل پوهنتون'),
-                          DropdownMenuEntry(
-                              style: ButtonStyle(
-                                foregroundColor: MaterialStatePropertyAll(
-                                    colors.helperWhiteColor),
-                              ),
-                              value: 'ننګرهار پوهنتون',
-                              label: 'ننګرهار پوهنتون'),
-                          DropdownMenuEntry(
-                              style: ButtonStyle(
-                                foregroundColor: MaterialStatePropertyAll(
-                                    colors.helperWhiteColor),
-                              ),
-                              value: 'کنړ پوهنتون',
-                              label: 'کنړ پوهنتون'),
-                        ],
-                        onSelected: (value){
-                          receiver=value.toString();
-                        },
-                      ),
+                      // DropdownMenu(
+                      //   width: MediaQuery.of(context).size.width / 4,
+                      //   menuStyle: MenuStyle(
+                      //       backgroundColor:
+                      //           MaterialStatePropertyAll(colors.buttonColor)),
+                      //   leadingIcon: Icon(
+                      //     Icons.school_outlined,
+                      //     color: colors.helperWhiteColor,
+                      //   ),
+                      //   textStyle: TextStyle(color: colors.helperWhiteColor),
+                      //   label: Text(
+                      //     'انتخاب کړۍ',
+                      //     style: TextStyle(color: colors.helperWhiteColor),
+                      //   ),
+                      //   dropdownMenuEntries: [
+                      //     DropdownMenuEntry(
+                      //         style: ButtonStyle(
+                      //           foregroundColor: MaterialStatePropertyAll(
+                      //               colors.helperWhiteColor),
+                      //         ),
+                      //         value: 'کابل پوهنتون',
+                      //         label: 'کابل پوهنتون'),
+                      //     DropdownMenuEntry(
+                      //         style: ButtonStyle(
+                      //           foregroundColor: MaterialStatePropertyAll(
+                      //               colors.helperWhiteColor),
+                      //         ),
+                      //         value: 'ننګرهار پوهنتون',
+                      //         label: 'ننګرهار پوهنتون'),
+                      //     DropdownMenuEntry(
+                      //         style: ButtonStyle(
+                      //           foregroundColor: MaterialStatePropertyAll(
+                      //               colors.helperWhiteColor),
+                      //         ),
+                      //         value: 'کنړ پوهنتون',
+                      //         label: 'کنړ پوهنتون'),
+                      //   ],
+                      //   onSelected: (value){
+                      //     receiver=value.toString();
+                      //   },
+                      // ),
+                      FutureBuilder(future: _getUniversities,
+                          builder: (context, snapshot) {
+                            if(snapshot.connectionState==ConnectionState.waiting){
+                              return CircularProgressIndicator();
+                            }else if(snapshot.hasError){
+                              return Center(child: Icon(Icons.error_outline_outlined),);
+                            }else{
+                              print(snapshot.data);
+                           return  Container(
+
+                                width: MediaQuery.of(context).size.width/4,
+                                child: DropdownButtonFormField<String>(
+                                  borderRadius: BorderRadius.circular(22),
+                                  decoration: InputDecoration(
+                                      label: Text(' پوهنتون'),
+                                      labelStyle: TextStyle(color: colors.helperWhiteColor),
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(22)),
+                                      fillColor: colors.textFieldColor,
+                                      filled: true),
+                                  dropdownColor: colors.backgroundColor,
+                                  isExpanded: true,
+                                  hint: Text('انتخاب کړۍ'),
+                                  validator: (value) {
+                                    if (value!.isEmpty ||
+                                        value == '' ||
+                                        value == universitiesInFaculty.first) {
+                                      return 'د پوهنتون نوم انتخاب کړۍ';
+                                    }
+                                  },
+                                  value: _selectedUniversity,
+                                  items: universitiesInFaculty.map((String e) {
+                                    return DropdownMenuItem<String>(
+                                      value: e,
+                                      child: Text(
+                                        e,
+                                        style: TextStyle(
+                                          color: colors.helperWhiteColor,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (cha) {
+                                    _selectedUniversity = cha!;
+
+                                    },
+                                ),
+                              );
+
+                          }
+                          },),
                       Text(
                         'د مکتوب ترلاسه کوونکی اداره',
                         style: TextStyle(color: colors.helperWhiteColor),
@@ -587,9 +663,6 @@ Write(BuildContext context) {
                       foregroundColor: colors.helperWhiteColor,
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-
-
-
                           try {
                           final petition = Petition(
                               type: type,
@@ -597,7 +670,7 @@ Write(BuildContext context) {
                               title: titleController.text.toString(),
                               sender: 'Sender ',
                               description: descriptionController.text.toString(),
-                              receiver: receiver,
+                              receiver: _selectedUniversity,
                               status: 'seen',
                               tracking: 'kabul university');
                           ApiService().sendPetition(petition, 'petitions').whenComplete(() {
