@@ -14,6 +14,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:petition/models/ApiService.dart';
 import '../Colors/Colors.dart';
 import '../models/Admin.dart';
+import '../models/Petition.dart';
 
 class Maktob extends StatefulWidget {
   const Maktob({super.key});
@@ -23,8 +24,10 @@ class Maktob extends StatefulWidget {
 }
 
 class _MaktobState extends State<Maktob> {
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           foregroundColor: colors.helperWhiteColor,
@@ -237,11 +240,6 @@ class _maktobScreenState extends State<maktobScreen> {
   getDataFromServer() async {
     return await ApiService().fetchData('petitions');
   }
-  // Future<List<Admin>> fetchAdmin() async {
-  //   List<dynamic> jsonData = await ApiService().fetchData('petitions');
-
-  //   return Admin.fromMapList(jsonData);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -393,9 +391,15 @@ Sheet(BuildContext context, int no, List snapshot) {
 //Creating new maktob
 
 Write(BuildContext context) {
-  var noController = TextEditingController();
-  var titleController = TextEditingController();
-  var descriptionController = TextEditingController();
+   String type='مکتوب';
+ 
+  TextEditingController titleController=TextEditingController();
+  TextEditingController senderController=TextEditingController();
+  TextEditingController descriptionController=TextEditingController();
+   String receiver='';
+   String status='';
+   String tracking='';
+
 
   final _formKey = GlobalKey<FormState>();
 
@@ -435,7 +439,9 @@ Write(BuildContext context) {
                               ),
                             ),
                           ],
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            type=value;
+                          },
                         ),
                       ),
                       Text(
@@ -545,23 +551,26 @@ Write(BuildContext context) {
                                 foregroundColor: MaterialStatePropertyAll(
                                     colors.helperWhiteColor),
                               ),
-                              value: Text('Maktob'),
+                              value: 'کابل پوهنتون',
                               label: 'کابل پوهنتون'),
                           DropdownMenuEntry(
                               style: ButtonStyle(
                                 foregroundColor: MaterialStatePropertyAll(
                                     colors.helperWhiteColor),
                               ),
-                              value: Text('Maktob'),
+                              value: 'ننګرهار پوهنتون',
                               label: 'ننګرهار پوهنتون'),
                           DropdownMenuEntry(
                               style: ButtonStyle(
                                 foregroundColor: MaterialStatePropertyAll(
                                     colors.helperWhiteColor),
                               ),
-                              value: Text('Maktob'),
+                              value: 'کنړ پوهنتون',
                               label: 'کنړ پوهنتون'),
                         ],
+                        onSelected: (value){
+                          receiver=value.toString();
+                        },
                       ),
                       Text(
                         'د مکتوب ترلاسه کوونکی اداره',
@@ -578,7 +587,32 @@ Write(BuildContext context) {
                       foregroundColor: colors.helperWhiteColor,
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          print('Form is Valid');
+
+
+
+                          try {
+                          final petition = Petition(
+                              type: type,
+                              date: dateTime.toString().substring(0,10),
+                              title: titleController.text.toString(),
+                              sender: 'Sender ',
+                              description: descriptionController.text.toString(),
+                              receiver: receiver,
+                              status: 'seen',
+                              tracking: 'kabul university');
+                          ApiService().sendPetition(petition, 'petitions').whenComplete(() {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('مکتوب ولیږل شو'),
+                              showCloseIcon: true,
+                            ),
+                            );
+                          });
+                        }catch(e){
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('ستونزه ده'),
+                          showCloseIcon: true,
+                          ),
+                          );
+                        }
                         }
                       },
                       label: Text('مکتوب ولیګۍ'),

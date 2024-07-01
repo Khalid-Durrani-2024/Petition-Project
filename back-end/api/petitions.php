@@ -53,7 +53,6 @@ switch($request_method) {
 
     case 'POST':
         $data = json_decode(file_get_contents("php://input"));
-
         if (
             !empty($data->type) &&
             !empty($data->date) &&

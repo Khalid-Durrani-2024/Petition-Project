@@ -56,7 +56,9 @@ class Petitions {
     }
 
     public function update() {//updating the petition 
-        $query = "UPDATE " . $this->table_name . " SET type = :type,date=:date, title = :title, sender = :sender,description=:description ,receiver = :receiver,status=:status,tracking=:tracking WHERE id = :id";
+        $query = "UPDATE " . $this->table_name . " SET type = :type,date=:date, title = :title, 
+        sender = :sender,description=:description ,
+        receiver = :receiver,status=:status,tracking=:tracking WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
         $this->type = htmlspecialchars(strip_tags($this->type));
@@ -66,8 +68,7 @@ class Petitions {
         $this->description = htmlspecialchars(strip_tags($this->description));
         $this->receiver = htmlspecialchars(strip_tags($this->receiver));
         $this->status = htmlspecialchars(strip_tags($this->status));
-        $this->tracking = htmlspecialchars(strip_tags($this->tracking));
-        
+        $this->tracking = htmlspecialchars(strip_tags($this->tracking));     
 
         $stmt->bindParam(':type', $this->type);
         $stmt->bindParam(":date", $this->date);
