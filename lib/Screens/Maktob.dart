@@ -556,47 +556,7 @@ Write(BuildContext context) {
                     //Drop Down List Reciever
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // DropdownMenu(
-                      //   width: MediaQuery.of(context).size.width / 4,
-                      //   menuStyle: MenuStyle(
-                      //       backgroundColor:
-                      //           MaterialStatePropertyAll(colors.buttonColor)),
-                      //   leadingIcon: Icon(
-                      //     Icons.school_outlined,
-                      //     color: colors.helperWhiteColor,
-                      //   ),
-                      //   textStyle: TextStyle(color: colors.helperWhiteColor),
-                      //   label: Text(
-                      //     'انتخاب کړۍ',
-                      //     style: TextStyle(color: colors.helperWhiteColor),
-                      //   ),
-                      //   dropdownMenuEntries: [
-                      //     DropdownMenuEntry(
-                      //         style: ButtonStyle(
-                      //           foregroundColor: MaterialStatePropertyAll(
-                      //               colors.helperWhiteColor),
-                      //         ),
-                      //         value: 'کابل پوهنتون',
-                      //         label: 'کابل پوهنتون'),
-                      //     DropdownMenuEntry(
-                      //         style: ButtonStyle(
-                      //           foregroundColor: MaterialStatePropertyAll(
-                      //               colors.helperWhiteColor),
-                      //         ),
-                      //         value: 'ننګرهار پوهنتون',
-                      //         label: 'ننګرهار پوهنتون'),
-                      //     DropdownMenuEntry(
-                      //         style: ButtonStyle(
-                      //           foregroundColor: MaterialStatePropertyAll(
-                      //               colors.helperWhiteColor),
-                      //         ),
-                      //         value: 'کنړ پوهنتون',
-                      //         label: 'کنړ پوهنتون'),
-                      //   ],
-                      //   onSelected: (value){
-                      //     receiver=value.toString();
-                      //   },
-                      // ),
+
                       FutureBuilder(future: _getUniversities,
                           builder: (context, snapshot) {
                             if(snapshot.connectionState==ConnectionState.waiting){

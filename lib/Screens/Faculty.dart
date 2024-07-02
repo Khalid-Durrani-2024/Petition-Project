@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petition/models/ApiService.dart';
 
 import '../Colors/Colors.dart';
 
@@ -19,19 +20,41 @@ class Faculty extends StatelessWidget {
 class FacultyScreen extends StatefulWidget {
   @override
   State<FacultyScreen> createState() => _FacultyScreenState();
+
 }
 
 List<String> universitiesInFaculty = [
   '...',
-  'ننګرهار پوهنتون',
-  'کنړ پوهنتون',
-  'کابل پوهنتون',
-  'خوست پوهنتون'
+
 ];
+ List universitiesMap=[];
+late String _selectedId;
+late String _selectedFaculty;
+getUniversities()async{
+ var data= await ApiService().fetchData('universities');
+  for(int i=0;i<data.length;i++){
+    universitiesInFaculty.add(data[i]['name']);
+    universitiesMap.add(data[i]);
+  }
+
+}
+getFaculties()async{
+  var data=await ApiService().fetchData('faculty');
+  for(int i=0;i<data.length;i++){
+    _selectedFaculty=data[i]['id'];
+  }
+}
 String _selectedUniversity = universitiesInFaculty.first;
 bool hoverChange = false;
 
 class _FacultyScreenState extends State<FacultyScreen> {
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  getUniversities();
+  getFaculties();
+}
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -133,8 +156,18 @@ class _FacultyScreenState extends State<FacultyScreen> {
                     );
                   }).toList(),
                   onChanged: (cha) {
+                    for(int i=0;i<universitiesMap.length;i++){
+                      if(universitiesMap[i]['name']==cha){
+
+                        _selectedId=universitiesMap[i]['id'];
+
+                        break;
+
+                      }
+                    }
                     _selectedUniversity = cha!;
-                  },
+
+                    },
                 ),
               ),
               SizedBox(
