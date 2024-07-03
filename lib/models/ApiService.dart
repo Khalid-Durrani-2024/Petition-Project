@@ -16,8 +16,12 @@ class ApiService {
 
       return records;
     }if(response.statusCode==404){
+    Map noData= {
+      'Response':'No Data Found In Database',
+      'Resonse Code ':'404'
+    };
 
-     return ('No Data Found In Database');
+     return noData;
 
     }
     else {
@@ -41,19 +45,24 @@ class ApiService {
       throw Exception('Faild to Create Petition');
     }
   }
-  Future<void> sendFaculty(Faculty faculty, String tableName) async {
+  Future<void> sendFaculty(FacultyModel faculty, String tableName) async {
+
     final String baseUrl = await 'http://localhost/petition/api/$tableName.php';
 
     final response = await http.post(
       Uri.parse(baseUrl),
       body: jsonEncode(faculty.toJson()),
     );
-    if (response.statusCode == 201)
+    if (response.statusCode ==  201)
     {
       print('Faculty added Successfully in database');
-    } else {
-      print(response.statusCode.toString());
-      throw Exception('Faild to add Faculty in Database');
+    }else if(response.statusCode==400){
+
+      print('Error Data is Incomplete');
+    }
+
+    else {
+      throw Exception('Faild to add Faculty in Database'+response.statusCode.toString());
     }
   }
 

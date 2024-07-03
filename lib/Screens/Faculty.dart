@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:petition/models/ApiService.dart';
+import 'dart:html';
 
+import 'package:flutter/material.dart';
 import '../Colors/Colors.dart';
+import '../models/ApiService.dart';
+import '../models/Faculty.dart';
 
 class Faculty extends StatelessWidget {
   const Faculty({super.key});
@@ -28,7 +30,7 @@ List<String> universitiesInFaculty = [
 
 ];
  List universitiesMap=[];
-late String _selectedId;
+ int _selectedId=0;
 late String _selectedFaculty;
 getUniversities()async{
  var data= await ApiService().fetchData('universities');
@@ -39,9 +41,18 @@ getUniversities()async{
 
 }
 getFaculties()async{
-  var data=await ApiService().fetchData('faculty');
-  for(int i=0;i<data.length;i++){
-    _selectedFaculty=data[i]['id'];
+  try{
+    var data=await ApiService().fetchData('faculty');
+    if(data==null){
+
+      for(int i=0;i<data.length;i++){
+        _selectedFaculty=data[i]['id'];
+      }
+    }else{
+      print('No Data Found');
+    }
+  }catch(e){
+    print(e.toString());
   }
 }
 String _selectedUniversity = universitiesInFaculty.first;
@@ -56,7 +67,11 @@ class _FacultyScreenState extends State<FacultyScreen> {
   getFaculties();
 }
   final _formKey = GlobalKey<FormState>();
-  @override
+ TextEditingController facultyController=TextEditingController();
+TextEditingController emailController=TextEditingController();
+TextEditingController passwordController=TextEditingController();
+
+@override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -76,7 +91,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
                 width: width / 2,
                 child: TextFormField(
                   enabled: false,
-                  initialValue: '۴',
+                  initialValue: _selectedId.toString(),
                   validator: (value) {},
                   keyboardType: TextInputType.emailAddress,
                   style: TextStyle(color: Colors.white),
@@ -87,7 +102,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
                           color: Colors.white,
                           fontSize: 12,
                           fontWeight: FontWeight.w100),
-                      label: Text('د هنځي مسلسله شمیره')),
+                      label: Text('د پوهنځي مسلسله شمیره')),
                 ),
               ),
               SizedBox(
@@ -100,6 +115,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: TextFormField(
+controller: facultyController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'د پوهنځي نوم دننه کړۍ';
@@ -156,16 +172,17 @@ class _FacultyScreenState extends State<FacultyScreen> {
                     );
                   }).toList(),
                   onChanged: (cha) {
+                    _selectedUniversity = cha!;
                     for(int i=0;i<universitiesMap.length;i++){
                       if(universitiesMap[i]['name']==cha){
 
-                        _selectedId=universitiesMap[i]['id'];
+                        _selectedId=int.parse(universitiesMap[i]['id']);
+
 
                         break;
 
                       }
                     }
-                    _selectedUniversity = cha!;
 
                     },
                 ),
@@ -180,6 +197,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: TextFormField(
+                  controller: emailController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'ایمیل ادرس مو دننه کړۍ';
@@ -212,6 +230,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: TextFormField(
+                  controller:passwordController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'پټ نوم دننه کړۍ';
@@ -243,6 +262,17 @@ class _FacultyScreenState extends State<FacultyScreen> {
                   },
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
+
+
+                  final faculty=  FacultyModel(
+                      name: facultyController.text,
+                      university_id:_selectedId,
+                      email: emailController.text,
+                      password: passwordController.text,
+                      university_name: _selectedUniversity,
+                      role: 'Faculty');
+                    ApiService().sendFaculty(faculty, 'faculty');
+
                       print(
                           'Handle Appropriate changes if the form is validate $_selectedUniversity');
                     }
