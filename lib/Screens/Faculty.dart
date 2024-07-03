@@ -31,7 +31,8 @@ List<String> universitiesInFaculty = [
 ];
  List universitiesMap=[];
  int _selectedId=0;
-late String _selectedFaculty;
+TextEditingController _noFaculty=TextEditingController();
+int _selectedFaculty=0;
 getUniversities()async{
  var data= await ApiService().fetchData('universities');
   for(int i=0;i<data.length;i++){
@@ -43,11 +44,15 @@ getUniversities()async{
 getFaculties()async{
   try{
     var data=await ApiService().fetchData('faculty');
-    if(data==null){
+    if(data!=null){
 
       for(int i=0;i<data.length;i++){
-        _selectedFaculty=data[i]['id'];
+
+       _selectedFaculty=int.parse(data[i]['id']);
+
       }
+      print(_selectedFaculty);
+      _noFaculty.text=_selectedFaculty.toString();
     }else{
       print('No Data Found');
     }
@@ -90,8 +95,10 @@ TextEditingController passwordController=TextEditingController();
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: TextFormField(
-                  enabled: false,
-                  initialValue: _selectedId.toString(),
+
+                  controller: _noFaculty,
+
+                      readOnly: true,
                   validator: (value) {},
                   keyboardType: TextInputType.emailAddress,
                   style: TextStyle(color: Colors.white),
@@ -102,7 +109,7 @@ TextEditingController passwordController=TextEditingController();
                           color: Colors.white,
                           fontSize: 12,
                           fontWeight: FontWeight.w100),
-                      label: Text('د پوهنځي مسلسله شمیره')),
+                      label:_noFaculty.text!=''? Text('د پوهنځي مسلسله شمیره'):Icon(Icons.error_outline,color: colors.helperWhiteColor,)),
                 ),
               ),
               SizedBox(
