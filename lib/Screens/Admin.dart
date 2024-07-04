@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:petition/Authentication/AuthData.dart';
+import 'package:petition/Screens/Login.dart';
 import '../Assets/NetworkImages.dart';
 import '../Colors/Colors.dart';
 
-class Admin extends StatelessWidget {
+class Admin extends StatefulWidget {
   const Admin({super.key});
 
+  @override
+  State<Admin> createState() => _AdminState();
+}
+
+class _AdminState extends State<Admin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colors.textFieldColor,
         foregroundColor: colors.helperWhiteColor,
-        title: const Row(
+        title:  Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Column(
@@ -28,7 +35,15 @@ class Admin extends StatelessWidget {
             ),
             Column(
               children: [
-                InkWell(child: Icon(Icons.logout_outlined)),
+                InkWell(
+                   onTap: (){
+                    setState(() {
+                    AuthData().deleteShared();
+                    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Login(),));
+                    });
+                  },
+                    child: Icon(Icons.logout_outlined)),
+
                 Text(
                   'Log Out',
                   style: TextStyle(fontSize: 10),

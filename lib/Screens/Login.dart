@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:petition/Authentication/AuthData.dart';
+import 'package:petition/Authentication/AuthWrapper.dart';
 import 'package:petition/Colors/Colors.dart';
 import 'package:petition/models/ApiService.dart';
 
@@ -25,11 +27,17 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  AuthData().getSharedData();
+  }
   @override
   Widget build(BuildContext context) {
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -42,6 +50,7 @@ class _LoginFormState extends State<LoginForm> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+
               Container(
                 //Email Field
                 decoration: BoxDecoration(
@@ -49,6 +58,7 @@ class _LoginFormState extends State<LoginForm> {
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: TextFormField(
+                  controller: emailController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'ایمیل ادرس مو دننه کړۍ';
@@ -80,6 +90,7 @@ class _LoginFormState extends State<LoginForm> {
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: TextFormField(
+                  controller: passwordController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'پټ نوم دننه کړۍ';
@@ -103,11 +114,11 @@ class _LoginFormState extends State<LoginForm> {
                 height: height / 30,
               ),
               InkWell(
-                onTap: () {
-                  if (_formKey.currentState!.validate()) {
-                    print('Handle Appropriate changes if the form is validate');
-             
-                    
+                onTap: () async{
+                  if (_formKey.currentState!.validate()){
+                    await AuthData().authentication(emailController.text, passwordController.text);
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AuthWrapper(),));
+
                   }
                 },
                 //Log In Button
