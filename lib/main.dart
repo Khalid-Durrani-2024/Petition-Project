@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petition/Authentication/AuthWrapper.dart';
-import 'package:petition/Screens/Faculty.dart';
-import 'package:petition/Screens/Login.dart';
-import '../Screens/Maktob.dart';
+
 
 void main() {
   runApp(const MyApp());

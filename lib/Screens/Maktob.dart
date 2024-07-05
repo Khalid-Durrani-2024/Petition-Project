@@ -1,7 +1,4 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:petition/Screens/AddUniversities.dart';
@@ -12,8 +9,8 @@ import 'package:petition/Screens/SignedPetitions.dart';
 import 'package:petition/Screens/Universities.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:petition/models/ApiService.dart';
+import '../Authentication/AuthData.dart';
 import '../Colors/Colors.dart';
-import '../models/Admin.dart';
 import '../models/Petition.dart';
 
 class Maktob extends StatefulWidget {
@@ -232,9 +229,9 @@ List<String> universitiesInFaculty = [
   '...',
 
 ];
+Map User={};
 class _maktobScreenState extends State<maktobScreen> {
   late Future _futureData;
-  
   @override
   void initState() {
     // TODO: implement initState
@@ -242,8 +239,15 @@ class _maktobScreenState extends State<maktobScreen> {
     _futureData = getDataFromServer();
     _getUniversities=getUniversities();
     parsingData();
+    getUserData();
+
   }
 
+    getUserData()async{
+
+  User=await AuthData().getSharedData();
+
+    }
   getDataFromServer() async {
     return await ApiService().fetchData('petitions');
   }
@@ -252,6 +256,7 @@ class _maktobScreenState extends State<maktobScreen> {
   }
 
   Future parsingData()async{
+    universitiesInFaculty=['...'];
     try{
       var data=await _getUniversities;
       for(int i=0;i<data.length;i++){
@@ -415,15 +420,13 @@ Sheet(BuildContext context, int no, List snapshot) {
 Write(BuildContext context) {
 
 
+
   String _selectedUniversity = universitiesInFaculty.first;
    String type='مکتوب';
  
   TextEditingController titleController=TextEditingController();
-  TextEditingController senderController=TextEditingController();
   TextEditingController descriptionController=TextEditingController();
-   String receiver='';
-   String status='';
-   String tracking='';
+
 
 
   final _formKey = GlobalKey<FormState>();
@@ -624,15 +627,16 @@ Write(BuildContext context) {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           try {
+
                           final petition = Petition(
                               type: type,
                               date: dateTime.toString().substring(0,10),
                               title: titleController.text.toString(),
-                              sender: 'Sender ',
+                              sender: User['name'],
                               description: descriptionController.text.toString(),
                               receiver: _selectedUniversity,
                               status: 'seen',
-                              tracking: 'kabul university');
+                              tracking: 'tracking');
                           ApiService().sendPetition(petition, 'petitions').whenComplete(() {
                             Navigator.pop(context);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('مکتوب ولیږل شو'),
@@ -641,6 +645,7 @@ Write(BuildContext context) {
                             );
                           });
                         }catch(e){
+                            print(e.toString());
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('ستونزه ده'),
                           showCloseIcon: true,
                           ),

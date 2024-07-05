@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:petition/Authentication/AuthData.dart';
 import 'package:petition/Screens/Login.dart';
+import 'package:petition/Screens/Maktob.dart';
+import 'package:petition/Screens/Setting.dart';
+import 'package:petition/Screens/Universities.dart';
 import '../Assets/NetworkImages.dart';
 import '../Colors/Colors.dart';
 
@@ -11,7 +14,24 @@ class Admin extends StatefulWidget {
   State<Admin> createState() => _AdminState();
 }
 
+  Map userData={};
+  String userName='';
 class _AdminState extends State<Admin> {
+
+  getUserData()async{
+  try {
+    userData = await AuthData().getSharedData();
+    userName=userData['name'];
+  }catch(e){
+    print('error on getting user data from shared Preferences${e.toString()}');
+  }
+  }
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +73,8 @@ class _AdminState extends State<Admin> {
           ],
         ),
       ),
-      drawer: Drawer(),
+      endDrawer: Drawer(),
+
       body: AdminScreen(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: colors.textFieldColor,
@@ -129,10 +150,10 @@ class _AdminScreenState extends State<AdminScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        'کنږ پوهنتون',
+                  userName!=''  ?  Text(
+                     userName,
                         style: TextStyle(color: colors.helperWhiteColor),
-                      ),
+                      ):CircularProgressIndicator.adaptive(),
                     ],
                   ),
                 ],
@@ -161,13 +182,22 @@ class _AdminScreenState extends State<AdminScreen> {
                           borderRadius: BorderRadius.circular(22)),
                       width: width / 8,
                       height: height / 4,
-                      child: ListTile(
-                        title: Text(
-                          adminList[index],
-                          style: TextStyle(color: colors.helperWhiteColor),
+                      child: InkWell(
+                        onTap: (){
+
+                         index==0||index==1||index==2? Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Maktob())):index==3?
+                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Universities())):
+                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Setting(),));
+
+                        },
+                        child: ListTile(
+                          title: Text(
+                            adminList[index],
+                            style: TextStyle(color: colors.helperWhiteColor),
+                          ),
+                          subtitle: adminIcons[index],
+                          iconColor: Colors.grey.shade400,
                         ),
-                        subtitle: adminIcons[index],
-                        iconColor: Colors.grey.shade400,
                       ),
                     );
                   }),

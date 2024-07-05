@@ -41,7 +41,7 @@ class ApiService {
     {
       print('Petition Created Successfully');
     } else {
-      print(response.statusCode.toString());
+      print('Faild Response Code: ${response.statusCode} message: ${response.body}');
       throw Exception('Faild to Create Petition');
     }
   }
