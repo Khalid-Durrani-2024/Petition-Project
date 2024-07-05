@@ -8,10 +8,19 @@ import '../models/ApiService.dart';
 class AuthData{
   List users=[];
     //login in user
-  authentication(String email,String password)async{
+  authentication(String email,String password,String type)async{
     SharedPreferences pref=await SharedPreferences.getInstance();
+    var data;
     try {
-      var data = await ApiService().fetchData('admin');
+      if(type=='وزارت'){
+        data = await ApiService().fetchData('admin');
+      }else if(type=='پوهنتون'){
+        data = await ApiService().fetchData('users');
+
+      }else if(type=='پوهنځی'){
+        data = await ApiService().fetchData('faculty');
+
+      }
 
       //checking user
       for(int i=0;i<data.length;i++){

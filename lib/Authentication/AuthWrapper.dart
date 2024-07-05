@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:petition/Screens/Admin.dart';
 import 'package:petition/Screens/Login.dart';
+import 'package:petition/Screens/Maktob.dart';
 import 'package:petition/models/ApiService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,17 +25,32 @@ class _AuthWrapperState extends State<AuthWrapper> {
     // TODO: implement initState
     super.initState();
     AuthData().getSharedData();
+
   }
+  Future authenticate()async{
+  var data=await AuthData().getSharedData();
+   if(data['role']=='admin'){
+     return 'admin';
+   }else{
+     return 'user';
+   }
+ }
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: AuthData().getSharedData(),
+      future: authenticate(),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
 
+        if (snapshot.connectionState==ConnectionState.waiting) {
+
+          return Center(child: CircularProgressIndicator(),);
+
+        }else if(snapshot.data=='admin'){
           return Admin();
-
-        } else {
+        }else if(snapshot.hasData){
+          return Maktob();
+        }
+        else {
           return Login();
         }
       },
