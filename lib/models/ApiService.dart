@@ -30,8 +30,28 @@ class ApiService {
 
     }
   }
-  Future<Map<String,String>> deleteData(String tableName,int id) async {
+  //Sampling
+  Future fetchDataSpecific(String tableName,String sender) async {
 
+    final response = await http.get(Uri.parse( 'http://localhost/petition/api/$tableName.php ?sender=$sender'));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final records = data['records'];
+      print(records);
+      return records;
+    }if(response.statusCode==404){
+      Map noData= {
+
+        'Response':'No Data Found In Database',
+        'Resonse Code ':'404'
+      };
+      return noData;
+    }
+    else {
+      throw Exception('Faild to Load Data status Code ${response.statusCode}');
+    }
+  }
+  Future deleteData(String tableName,int id) async {
     final String baseUrl = 'http://localhost/petition/api/universities.php';
 
     final response = await http.delete(

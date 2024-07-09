@@ -1,10 +1,7 @@
 import 'dart:convert';
-
-import 'package:petition/Authentication/AuthWrapper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/ApiService.dart';
-
 class AuthData{
   List users=[];
     //login in user
@@ -34,8 +31,8 @@ class AuthData{
           if(element['password']==password){
 
             pref.setString('User', jsonEncode(element));
+            return jsonDecode(element);
 
-        return jsonDecode(element);
           }
 
         }

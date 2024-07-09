@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:petition/Authentication/AuthData.dart';
 import 'package:petition/Screens/Login.dart';
@@ -12,25 +14,29 @@ class Admin extends StatefulWidget {
 
   @override
   State<Admin> createState() => _AdminState();
+
 }
-
-  Map userData={};
-  String userName='';
-class _AdminState extends State<Admin> {
-
   getUserData()async{
   try {
-    userData = await AuthData().getSharedData();
-    userName=userData['name'];
+
+    return await AuthData().getSharedData();
+
+
   }catch(e){
     print('error on getting user data from shared Preferences${e.toString()}');
   }
+
   }
+class _AdminState extends State<Admin> {
 @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getUserData();
+
+
+
+
   }
   @override
   Widget build(BuildContext context) {
@@ -76,12 +82,7 @@ class _AdminState extends State<Admin> {
       endDrawer: Drawer(),
 
       body: AdminScreen(),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: colors.textFieldColor,
-        foregroundColor: colors.helperWhiteColor,
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
+
     );
   }
 }
@@ -94,7 +95,9 @@ class AdminScreen extends StatefulWidget {
   State<AdminScreen> createState() => _AdminScreenState();
 }
 
+  String userName='';
 class _AdminScreenState extends State<AdminScreen> {
+
   List adminList = [
     'ټــــــول مکتوبونه',
     'لیږل شوي مکتوبونه',
@@ -130,79 +133,99 @@ class _AdminScreenState extends State<AdminScreen> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    return Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(color: colors.backgroundColor),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              flex: 2,
-              child: Row(
-                children: [
-                  Column(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(ministryImage),
-                        radius: 80,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                  userName!=''  ?  Text(
-                     userName,
-                        style: TextStyle(color: colors.helperWhiteColor),
-                      ):CircularProgressIndicator.adaptive(),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              flex: 1,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: adminList.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin:
-                          const EdgeInsets.only(left: 5, right: 5, bottom: 20),
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: colors.buttonColor,
-                                spreadRadius: 0.2,
-                                offset: const Offset(3, 2))
-                          ],
-                          color: colors.textFieldColor,
-                          borderRadius: BorderRadius.circular(22)),
-                      width: width / 8,
-                      height: height / 4,
-                      child: InkWell(
-                        onTap: (){
+    return FutureBuilder(
 
-                         index==0||index==1||index==2? Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Maktob())):index==3?
+      future: getUserData(),
+      builder: (context, snapshot) {
+        if(snapshot.connectionState==ConnectionState.waiting){
+          return CircularProgressIndicator();
+        }else if(snapshot.hasError){
+          return Icon(Icons.error_outline_outlined);
+        }else if(snapshot.hasData){
+      Map data=snapshot.data as Map;
+      userName=data['name'];
+   return     Container(
+       width: width,
+       height: height,
+       decoration: BoxDecoration(color: colors.backgroundColor),
+       child: Column(
+         mainAxisSize: MainAxisSize.max,
+         children: [
+           Expanded(
+             flex: 2,
+             child: Row(
+               children: [
+                 Column(
+                   children: [
+                     CircleAvatar(
+                       backgroundImage: NetworkImage(ministryImage),
+                       radius: 80,
+                     ),
+                     const SizedBox(
+                       height: 10,
+                     ),
+                      Text(
+                       'name',
+                       style: TextStyle(color: colors.helperWhiteColor),
+                     )
+                   ],
+                 ),
+               ],
+             ),
+           ),
+           SizedBox(
+             height: 10,
+           ),
+           Expanded(
+             flex: 1,
+             child: ListView.builder(
+                 scrollDirection: Axis.horizontal,
+                 itemCount: adminList.length,
+                 itemBuilder: (context, index) {
+                   return Container(
+                     margin:
+                     const EdgeInsets.only(left: 5, right: 5, bottom: 20),
+                     decoration: BoxDecoration(
+                         boxShadow: [
+                           BoxShadow(
+                               color: colors.buttonColor,
+                               spreadRadius: 0.2,
+                               offset: const Offset(3, 2))
+                         ],
+                         color: colors.textFieldColor,
+                         borderRadius: BorderRadius.circular(22)),
+                     width: width / 8,
+                     height: height / 4,
+                     child: InkWell(
+                       onTap: (){
+
+                         index==0||index==2? Navigator.pushReplacement(context,MaterialPageRoute(builder: (context){
+                           return  Maktob(index: 0,);
+                         },)):index==1?Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Maktob(index: 1),))
+                             :index==3?
                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Universities())):
                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Setting(),));
 
-                        },
-                        child: ListTile(
-                          title: Text(
-                            adminList[index],
-                            style: TextStyle(color: colors.helperWhiteColor),
-                          ),
-                          subtitle: adminIcons[index],
-                          iconColor: Colors.grey.shade400,
-                        ),
-                      ),
-                    );
-                  }),
-            ),
-          ],
-        ));
+                       },
+                       child: ListTile(
+                         title: Text(
+                           adminList[index],
+                           style: TextStyle(color: colors.helperWhiteColor),
+                         ),
+                         subtitle: adminIcons[index],
+                         iconColor: Colors.grey.shade400,
+                       ),
+                     ),
+                   );
+                 }),
+           ),
+         ],
+       ));
+
+        }else{
+          return Text('ډیټا لوډ نشول ډیټابیس کنیکشن چک کړۍ');
+        }
+      },
+    );
   }
 }

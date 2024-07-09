@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:petition/Screens/AddUniversities.dart';
 import 'package:petition/Screens/AddUser.dart';
+import 'package:petition/Screens/Admin.dart';
 import 'package:petition/Screens/Faculty.dart';
 import 'package:petition/Screens/Login.dart';
 import 'package:petition/Screens/SignedPetitions.dart';
@@ -14,13 +15,17 @@ import '../Colors/Colors.dart';
 import '../models/Petition.dart';
 
 class Maktob extends StatefulWidget {
-  const Maktob({super.key});
-
+  int index;
+  Maktob({required this.index});
   @override
   State<Maktob> createState() => _MaktobState();
 }
 
+
+
+
 class _MaktobState extends State<Maktob> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -62,17 +67,7 @@ class _MaktobState extends State<Maktob> {
                   },
                   label: Text('Add University Screen'),
                 ),
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Maktob(),
-                      ),
-                    );
-                  },
-                  label: Text('Maktob Screen'),
-                ),
+
                 FloatingActionButton.extended(
                   onPressed: () {
                     Navigator.push(
@@ -121,7 +116,7 @@ class _MaktobState extends State<Maktob> {
             ),
           ),
         ),
-        body: maktobScreen(),
+        body: maktobScreen(index: widget.index,),
         floatingActionButton: _SpeedDial());
   }
 }
@@ -221,6 +216,10 @@ final List<Map> Petitions = [
 
 //maktob screen
 class maktobScreen extends StatefulWidget {
+ int index;
+ maktobScreen({
+   required this.index
+});
   @override
   State<maktobScreen> createState() => _maktobScreenState();
 }
@@ -249,7 +248,13 @@ class _maktobScreenState extends State<maktobScreen> {
 
     }
   getDataFromServer() async {
-    return await ApiService().fetchData('petitions');
+    if(userName.isNotEmpty&&userName!='' && widget.index==1){
+
+     return await ApiService().fetchDataSpecific('petitions', userName);
+    }else {
+      print(widget.index);
+      return await ApiService().fetchData('petitions');
+    }
   }
   getUniversities()async{
     return await ApiService().fetchData('universities');

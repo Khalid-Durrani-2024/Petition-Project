@@ -46,8 +46,9 @@ class UniversitiesScreen extends StatefulWidget {
 
 _getUniversities()async{
   return await ApiService().fetchData('universities');
-
 }
+
+
 class _UniversitiesScreenState extends State<UniversitiesScreen> {
 late Future _future;
   @override
@@ -103,17 +104,6 @@ late Future _future;
                             Icons.school_outlined,
                             color: colors.helperWhiteColor,
                             size: 150,
-                          ),
-                        ),
-                        Divider(
-                          thickness: 2,
-                          color: colors.helperWhiteColor,
-                        ),
-                        Container(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                            '۳۲۱',
-                            style: TextStyle(fontSize: 30),
                           ),
                         ),
                       ],
