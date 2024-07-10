@@ -48,6 +48,7 @@ class ApiService {
       throw Exception('Faild to Load Data status Code ${response.statusCode}');
     }
   }
+
   Future deleteData(String tableName,int id) async {
     final String baseUrl = 'http://localhost/petition/api/universities.php';
 

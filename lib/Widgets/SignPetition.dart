@@ -13,7 +13,7 @@ SignPetition(BuildContext context, Map petition, Map User) {
       return AlertDialog(
         actions: [
           InkWell(
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
             child: Icon(
@@ -51,6 +51,7 @@ SignPetition(BuildContext context, Map petition, Map User) {
               ),
               IconButton(
                 onPressed: () async {
+                  print(User);
                   final signPetition = SignPetitionModel(
                       user_id: User['id'],
                       signed_at: DateTime.now().toString().substring(0, 10),

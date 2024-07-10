@@ -248,9 +248,23 @@ class _maktobScreenState extends State<maktobScreen> {
 
   getDataFromServer() async {
     if (userName.isNotEmpty && userName != '' && widget.index == 1) {
+      print('For admin');
       return await ApiService().fetchDataSpecific('petitions', userName);
     } else {
-      return await ApiService().fetchData('petitions');
+      if (User['role'] == 'Faculty') {
+        print('For Faculty');
+        List data=await ApiService().fetchData('petitions');
+        List NaturalData=[];
+        data.forEach((element) {
+          if(element['receiver']==User['university_name']){
+            NaturalData.add(element);
+          }
+        });
+        return NaturalData;
+      } else {
+        print('For University');
+        return await ApiService().fetchData('petitions');
+      }
     }
   }
 
@@ -259,7 +273,7 @@ class _maktobScreenState extends State<maktobScreen> {
   }
 
   Future parsingData() async {
-    universitiesInFaculty = ['...'];
+    universitiesInFaculty = ['...', 'ټول پوهنتونونه'];
     try {
       var data = await _getUniversities;
       for (int i = 0; i < data.length; i++) {
@@ -414,13 +428,24 @@ Sheet(BuildContext context, int no, List snapshot) {
                 Center(
                     child: IconButton(
                   onPressed: () {
-                  if(User['role']=='admin'){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('نده امضا‌ء شوی مکتوب'),),);
-                    Navigator.pop(context);
-                  }else{
-                    Navigator.pop(context);
-                    SignPetition(context, snapshot[no],User);
-                  }
+                    if (User['role'] == 'admin') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('نده امضا‌ء شوی مکتوب'),
+                        ),
+                      );
+                      Navigator.pop(context);
+                    } else if (User['role'] == 'Faculty') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(' پوهنتون یواځی مکتوب جواب کولی شي'),
+                        ),
+                      );
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.pop(context);
+                      SignPetition(context, snapshot[no], User);
+                    }
                   },
                   icon: Icon(
                     Icons.create_outlined,
