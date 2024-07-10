@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 
 import 'package:flutter/material.dart';
 import 'package:petition/Authentication/AuthData.dart';
@@ -165,7 +165,7 @@ class _AdminScreenState extends State<AdminScreen> {
                        height: 10,
                      ),
                       Text(
-                       'name',
+                       userName,
                        style: TextStyle(color: colors.helperWhiteColor),
                      )
                    ],

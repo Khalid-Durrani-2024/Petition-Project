@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:petition/models/Faculty.dart';
 import 'package:petition/models/Petition.dart';
+import 'package:petition/models/SignPetitionModel.dart';
 import 'package:petition/models/UniversityModel.dart';
 
 
@@ -40,12 +41,8 @@ class ApiService {
       print(records);
       return records;
     }if(response.statusCode==404){
-      Map noData= {
 
-        'Response':'No Data Found In Database',
-        'Resonse Code ':'404'
-      };
-      return noData;
+      return null;
     }
     else {
       throw Exception('Faild to Load Data status Code ${response.statusCode}');
@@ -164,6 +161,31 @@ class ApiService {
 
     else {
       throw Exception('Faild to add University in Database'+response.statusCode.toString());
+    }
+  }
+
+  //Signing petition
+  Future signPetition(SignPetitionModel signPetition, String tableName) async {
+
+    final String baseUrl = await 'http://localhost/petition/api/$tableName.php';
+
+    final response = await http.post(
+      Uri.parse(baseUrl),
+      body: jsonEncode(signPetition.toJson()),
+    );
+
+
+    if (response.statusCode ==  201)
+    {
+      print('Petition Signed Successfully');
+      return response.statusCode;
+    }else if(response.statusCode==400){
+
+      print('Error Data is Incomplete');
+    }
+
+    else {
+      throw Exception('Faild to Sign Petition and Store in Database'+response.statusCode.toString());
     }
   }
 }

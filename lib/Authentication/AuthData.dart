@@ -52,8 +52,7 @@ class AuthData{
     var data=  await SharedPreferences.getInstance();
     var user=data.get("User");
     var naturalData=jsonDecode(user.toString());
-
     return naturalData;
-
   }
+
 }

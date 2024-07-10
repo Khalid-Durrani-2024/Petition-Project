@@ -9,6 +9,7 @@ import 'package:petition/Screens/Login.dart';
 import 'package:petition/Screens/SignedPetitions.dart';
 import 'package:petition/Screens/Universities.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:petition/Widgets/SignPetition.dart';
 import 'package:petition/models/ApiService.dart';
 import '../Authentication/AuthData.dart';
 import '../Colors/Colors.dart';
@@ -16,20 +17,16 @@ import '../models/Petition.dart';
 
 class Maktob extends StatefulWidget {
   int index;
+
   Maktob({required this.index});
+
   @override
   State<Maktob> createState() => _MaktobState();
 }
 
-
-
-
 class _MaktobState extends State<Maktob> {
-
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           foregroundColor: colors.helperWhiteColor,
@@ -67,7 +64,6 @@ class _MaktobState extends State<Maktob> {
                   },
                   label: Text('Add University Screen'),
                 ),
-
                 FloatingActionButton.extended(
                   onPressed: () {
                     Navigator.push(
@@ -116,7 +112,9 @@ class _MaktobState extends State<Maktob> {
             ),
           ),
         ),
-        body: maktobScreen(index: widget.index,),
+        body: maktobScreen(
+          index: widget.index,
+        ),
         floatingActionButton: _SpeedDial());
   }
 }
@@ -216,62 +214,61 @@ final List<Map> Petitions = [
 
 //maktob screen
 class maktobScreen extends StatefulWidget {
- int index;
- maktobScreen({
-   required this.index
-});
+  int index;
+
+  maktobScreen({required this.index});
+
   @override
   State<maktobScreen> createState() => _maktobScreenState();
 }
+
 late Future _getUniversities;
 List<String> universitiesInFaculty = [
   '...',
-
 ];
-Map User={};
+Map User = {};
+
 class _maktobScreenState extends State<maktobScreen> {
   late Future _futureData;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     _futureData = getDataFromServer();
-    _getUniversities=getUniversities();
+    _getUniversities = getUniversities();
     parsingData();
     getUserData();
-
   }
 
-    getUserData()async{
+  getUserData() async {
+    User = await AuthData().getSharedData();
+  }
 
-  User=await AuthData().getSharedData();
-
-    }
   getDataFromServer() async {
-    if(userName.isNotEmpty&&userName!='' && widget.index==1){
-
-     return await ApiService().fetchDataSpecific('petitions', userName);
-    }else {
-      print(widget.index);
+    if (userName.isNotEmpty && userName != '' && widget.index == 1) {
+      return await ApiService().fetchDataSpecific('petitions', userName);
+    } else {
       return await ApiService().fetchData('petitions');
     }
   }
-  getUniversities()async{
+
+  getUniversities() async {
     return await ApiService().fetchData('universities');
   }
 
-  Future parsingData()async{
-    universitiesInFaculty=['...'];
-    try{
-      var data=await _getUniversities;
-      for(int i=0;i<data.length;i++){
+  Future parsingData() async {
+    universitiesInFaculty = ['...'];
+    try {
+      var data = await _getUniversities;
+      for (int i = 0; i < data.length; i++) {
         universitiesInFaculty.add(data[i]['name']);
       }
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -281,7 +278,6 @@ class _maktobScreenState extends State<maktobScreen> {
     return FutureBuilder(
       future: _futureData,
       builder: (context, snapshot) {
-
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: CircularProgressIndicator.adaptive(),
@@ -354,7 +350,7 @@ class _maktobScreenState extends State<maktobScreen> {
           );
         } else {
           return Center(
-            child: Text('No Data Received'),
+            child: Text('معلومات نشته'),
           );
         }
       },
@@ -411,6 +407,26 @@ Sheet(BuildContext context, int no, List snapshot) {
                   snapshot[no]['description'],
                   style: TextStyle(color: colors.helperWhiteColor),
                 ),
+                Divider(),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                    child: IconButton(
+                  onPressed: () {
+                  if(User['role']=='admin'){
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('نده امضا‌ء شوی مکتوب'),),);
+                    Navigator.pop(context);
+                  }else{
+                    Navigator.pop(context);
+                    SignPetition(context, snapshot[no],User);
+                  }
+                  },
+                  icon: Icon(
+                    Icons.create_outlined,
+                    color: colors.helperWhiteColor,
+                  ),
+                )),
               ],
             ),
           ),
@@ -423,16 +439,11 @@ Sheet(BuildContext context, int no, List snapshot) {
 //Creating new maktob
 
 Write(BuildContext context) {
-
-
-
   String _selectedUniversity = universitiesInFaculty.first;
-   String type='مکتوب';
- 
-  TextEditingController titleController=TextEditingController();
-  TextEditingController descriptionController=TextEditingController();
+  String type = 'مکتوب';
 
-
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -473,7 +484,7 @@ Write(BuildContext context) {
                             ),
                           ],
                           onChanged: (value) {
-                            type=value;
+                            type = value;
                           },
                         ),
                       ),
@@ -564,58 +575,61 @@ Write(BuildContext context) {
                     //Drop Down List Reciever
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
-                      FutureBuilder(future: _getUniversities,
-                          builder: (context, snapshot) {
-                            if(snapshot.connectionState==ConnectionState.waiting){
-                              return CircularProgressIndicator();
-                            }else if(snapshot.hasError){
-                              return Center(child: Icon(Icons.error_outline_outlined),);
-                            }else{
-                              print(snapshot.data);
-                           return  Container(
-
-                                width: MediaQuery.of(context).size.width/4,
-                                child: DropdownButtonFormField<String>(
-                                  borderRadius: BorderRadius.circular(22),
-                                  decoration: InputDecoration(
-                                      label: Text(' پوهنتون'),
-                                      labelStyle: TextStyle(color: colors.helperWhiteColor),
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(22)),
-                                      fillColor: colors.textFieldColor,
-                                      filled: true),
-                                  dropdownColor: colors.backgroundColor,
-                                  isExpanded: true,
-                                  hint: Text('انتخاب کړۍ'),
-                                  validator: (value) {
-                                    if (value!.isEmpty ||
-                                        value == '' ||
-                                        value == universitiesInFaculty.first) {
-                                      return 'د پوهنتون نوم انتخاب کړۍ';
-                                    }
-                                  },
-                                  value: _selectedUniversity,
-                                  items: universitiesInFaculty.map((String e) {
-                                    return DropdownMenuItem<String>(
-                                      value: e,
-                                      child: Text(
-                                        e,
-                                        style: TextStyle(
-                                          color: colors.helperWhiteColor,
-                                        ),
+                      FutureBuilder(
+                        future: _getUniversities,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Center(
+                              child: Icon(Icons.error_outline_outlined),
+                            );
+                          } else {
+                            print(snapshot.data);
+                            return Container(
+                              width: MediaQuery.of(context).size.width / 4,
+                              child: DropdownButtonFormField<String>(
+                                borderRadius: BorderRadius.circular(22),
+                                decoration: InputDecoration(
+                                    label: Text(' پوهنتون'),
+                                    labelStyle: TextStyle(
+                                        color: colors.helperWhiteColor),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(22)),
+                                    fillColor: colors.textFieldColor,
+                                    filled: true),
+                                dropdownColor: colors.backgroundColor,
+                                isExpanded: true,
+                                hint: Text('انتخاب کړۍ'),
+                                validator: (value) {
+                                  if (value!.isEmpty ||
+                                      value == '' ||
+                                      value == universitiesInFaculty.first) {
+                                    return 'د پوهنتون نوم انتخاب کړۍ';
+                                  }
+                                },
+                                value: _selectedUniversity,
+                                items: universitiesInFaculty.map((String e) {
+                                  return DropdownMenuItem<String>(
+                                    value: e,
+                                    child: Text(
+                                      e,
+                                      style: TextStyle(
+                                        color: colors.helperWhiteColor,
                                       ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (cha) {
-                                    _selectedUniversity = cha!;
-
-                                    },
-                                ),
-                              );
-
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (cha) {
+                                  _selectedUniversity = cha!;
+                                },
+                              ),
+                            );
                           }
-                          },),
+                        },
+                      ),
                       Text(
                         'د مکتوب ترلاسه کوونکی اداره',
                         style: TextStyle(color: colors.helperWhiteColor),
@@ -632,30 +646,36 @@ Write(BuildContext context) {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           try {
-
-                          final petition = Petition(
-                              type: type,
-                              date: dateTime.toString().substring(0,10),
-                              title: titleController.text.toString(),
-                              sender: User['name'],
-                              description: descriptionController.text.toString(),
-                              receiver: _selectedUniversity,
-                              status: 'seen',
-                              tracking: 'tracking');
-                          ApiService().sendPetition(petition, 'petitions').whenComplete(() {
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('مکتوب ولیږل شو'),
-                              showCloseIcon: true,
-                            ),
-                            );
-                          });
-                        }catch(e){
+                            final petition = Petition(
+                                type: type,
+                                date: dateTime.toString().substring(0, 10),
+                                title: titleController.text.toString(),
+                                sender: User['name'],
+                                description:
+                                    descriptionController.text.toString(),
+                                receiver: _selectedUniversity,
+                                status: 'seen',
+                                tracking: 'tracking');
+                            ApiService()
+                                .sendPetition(petition, 'petitions')
+                                .whenComplete(() {
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('مکتوب ولیږل شو'),
+                                  showCloseIcon: true,
+                                ),
+                              );
+                            });
+                          } catch (e) {
                             print(e.toString());
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('ستونزه ده'),
-                          showCloseIcon: true,
-                          ),
-                          );
-                        }
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('ستونزه ده'),
+                                showCloseIcon: true,
+                              ),
+                            );
+                          }
                         }
                       },
                       label: Text('مکتوب ولیګۍ'),
