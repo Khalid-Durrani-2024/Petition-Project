@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../models/ApiService.dart';
 import '../Colors/Colors.dart';
 import 'Maktob.dart';
 
@@ -10,7 +10,7 @@ class SignedPetitions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('امضا شوي مکتوبونه'),
+        title: Text('امضاء شوي مکتوبونه'),
         centerTitle: true,
         backgroundColor: colors.textFieldColor,
         foregroundColor: colors.helperWhiteColor,
@@ -30,6 +30,34 @@ class Signed extends StatefulWidget {
 }
 
 class _SignedState extends State<Signed> {
+  late Future getSignedPetition;
+  _getSignedPetitions()async{
+    List naturalData=[];
+   List signed= await ApiService().fetchData('signatures');
+   List petitions=await ApiService().fetchData('petitions');
+
+   petitions.forEach((Petitionelement) {
+     signed.forEach((element) {
+       if(Petitionelement['id']==element['petition_id']){
+         naturalData.add(Petitionelement);
+
+       }
+     });
+   });
+  return naturalData;
+  }
+
+
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   getSignedPetition= _getSignedPetitions();
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -39,35 +67,50 @@ class _SignedState extends State<Signed> {
       color: colors.backgroundColor,
       width: width,
       height: height,
-      child: GridView.builder(
-        physics: BouncingScrollPhysics(),
-        padding: const EdgeInsets.all(30),
-        itemCount: Petitions.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: width > 500 ? 4 : 1),
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              _resend(context, index);
-            },
-            child: Card(
-              child: ListTile(
-                textColor: colors.helperWhiteColor,
-                tileColor: colors.textFieldColor,
-                title: Text(
-                  Petitions[index]['Date'],
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontSize: 30),
-                ),
-                subtitle: Text(
-                  Petitions[index]['Text'],
-                  textAlign: TextAlign.right,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                ),
-              ),
-            ),
-          );
+      child: FutureBuilder(
+        future: getSignedPetition,
+        builder: (context, snapshot) {
+          if(snapshot.connectionState==ConnectionState.waiting){
+            return Center(child:CircularProgressIndicator());
+          }else if(snapshot.hasError){
+            return Center(child: Icon(Icons.error_outline_outlined,color: Colors.red,),);
+          }else if(snapshot.hasData){
+
+                return     GridView.builder(
+                  physics: BouncingScrollPhysics(),
+                  padding: const EdgeInsets.all(30),
+                  itemCount: snapshot.data.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: width > 500 ? 4 : 1),
+                  itemBuilder: (context, index) {
+
+                    return InkWell(
+                      onTap: () {
+                        _resend(context, snapshot.data[index]);
+                      },
+                      child: Card(
+                        child: ListTile(
+                          textColor: colors.helperWhiteColor,
+                          tileColor: colors.textFieldColor,
+                          title: Text(
+                            snapshot.data[index]['date'],
+                            textAlign: TextAlign.right,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          subtitle: Text(
+                            snapshot.data[index]['description'],
+                            textAlign: TextAlign.right,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+
+        }else {
+          return  Center(child: Text('معلومات پیدا نشول'),);
+          }
         },
       ),
     );
@@ -76,19 +119,19 @@ class _SignedState extends State<Signed> {
 
 //show dialog on resending
 
-_resend(BuildContext context, int index) {
+_resend(BuildContext context, Map data) {
   showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
         backgroundColor: colors.backgroundColor,
         title: Text(
-          'غواړۍ چی مکتوب بیرته ولیګۍ وزارت ته',
+          data['title'],
           style: TextStyle(color: colors.helperWhiteColor),
           textAlign: TextAlign.center,
         ),
         content: Text(
-          Petitions[index]['Text'],
+          data['description'],
           style: TextStyle(color: colors.helperWhiteColor),
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
