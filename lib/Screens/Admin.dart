@@ -75,7 +75,10 @@ class _AdminState extends State<Admin> {
           ],
         ),
       ),
-      endDrawer: Drawer(),
+      endDrawer: Drawer(
+        backgroundColor: colors.backgroundColor,
+        child: DesignedDrawer(),
+      ),
       body: AdminScreen(),
     );
   }
@@ -90,6 +93,7 @@ class AdminScreen extends StatefulWidget {
 }
 
 String userName = '';
+String userEmail = '';
 
 class _AdminScreenState extends State<AdminScreen> {
   List adminList = [
@@ -137,6 +141,7 @@ class _AdminScreenState extends State<AdminScreen> {
         } else if (snapshot.hasData) {
           Map data = snapshot.data as Map;
           userName = data['name'];
+          userEmail = data['email'];
           return Container(
               width: width,
               height: height,
@@ -208,23 +213,25 @@ class _AdminScreenState extends State<AdminScreen> {
                                             builder: (context) =>
                                                 Maktob(index: 1),
                                           ))
-                                        : index==2?Navigator.of(context)
-                                    .pushReplacement(MaterialPageRoute(
-                                  builder: (context) =>
-                                      SignedPetitions(),
-                                )):
-                                index == 3
-                                            ? Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Universities()))
-                                            : Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Setting(),
-                                                ));
+                                        : index == 2
+                                            ? Navigator.of(context)
+                                                .pushReplacement(
+                                                    MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SignedPetitions(),
+                                              ))
+                                            : index == 3
+                                                ? Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Universities()))
+                                                : Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Setting(),
+                                                    ));
                               },
                               child: ListTile(
                                 title: Text(
@@ -245,6 +252,257 @@ class _AdminScreenState extends State<AdminScreen> {
           return Text('ډیټا لوډ نشول ډیټابیس کنیکشن چک کړۍ');
         }
       },
+    );
+  }
+}
+
+//Drawer Designed
+
+class DesignedDrawer extends StatefulWidget {
+  const DesignedDrawer({super.key});
+
+  @override
+  State<DesignedDrawer> createState() => _DesignedDrawerState();
+}
+
+bool onHover = false;
+
+class _DesignedDrawerState extends State<DesignedDrawer> {
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          //for the user section
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            color: colors.textFieldColor,
+            alignment: Alignment.topRight,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(ministryImage),
+                ),
+                Text(
+                  userName,
+                  style:
+                      TextStyle(fontSize: 24, color: colors.helperWhiteColor),
+                ),
+                Text(
+                  userEmail,
+                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+          //For the Middle Section
+          Divider(),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            child: Column(
+              children: [
+                InkWell(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.navigate_before,
+                        size: 30,
+                        color: colors.helperWhiteColor,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        'ټول مکتوبونه',
+                        style: TextStyle(
+                            fontSize: 18, color: colors.helperWhiteColor),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    print('add uni butt');
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.navigate_before,
+                        size: 30,
+                        color: colors.helperWhiteColor,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        'لیږل شوي مکتوبونه',
+                        style: TextStyle(
+                            fontSize: 18, color: colors.helperWhiteColor),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    print('add uni butt');
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.navigate_before,
+                        size: 30,
+                        color: colors.helperWhiteColor,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        'امضاء شوي مکتوبونه',
+                        style: TextStyle(
+                            fontSize: 18, color: colors.helperWhiteColor),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    print('add uni butt');
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.navigate_before,
+                        size: 30,
+                        color: colors.helperWhiteColor,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        'پوهنتونونه',
+                        style: TextStyle(
+                            fontSize: 18, color: colors.helperWhiteColor),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    print('add uni butt');
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.navigate_before,
+                        size: 30,
+                        color: colors.helperWhiteColor,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        'سیټینګ',
+                        style: TextStyle(
+                            fontSize: 18, color: colors.helperWhiteColor),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    print('add uni butt');
+                  },
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 110,
+          ),
+          Divider(),
+          //For the End Section
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            child: Column(
+              children: [
+                InkWell(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.info_outline,
+                        size: 30,
+                        color: colors.helperWhiteColor,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        'معلومات',
+                        style: TextStyle(
+                            fontSize: 18, color: colors.helperWhiteColor),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    print('add uni butt');
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.exit_to_app_outlined,
+                        size: 30,
+                        color: colors.helperWhiteColor,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        'وتل',
+                        style: TextStyle(
+                            fontSize: 18, color: colors.helperWhiteColor),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    print('add uni butt');
+                  },
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
