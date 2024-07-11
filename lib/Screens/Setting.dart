@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:petition/Screens/Login.dart';
-
 import '../Authentication/AuthData.dart';
 import '../Colors/Colors.dart';
+import '../Widgets/Drawer.dart';
+import 'Admin.dart';
 class Setting extends StatelessWidget {
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+endDrawer: Drawer(
+    backgroundColor: colors.backgroundColor,
+    child: userType=='admin'? DesignedDrawer(): userType=='university'?DrawerForUniversity():userType=='Faculty'? DrawerForFaculty():Drawer(),
+),
       appBar: AppBar(
         centerTitle: true,
         foregroundColor: colors.helperWhiteColor,

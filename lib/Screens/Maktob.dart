@@ -13,6 +13,7 @@ import 'package:petition/Widgets/SignPetition.dart';
 import 'package:petition/models/ApiService.dart';
 import '../Authentication/AuthData.dart';
 import '../Colors/Colors.dart';
+import '../Widgets/Drawer.dart';
 import '../models/Petition.dart';
 
 class Maktob extends StatefulWidget {
@@ -31,86 +32,18 @@ class _MaktobState extends State<Maktob> {
         appBar: AppBar(
           foregroundColor: colors.helperWhiteColor,
           backgroundColor: colors.textFieldColor,
+          title: Text('مکتوبونه'),
+          centerTitle: true,
         ),
         endDrawer: Drawer(
           backgroundColor: colors.backgroundColor,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Login(),
-                      ),
-                    );
-                  },
-                  label: Text('Login Screen'),
-                ),
-                FloatingActionButton.extended(
-                  onPressed: () {},
-                  label: Text('Admin Screen'),
-                ),
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddUniversity(),
-                      ),
-                    );
-                  },
-                  label: Text('Add University Screen'),
-                ),
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Universities(),
-                      ),
-                    );
-                  },
-                  label: Text('Universities Screen'),
-                ),
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddUser(),
-                      ),
-                    );
-                  },
-                  label: Text('Add User'),
-                ),
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Faculty(),
-                      ),
-                    );
-                  },
-                  label: Text('Add Faculty'),
-                ),
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SignedPetitions(),
-                      ),
-                    );
-                  },
-                  label: Text('Signed Petitions'),
-                ),
-              ],
-            ),
-          ),
+          child: userType == 'admin'
+              ? DesignedDrawer()
+              : userType == 'university'
+                  ? DrawerForUniversity()
+                  : userType == 'Faculty'
+                      ? DrawerForFaculty()
+                      : Drawer(),
         ),
         body: maktobScreen(
           index: widget.index,
@@ -159,8 +92,6 @@ class __SpeedDialState extends State<_SpeedDial> {
   }
 }
 
-
-
 //maktob screen
 class maktobScreen extends StatefulWidget {
   int index;
@@ -189,11 +120,13 @@ class _maktobScreenState extends State<maktobScreen> {
     _getUniversities = getUniversities();
     parsingData();
     getUserData();
-
   }
 
   getUserData() async {
     User = await AuthData().getSharedData();
+    userName = User['name'];
+    userEmail = User['email'];
+    userType = User['role'];
   }
 
   getDataFromServer() async {
@@ -203,10 +136,10 @@ class _maktobScreenState extends State<maktobScreen> {
     } else {
       if (User['role'] == 'Faculty') {
         print('For Faculty');
-        List data=await ApiService().fetchData('petitions');
-        List NaturalData=[];
+        List data = await ApiService().fetchData('petitions');
+        List NaturalData = [];
         data.forEach((element) {
-          if(element['receiver']==User['university_name']){
+          if (element['receiver'] == User['university_name']) {
             NaturalData.add(element);
           }
         });

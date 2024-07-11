@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:petition/Widgets/Drawer.dart';
 import '../models/ApiService.dart';
 import '../Colors/Colors.dart';
-import 'Maktob.dart';
+
 
 class SignedPetitions extends StatelessWidget {
   const SignedPetitions({super.key});
@@ -16,6 +17,9 @@ class SignedPetitions extends StatelessWidget {
         foregroundColor: colors.helperWhiteColor,
       ),
       body: Signed(),
+  endDrawer: Drawer(
+    child: DesignedDrawer(),
+  ),
     );
   }
 }

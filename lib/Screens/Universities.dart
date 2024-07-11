@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:petition/Screens/AddUniversities.dart';
 import 'package:petition/Screens/UpdateUniversities.dart';
+import 'package:petition/Widgets/Drawer.dart';
 import 'package:petition/models/ApiService.dart';
 
 import '../Colors/Colors.dart';
 
-class Universities extends StatelessWidget {
+class Universities extends StatefulWidget {
   const Universities({super.key});
 
   @override
+  State<Universities> createState() => _UniversitiesState();
+}
+
+class _UniversitiesState extends State<Universities> {
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
       appBar: AppBar(
+      leading: InkWell(
+          onTap: (){
+            setState(() {
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Universities(),));
+            });
+          },
+          child: Icon(Icons.refresh_outlined)),
         centerTitle: true,
         foregroundColor: colors.helperWhiteColor,
         backgroundColor: colors.textFieldColor,
         title: Text('پوهنتونونه'),
       ),
+
+     endDrawer: Drawer(child: DesignedDrawer(),),
       body: UniversitiesScreen(),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: colors.buttonColor,
