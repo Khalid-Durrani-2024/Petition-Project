@@ -45,7 +45,7 @@ class _AdminState extends State<Admin> {
               children: [
                 InkWell(child: Icon(Icons.notifications_none_outlined)),
                 Text(
-                  'Notification',
+                  'خبرداری',
                   style: TextStyle(fontSize: 10),
                 )
               ],
@@ -68,7 +68,7 @@ class _AdminState extends State<Admin> {
                     },
                     child: Icon(Icons.logout_outlined)),
                 Text(
-                  'Log Out',
+                  'وتل',
                   style: TextStyle(fontSize: 10),
                 )
               ],

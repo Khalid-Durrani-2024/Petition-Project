@@ -119,7 +119,7 @@ class ApiService {
       throw Exception('Faild to Create Petition');
     }
   }
-  Future<void> sendFaculty(FacultyModel faculty, String tableName) async {
+  Future sendFaculty(FacultyModel faculty, String tableName) async {
 
     final String baseUrl = await 'http://localhost/petition/api/$tableName.php';
 
@@ -130,9 +130,11 @@ class ApiService {
     if (response.statusCode ==  201)
     {
       print('Faculty added Successfully in database');
+      return response.statusCode;
     }else if(response.statusCode==400){
 
       print('Error Data is Incomplete');
+      return response.statusCode;
     }
 
     else {

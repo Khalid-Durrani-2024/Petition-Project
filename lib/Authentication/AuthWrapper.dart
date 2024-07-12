@@ -29,8 +29,13 @@ class _AuthWrapperState extends State<AuthWrapper> {
   var data=await AuthData().getSharedData();
    if(data['role']=='admin'){
      return 'admin';
-   }else{
-     return 'user';
+   }else if(data['role']=='Faculty'){
+     return 'Faculty';
+   }else if(data['role']=='university'){
+     return 'university';
+   }
+   else{
+     return null;
    }
  }
   @override
@@ -38,15 +43,17 @@ class _AuthWrapperState extends State<AuthWrapper> {
     return FutureBuilder(
       future: authenticate(),
       builder: (context, snapshot) {
-
         if (snapshot.connectionState==ConnectionState.waiting) {
-
           return Center(child: CircularProgressIndicator(),);
-
         }else if(snapshot.data=='admin'){
+          print('admin Navigation done');
           return Admin();
-        }else if(snapshot.hasData){
-          return Maktob(index:0);
+        }else if(snapshot.data=='Faculty'){
+          print('returning Faculty');
+          return Maktob(index:10);
+        }else if(snapshot.data=='university'){
+          print('returning university');
+          return Maktob(index: 0);
         }
         else {
           return Login();

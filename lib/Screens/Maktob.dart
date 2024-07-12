@@ -35,16 +35,32 @@ class _MaktobState extends State<Maktob> {
           title: Text('مکتوبونه'),
           centerTitle: true,
         ),
-        endDrawer: Drawer(
-          backgroundColor: colors.backgroundColor,
-          child: userType == 'admin'
-              ? DesignedDrawer()
-              : userType == 'university'
+        endDrawer: FutureBuilder(
+          future: AuthData().getSharedData(),
+          builder: (context, snapshot) {
+            if(snapshot.connectionState==ConnectionState.waiting){
+              return CircularProgressIndicator();
+            }else if(snapshot.hasError){
+              return Text('معلومات لاوډ نه شول');
+            }
+          else if(snapshot.hasData){
+            return  Drawer(
+              backgroundColor: colors.backgroundColor,
+              child:
+              userType == 'admin'
+                  ? DesignedDrawer()
+                  : userType == 'university'
                   ? DrawerForUniversity()
                   : userType == 'Faculty'
-                      ? DrawerForFaculty()
-                      : Drawer(),
-        ),
+                  ? DrawerForFaculty()
+                  : Container(),
+            );
+
+          }else{
+              return Container();
+            }
+          },
+          ),
         body: maktobScreen(
           index: widget.index,
         ),
@@ -115,12 +131,13 @@ class _maktobScreenState extends State<maktobScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    print(userType);
     _futureData = getDataFromServer();
     _getUniversities = getUniversities();
     parsingData();
     getUserData();
   }
+
 
   getUserData() async {
     User = await AuthData().getSharedData();
@@ -134,7 +151,7 @@ class _maktobScreenState extends State<maktobScreen> {
       print('For admin');
       return await ApiService().fetchDataSpecific('petitions', userName);
     } else {
-      if (User['role'] == 'Faculty') {
+      if (widget.index==10) {
         print('For Faculty');
         List data = await ApiService().fetchData('petitions');
         List NaturalData = [];
@@ -171,92 +188,92 @@ class _maktobScreenState extends State<maktobScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
-    return FutureBuilder(
-      future: _futureData,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator.adaptive(),
-          );
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Icon(
-              Icons.error_outline_outlined,
-              size: 50,
-            ),
-          );
-        } else if (snapshot.hasData) {
-          return Container(
-            padding: const EdgeInsets.only(top: 50),
-            decoration: BoxDecoration(color: colors.backgroundColor),
-            width: width,
-            height: height,
-            child: ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    //showing maktob from button
-                    Sheet(context, index, snapshot.data);
-                  },
-                  child: Card(
-                    margin:
-                        const EdgeInsets.only(left: 30, right: 30, bottom: 10),
-                    color: colors.textFieldColor,
-                    child: ListTile(
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            snapshot.data[index]['sender'],
-                            style: TextStyle(
-                                fontSize: 18, color: colors.helperWhiteColor),
-                          ),
-                          Text(snapshot.data[index]['date'],
+      return FutureBuilder(
+        future: _futureData,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Icon(
+                Icons.error_outline_outlined,
+                size: 50,
+              ),
+            );
+          } else if (snapshot.hasData) {
+            return Container(
+              padding: const EdgeInsets.only(top: 50),
+              decoration: BoxDecoration(color: colors.backgroundColor),
+              width: width,
+              height: height,
+              child: ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      //showing maktob from button
+                      Sheet(context, index, snapshot.data);
+                    },
+                    child: Card(
+                      margin:
+                      const EdgeInsets.only(left: 30, right: 30, bottom: 10),
+                      color: colors.textFieldColor,
+                      child: ListTile(
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              snapshot.data[index]['sender'],
                               style: TextStyle(
-                                  fontSize: 12,
-                                  color: colors.helperWhiteColor)),
-                        ],
-                      ),
-                      subtitle: Text(
-                        snapshot.data[index]['description'],
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(color: colors.helperWhiteColor),
-                      ),
-                      trailing: Container(
-                        padding: const EdgeInsets.only(top: 10),
-                        decoration: BoxDecoration(
-                            color: colors.buttonColor, shape: BoxShape.circle),
-                        width: width / 15,
-                        height: height / 15,
-                        child: Text(
-                          snapshot.data[index]['id'],
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 20, color: colors.helperWhiteColor),
+                                  fontSize: 18, color: colors.helperWhiteColor),
+                            ),
+                            Text(snapshot.data[index]['date'],
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: colors.helperWhiteColor)),
+                          ],
+                        ),
+                        subtitle: Text(
+                          snapshot.data[index]['description'],
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(color: colors.helperWhiteColor),
+                        ),
+                        trailing: Container(
+                          padding: const EdgeInsets.only(top: 10),
+                          decoration: BoxDecoration(
+                              color: colors.buttonColor, shape: BoxShape.circle),
+                          width: width / 15,
+                          height: height / 15,
+                          child: Text(
+                            snapshot.data[index]['id'],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20, color: colors.helperWhiteColor),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-          );
-        } else {
-          return Center(
-            child: Text('معلومات نشته'),
-          );
-        }
-      },
-    );
+                  );
+                },
+              ),
+            );
+          } else {
+            return Center(
+              child: Text('معلومات نشته'),
+            );
+          }
+        },
+      );
+
+
   }
 }
 
 //Showing Maktob
-
 Sheet(BuildContext context, int no, List snapshot) {
   return showDialog(
     context: context,

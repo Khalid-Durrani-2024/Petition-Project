@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petition/Screens/Faculty.dart';
 import 'package:petition/Screens/Maktob.dart';
 import 'package:petition/Screens/Setting.dart';
 import 'package:petition/Screens/SignedPetitions.dart';
@@ -400,33 +401,7 @@ class _DrawerForUniversityState extends State<DrawerForUniversity> {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             child: Column(
               children: [
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.home_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'کور پاڼه',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
+
                 InkWell(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -448,7 +423,7 @@ class _DrawerForUniversityState extends State<DrawerForUniversity> {
                     ],
                   ),
                   onTap: () {
-                    print('add uni butt');
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Maktob(index: 0),));
                   },
                 ),
                 SizedBox(
@@ -475,8 +450,8 @@ class _DrawerForUniversityState extends State<DrawerForUniversity> {
                     ],
                   ),
                   onTap: () {
-                    print('add uni butt');
-                  },
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Faculty(),));
+                    },
                 ),
                 SizedBox(
                   height: 10,
@@ -502,7 +477,7 @@ class _DrawerForUniversityState extends State<DrawerForUniversity> {
                     ],
                   ),
                   onTap: () {
-                    print('add uni butt');
+                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Setting(),));
                   },
                 ),
               ],
@@ -535,7 +510,7 @@ class _DrawerForUniversityState extends State<DrawerForUniversity> {
                     ],
                   ),
                   onTap: () {
-                    print('add uni butt');
+                    showAboutDialog(context: context);
                   },
                 ),
                 SizedBox(
@@ -646,14 +621,16 @@ class _DrawerForFacultyState extends State<DrawerForFaculty> {
                         width: 30,
                       ),
                       Text(
-                        'ټول مکتوبونه',
+                        'پوهنتون ته راغلي مکتوبونه',
                         style: TextStyle(
                             fontSize: 18, color: colors.helperWhiteColor),
                       ),
                     ],
                   ),
                   onTap: () {
-                    print('add uni butt');
+
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Maktob(index: 10),));
+
                   },
                 ),
                 SizedBox(
@@ -680,7 +657,7 @@ class _DrawerForFacultyState extends State<DrawerForFaculty> {
                     ],
                   ),
                   onTap: () {
-                    print('add uni butt');
+                    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Setting(),),);
                   },
                 ),
               ],
@@ -713,8 +690,8 @@ class _DrawerForFacultyState extends State<DrawerForFaculty> {
                     ],
                   ),
                   onTap: () {
-                    print('add uni butt');
-                  },
+                    showAboutDialog(context: context);
+                     },
                 ),
                 SizedBox(
                   height: 10,
