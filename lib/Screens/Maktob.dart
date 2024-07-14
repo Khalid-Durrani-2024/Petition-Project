@@ -249,7 +249,7 @@ class _maktobScreenState extends State<maktobScreen> {
                           width: width / 15,
                           height: height / 15,
                           child: Text(
-                            snapshot.data[index]['id'],
+                            snapshot.data[index]['id'].toString(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 20, color: colors.helperWhiteColor),

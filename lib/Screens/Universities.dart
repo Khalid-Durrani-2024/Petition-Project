@@ -36,6 +36,8 @@ class _UniversitiesState extends State<Universities> {
      endDrawer: Drawer(child: DesignedDrawer(),),
       body: UniversitiesScreen(),
       floatingActionButton: FloatingActionButton.extended(
+        hoverColor: colors.hoverColor,
+
         backgroundColor: colors.buttonColor,
         foregroundColor: colors.helperWhiteColor,
         onPressed: () {

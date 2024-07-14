@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:petition/Authentication/AuthData.dart';
 import 'package:petition/Authentication/AuthWrapper.dart';
 import 'package:petition/Colors/Colors.dart';
-import 'package:petition/models/ApiService.dart';
+import 'package:petition/Screens/ForgotPassword.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -30,6 +28,8 @@ List<String> _users = [
   'پوهنتون',
   'پوهنځی'
 ];
+bool isHover=false;
+
 String _selectedType=_users.first;
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
@@ -113,7 +113,7 @@ class _LoginFormState extends State<LoginForm> {
                           color: Colors.white,
                           fontSize: 12,
                           fontWeight: FontWeight.w100),
-                      label: Text('پټ نوم')),
+                      label: Text('پټ نوم'),),
                 ),
               ),
               SizedBox(
@@ -154,7 +154,6 @@ class _LoginFormState extends State<LoginForm> {
                   }).toList(),
                   onChanged: (cha) {
                     _selectedType = cha!;
-
                   },
                 ),
               ),
@@ -163,37 +162,113 @@ class _LoginFormState extends State<LoginForm> {
                 onTap: () async{
                   if (_formKey.currentState!.validate()){
                     await AuthData().authentication(emailController.text, passwordController.text,_selectedType);
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AuthWrapper(),));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AuthWrapper(),),);
 
                   }
                 },
+                  onHover: (val){
+                  setState(() {
+                  isHover=val;
+
+                  });
+                  },
                 //Log In Button
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(22),
-                      color: colors.buttonColor),
-                  width: width / 5,
-                  height: height / 15,
-                  child: const Text(
-                    'دننه شۍ',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                  ),
-                ),
+                child:isHover==false?SimpleLogIn(width: width, height: height):DesignedLogIn(width: width, height: height),
+
               ),
               SizedBox(
                 height: height / 30,
               ),
-              const Text(
-                'پټ نوم مو هیر دی؟',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              InkWell(
+                onTap: (){
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => ForgotPassword(),),);
+                },
+                child: const Text(
+                  'پټ نوم مو هیر دی؟',
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                ),
               )
             ],
           )),
     );
+  }
+}
+
+
+
+
+
+
+
+
+
+//Log In Button Design on Hover
+class SimpleLogIn extends StatefulWidget {
+double width;
+double height;
+SimpleLogIn({required this.width,required this.height});
+
+  @override
+  State<SimpleLogIn> createState() => _SimpleLogInState();
+}
+
+class _SimpleLogInState extends State<SimpleLogIn> {
+  @override
+  Widget build(BuildContext context) {
+    return  Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(22),
+          color: colors.buttonColor),
+      width: widget.width / 5,
+      height:widget.height / 15,
+      child: const Text(
+        'دننه شۍ',
+        style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18),
+      ),
+    );
+
+  }
+}
+
+
+//Log In Button Design on Hover
+
+class DesignedLogIn extends StatefulWidget {
+  double width;
+  double height;
+
+  DesignedLogIn({required this.width,required this.height});
+
+  @override
+  State<DesignedLogIn> createState() => _DesignedLogInState();
+}
+
+class _DesignedLogInState extends State<DesignedLogIn> {
+  @override
+  Widget build(BuildContext context) {
+    return  Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: colors.hoverColor,
+        ),
+        borderRadius: BorderRadius.circular(22),
+      ),
+      width: widget.width / 5,
+      height:widget.height / 15,
+      child: const Text(
+        'دننه شۍ',
+        style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18),
+      ),
+    );
+
   }
 }

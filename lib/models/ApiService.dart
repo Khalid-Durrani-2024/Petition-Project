@@ -72,7 +72,7 @@ class ApiService {
 
     }
     else {
-      throw Exception('Faild Delete Record Response COde is: ${response.statusCode}');
+      throw Exception('Faild Delete Record Response Code is: ${response.statusCode}');
 
     }
   }
