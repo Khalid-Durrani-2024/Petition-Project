@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../Colors/Colors.dart';
 import '../models/ApiService.dart';
 import '../models/Faculty.dart';
+import 'Maktob.dart';
 
 class Faculty extends StatefulWidget {
   const Faculty({super.key});
@@ -36,10 +37,6 @@ class FacultyScreen extends StatefulWidget {
   State<FacultyScreen> createState() => _FacultyScreenState();
 }
 
-List<String> universitiesInFaculty = [
-  '...',
-];
-String _selectedUniversity = universitiesInFaculty.first;
 List universitiesMap = [];
 int _selectedId = 0;
 TextEditingController _noFaculty = TextEditingController();
@@ -63,24 +60,18 @@ getFaculties() async {
 }
 
 bool hoverChange = false;
-
+String _selectedUniversity='';
 class _FacultyScreenState extends State<FacultyScreen> {
   Future<void> getUniversities() async {
-    var data = await ApiService().fetchData('universities');
-    Set<String> universitySet = {};
-    List<String> universityList = [];
-    setState(() {
-      for (var university in data) {
-        String universityName = university['name'];
-        if (universitySet.add(universityName)) {
-          universityList.add(universityName);
-          universitiesMap.add(university);
-        }
-      }
-      universitiesInFaculty = universityList;
+    List data = await ApiService().fetchData('universities');
+       data.forEach((element) {
+         if(element['id']==User['id']){
+          _selectedUniversity=element['name'];
+          _selectedId=int.parse(element['id']);
+         }
 
-    });
-    return data;
+       });
+    return await ApiService().fetchData('universities');
   }
 
   @override
@@ -175,8 +166,10 @@ class _FacultyScreenState extends State<FacultyScreen> {
                     Container(
                       width: width / 2,
                       child: DropdownButtonFormField<String>(
+
                         borderRadius: BorderRadius.circular(22),
                         decoration: InputDecoration(
+
                             label: Text(' پوهنتون'),
                             labelStyle:
                                 TextStyle(color: colors.helperWhiteColor),
@@ -186,35 +179,11 @@ class _FacultyScreenState extends State<FacultyScreen> {
                             filled: true),
                         dropdownColor: colors.backgroundColor,
                         isExpanded: true,
-                        hint: Text('انتخاب کړۍ'),
-                        validator: (value) {
-                          if (value!.isEmpty ||
-                              value == '' ||
-                              value == universitiesInFaculty.first) {
-                            return 'د پوهنتون نوم انتخاب کړۍ';
-                          }
-                        },
-                        value: _selectedUniversity,
-                        items: universitiesInFaculty.map((String e) {
-                          return DropdownMenuItem<String>(
-                            value: e,
-                            child: Text(
-                              e,
-                              style: TextStyle(
-                                color: colors.helperWhiteColor,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (cha) {
-                          _selectedUniversity = cha!;
-                          for (int i = 0; i < universitiesMap.length; i++) {
-                            if (universitiesMap[i]['name'] == cha) {
-                              _selectedId = int.parse(universitiesMap[i]['id']);
-                              break;
-                            }
-                          }
-                        },
+                        hint: Text('انتخاب کړۍ'), items: [
+                          DropdownMenuItem(child: Text(_selectedUniversity,style: TextStyle(color: colors.helperWhiteColor),))
+                      ], onChanged: (Object? value) {  },
+
+
                       ),
                     ),
                     SizedBox(
@@ -291,7 +260,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
                           });
                         },
                         onTap: () async {
-                          print(_selectedUniversity);
+
                           if (_formKey.currentState!.validate()) {
                             final faculty = FacultyModel(
                                 name: facultyController.text,
@@ -300,8 +269,16 @@ class _FacultyScreenState extends State<FacultyScreen> {
                                 password: passwordController.text,
                                 university_name: _selectedUniversity,
                                 role: 'Faculty');
+                            print(faculty.name);
+                            print(faculty.university_id);
+                            print(faculty.email);
+                            print(faculty.password);
+                            print(faculty.university_name);
+                            print(faculty.role);
+
                             int res = await ApiService()
                                 .sendFaculty(faculty, 'faculty');
+
                             if (res == 201) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
