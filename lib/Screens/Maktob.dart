@@ -161,8 +161,30 @@ class _maktobScreenState extends State<maktobScreen> {
           }
         });
         return NaturalData;
-      } else {
+      }
+      else if(widget.index==9){
         print('For University');
+        List data = await ApiService().fetchData('petitions');
+        List _universities=await ApiService().fetchData('universities');
+        String receiver='ټول';
+        _universities.forEach((element) {
+            if(User['university_id']==element['id']){
+              receiver=element['name'];
+            }
+        });
+
+        List NaturalData = [];
+
+print(receiver);
+        data.forEach((element) {
+
+          if (element['receiver'] == receiver) {
+            NaturalData.add(element);
+
+          }
+        });
+        return NaturalData;
+      }else{
         return await ApiService().fetchData('petitions');
       }
     }

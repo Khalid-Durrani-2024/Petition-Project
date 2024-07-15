@@ -53,7 +53,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
           return Maktob(index:10);
         }else if(snapshot.data=='university'){
           print('returning university');
-          return Maktob(index: 0);
+          return Maktob(index: 9);
         }
         else {
           return Login();
