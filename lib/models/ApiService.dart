@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:petition/models/Faculty.dart';
 import 'package:petition/models/Petition.dart';
 import 'package:petition/models/SignPetitionModel.dart';
+import 'package:petition/models/UniversityAdminModel.dart';
 import 'package:petition/models/UniversityModel.dart';
 
 
@@ -139,6 +140,28 @@ class ApiService {
 
     else {
       throw Exception('Faild to add Faculty in Database'+response.statusCode.toString());
+    }
+  }
+  //Inserting New Admin For University in users table
+ Future sendUAdmin(UniversityAdminModel uAdmin, String tableName) async {
+    final String baseUrl = await 'http://localhost/petition/api/$tableName.php';
+
+    final response = await http.post(
+      Uri.parse(baseUrl),
+      body: jsonEncode(uAdmin.toJson()),
+    );
+    if (response.statusCode ==  201)
+    {
+      print('University Admin added Successfully in database');
+      return response.statusCode;
+    }else if(response.statusCode==400){
+
+      print('Error Data is Incomplete');
+      return response.statusCode;
+    }
+
+    else {
+      throw Exception('Faild to add University admin in Database'+response.statusCode.toString());
     }
   }
 
