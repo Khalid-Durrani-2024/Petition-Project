@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petition/Authentication/AuthData.dart';
+import 'package:petition/Screens/AddUser.dart';
 import 'package:petition/Screens/Login.dart';
 import 'package:petition/Screens/Maktob.dart';
 import 'package:petition/Screens/Setting.dart';
@@ -102,6 +103,7 @@ class _AdminScreenState extends State<AdminScreen> {
     'امضاء شوي مکتوبونه',
     'پوهنتونونه',
     'سیټینګ',
+    'د پوهنتونونو اډمینان'
   ];
   List<Icon> adminIcons = const [
     Icon(
@@ -117,11 +119,14 @@ class _AdminScreenState extends State<AdminScreen> {
       size: 50,
     ),
     Icon(
-      Icons.person_add_outlined,
+      Icons.school_outlined,
       size: 50,
     ),
     Icon(
       Icons.settings_outlined,
+      size: 50,
+    ),Icon(
+      Icons.person_add_outlined,
       size: 50,
     ),
   ];
@@ -227,7 +232,10 @@ class _AdminScreenState extends State<AdminScreen> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             Universities()))
-                                                : Navigator.pushReplacement(
+                                        :index==5?Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) =>
+                                      AddUser(),),)
+                                    : Navigator.pushReplacement(
                                                     context,
                                                     MaterialPageRoute(
                                                       builder: (context) =>

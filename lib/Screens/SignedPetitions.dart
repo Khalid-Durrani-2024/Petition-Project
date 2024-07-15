@@ -11,6 +11,7 @@ class SignedPetitions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         title: Text('امضاء شوي مکتوبونه'),
         centerTitle: true,
         backgroundColor: colors.textFieldColor,
@@ -18,6 +19,7 @@ class SignedPetitions extends StatelessWidget {
       ),
       body: Signed(),
   endDrawer: Drawer(
+
     child: DesignedDrawer(),
   ),
     );

@@ -29,7 +29,7 @@ List<String> _users = [
   'پوهنځی'
 ];
 bool isHover=false;
-
+bool isObsecure=true;
 String _selectedType=_users.first;
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
@@ -56,7 +56,6 @@ class _LoginFormState extends State<LoginForm> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
               Container(
                 //Email Field
                 decoration: BoxDecoration(
@@ -64,6 +63,7 @@ class _LoginFormState extends State<LoginForm> {
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: TextFormField(
+                  textDirection: TextDirection.rtl,
                   controller: emailController,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -76,15 +76,20 @@ class _LoginFormState extends State<LoginForm> {
                     return null;
                   },
                   keyboardType: TextInputType.emailAddress,
-                  style: TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
+                  style: TextStyle(
+                      color: Colors.white),
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.email_outlined,color: colors.helperWhiteColor,),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(22)),
                       labelStyle: TextStyle(
+
                           color: Colors.white,
                           fontSize: 12,
                           fontWeight: FontWeight.w100),
-                      label: Text('ایمیل')),
+                      label: Text('ایمیل'),
+                      alignLabelWithHint: true
+                  ),
                 ),
               ),
               SizedBox(
@@ -96,6 +101,8 @@ class _LoginFormState extends State<LoginForm> {
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: TextFormField(
+
+                  textDirection: TextDirection.rtl,
                   controller: passwordController,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -103,10 +110,25 @@ class _LoginFormState extends State<LoginForm> {
                     }
                     return null;
                   },
-                  obscureText: true,
+                  obscureText: isObsecure==true?true:false,
                   keyboardType: TextInputType.emailAddress,
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
+                    prefixIcon:GestureDetector(
+                        onTap: (){
+                          setState(() {
+
+                          if(isObsecure==true){
+                            isObsecure=false;
+                          }else{
+                            isObsecure=true;
+
+                          }
+                          });
+
+                        },
+                        child: isObsecure==true?Icon(Icons.visibility,color: colors.helperWhiteColor,):
+                    Icon(Icons.visibility_off,color: colors.helperWhiteColor,)),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(22)),
                       labelStyle: TextStyle(
@@ -124,7 +146,8 @@ class _LoginFormState extends State<LoginForm> {
                 child: DropdownButtonFormField<String>(
                   borderRadius: BorderRadius.circular(22),
                   decoration: InputDecoration(
-                      label: Text(' یوزر نوعه'),
+                  prefixIcon: Icon(Icons.list_outlined,color: colors.helperWhiteColor,),
+                       label: Text(' یوزر نوعه'),
                       labelStyle: TextStyle(color: colors.helperWhiteColor),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(22)),

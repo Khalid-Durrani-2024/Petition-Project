@@ -4,13 +4,13 @@ import 'package:petition/models/ApiService.dart';
 
 import '../Colors/Colors.dart';
 
-UpdateUniversity(BuildContext context,Map university) {
+UpdateUniversity(BuildContext context, Map university) {
   final _formKey = GlobalKey<FormState>();
 
   String _selectedUniversity = university['id'];
   var UnameController = TextEditingController(text: university['name']);
   var UlocationController = TextEditingController(text: university['location']);
-  List<String> _universities=[_selectedUniversity];
+  List<String> _universities = [_selectedUniversity];
   showDialog(
     context: context,
     builder: (context) {
@@ -24,7 +24,6 @@ UpdateUniversity(BuildContext context,Map university) {
             child: Column(
               children: [
                 DropdownButtonFormField<String>(
-
                   dropdownColor: colors.backgroundColor,
                   isExpanded: true,
                   hint: Text('انتخاب کړۍ'),
@@ -35,9 +34,8 @@ UpdateUniversity(BuildContext context,Map university) {
                   },
                   value: _selectedUniversity,
                   items: _universities.map((String e) {
-
                     return DropdownMenuItem<String>(
-enabled: false,
+                      enabled: false,
                       value: e,
                       child: Text(
                         e,
@@ -120,18 +118,22 @@ enabled: false,
 
                   children: [
                     IconButton(
-                      onPressed: () async{
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                        var response= await ApiService().updateUniversity(int.parse(university['id']),
-                            UnameController.text, UlocationController.text,university['created_at']);
+                          var response = await ApiService().updateUniversity(
+                              int.parse(university['id']),
+                              UnameController.text,
+                              UlocationController.text,
+                              university['created_at']);
 
-                        if(response['response Code']==200){
-                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('پوهنتون تغیر شو'),),);
-                        Navigator.pop(context);
-                        }
-
-
-
+                          if (response['response Code'] == 200) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('پوهنتون تغیر شو'),
+                              ),
+                            );
+                            Navigator.pop(context);
+                          }
                         }
                       },
                       icon: Icon(
@@ -142,7 +144,7 @@ enabled: false,
                     IconButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          ConfirmationDialog(context,university);
+                          ConfirmationDialog(context, university);
                         }
                       },
                       icon: Icon(
@@ -161,7 +163,7 @@ enabled: false,
   );
 }
 
-ConfirmationDialog(BuildContext context,Map uData) {
+ConfirmationDialog(BuildContext context, Map uData) {
   showDialog(
     context: context,
     builder: (context) {
@@ -180,11 +182,9 @@ ConfirmationDialog(BuildContext context,Map uData) {
               ),
               SizedBox(height: 30),
               InkWell(
-                onTap: ()async {
-
-                 await ApiService().deleteData(
-                     'universities', 1);
-               },
+                onTap: () async {
+                  await ApiService().deleteData('universities', 1);
+                },
                 child: Icon(
                   Icons.delete_outline,
                   color: Colors.red,

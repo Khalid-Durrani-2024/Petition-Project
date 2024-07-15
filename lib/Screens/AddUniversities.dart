@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petition/models/ApiService.dart';
 import 'package:petition/models/UniversityModel.dart';
-
 import '../Colors/Colors.dart';
 
 class AddUniversity extends StatelessWidget {
@@ -87,6 +86,7 @@ class _UniversityScreenState extends State<UniversityScreen> {
                     }
                     else{
                    return TextFormField(
+                     textDirection: TextDirection.rtl,
                           initialValue: snapshot.data.toString(),
                      enabled: false,
 
@@ -118,6 +118,7 @@ class _UniversityScreenState extends State<UniversityScreen> {
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: TextFormField(
+                  textDirection: TextDirection.rtl,
                   controller: universityNameController,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -146,6 +147,7 @@ class _UniversityScreenState extends State<UniversityScreen> {
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: TextFormField(
+                    textDirection: TextDirection.rtl,
                   controller: universityLocationController,
                   validator: (value) {
                     if (value!.isEmpty) {

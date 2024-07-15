@@ -205,12 +205,9 @@ class _DesignedDrawerState extends State<DesignedDrawer> {
                     ],
                   ),
                   onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SignedPetitions(),
-                        ));
-                  },
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignedPetitions(),));
+
+                    },
                 ),
                 SizedBox(
                   height: 10,
@@ -267,8 +264,8 @@ class _DesignedDrawerState extends State<DesignedDrawer> {
                     ],
                   ),
                   onTap: () {
-                    Navigator.pushReplacement(
-                        context,
+                    Navigator.of(
+                        context).push(
                         MaterialPageRoute(
                           builder: (context) => Setting(),
                         ));

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:petition/Screens/AddUniversities.dart';
+import 'package:petition/Screens/AddUser.dart';
 import 'package:petition/Screens/UpdateUniversities.dart';
 import 'package:petition/Widgets/Drawer.dart';
 import 'package:petition/models/ApiService.dart';
@@ -16,46 +18,32 @@ class Universities extends StatefulWidget {
 class _UniversitiesState extends State<Universities> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       appBar: AppBar(
-      leading: InkWell(
-          onTap: (){
-            setState(() {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Universities(),));
-            });
-          },
-          child: Icon(Icons.refresh_outlined)),
+        leading: InkWell(
+            onTap: () {
+              setState(() {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Universities(),
+                    ));
+              });
+            },
+            child: Icon(Icons.refresh_outlined)),
         centerTitle: true,
         foregroundColor: colors.helperWhiteColor,
         backgroundColor: colors.textFieldColor,
         title: Text('پوهنتونونه'),
       ),
-
-     endDrawer: Drawer(child: DesignedDrawer(),),
-      body: UniversitiesScreen(),
-      floatingActionButton: FloatingActionButton.extended(
-        hoverColor: colors.hoverColor,
-
-        backgroundColor: colors.buttonColor,
-        foregroundColor: colors.helperWhiteColor,
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => AddUniversity(),
-            ),
-          );
-        },
-        label: Text('پوهنتون اضافه کړۍ'),
+      endDrawer: Drawer(
+        child: DesignedDrawer(),
       ),
+      body: UniversitiesScreen(),
+      floatingActionButton: _SpeedDial(),
     );
   }
 }
-
-
-
-
 
 //actual screen
 class UniversitiesScreen extends StatefulWidget {
@@ -63,22 +51,22 @@ class UniversitiesScreen extends StatefulWidget {
   State<UniversitiesScreen> createState() => _UniversitiesScreenState();
 }
 
-_getUniversities()async{
+_getUniversities() async {
   return await ApiService().fetchData('universities');
 }
 
-
 class _UniversitiesScreenState extends State<UniversitiesScreen> {
-late Future _future;
+  late Future _future;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-   _future=_getUniversities();
+    _future = _getUniversities();
   }
+
   @override
   Widget build(BuildContext context) {
-
     final currentWidth = MediaQuery.of(context).size.width;
 
     return Container(
@@ -86,57 +74,107 @@ late Future _future;
       height: double.infinity,
       color: colors.backgroundColor,
       child: FutureBuilder(
-      future: _future,
-      builder: (context, snapshot) {
-        if(snapshot.connectionState==ConnectionState.waiting){
-          return Center(child: CircularProgressIndicator.adaptive(),);
-        }else if(snapshot.hasError){
-          return Center(child: Icon(Icons.error_outline_outlined,color: colors.helperWhiteColor,),);
-        }else if(snapshot.hasData) {
-          return GridView.builder(
-            physics: BouncingScrollPhysics(),
-            padding: const EdgeInsets.all(30),
-            itemCount: snapshot.data.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: currentWidth > 500 ? 4 : 1),
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-
-                  UpdateUniversity(context,snapshot.data[index]);
-                },
-                child: Card(
-                  child: ListTile(
-                    textColor: colors.helperWhiteColor,
-                    tileColor: colors.textFieldColor,
-                    title: Text(
-                      snapshot.data[index]['name'],
-                      textAlign: TextAlign.right,
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        AspectRatio(
-                          aspectRatio: 16 / 9,
-                          child: Icon(
-                            Icons.school_outlined,
-                            color: colors.helperWhiteColor,
-                            size: 150,
+        future: _future,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Icon(
+                Icons.error_outline_outlined,
+                color: colors.helperWhiteColor,
+              ),
+            );
+          } else if (snapshot.hasData) {
+            return GridView.builder(
+              physics: BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(30),
+              itemCount: snapshot.data.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: currentWidth > 500 ? 4 : 1),
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    UpdateUniversity(context, snapshot.data[index]);
+                  },
+                  child: Card(
+                    child: ListTile(
+                      textColor: colors.helperWhiteColor,
+                      tileColor: colors.textFieldColor,
+                      title: Text(
+                        snapshot.data[index]['name'],
+                        textAlign: TextAlign.right,
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: Icon(
+                              Icons.school_outlined,
+                              color: colors.helperWhiteColor,
+                              size: 150,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          );
-        }else {
-          return Center(child: Text('معلومات پیدا نشول'),);
-        }
-      },
+                );
+              },
+            );
+          } else {
+            return Center(
+              child: Text('معلومات پیدا نشول'),
+            );
+          }
+        },
       ),
     );
+  }
+}
+
+//Speed Dial On adding University and User to a Specific University
+class _SpeedDial extends StatefulWidget {
+  const _SpeedDial({super.key});
+
+  @override
+  State<_SpeedDial> createState() => _SpeedDialState();
+}
+
+class _SpeedDialState extends State<_SpeedDial> {
+  @override
+  Widget build(BuildContext context) {
+    return SpeedDial(
+        foregroundColor: colors.helperWhiteColor,
+        backgroundColor: colors.buttonColor,
+        overlayColor: colors.hoverColor,
+        overlayOpacity: 0.5,
+        spaceBetweenChildren: 10,
+        animatedIcon: AnimatedIcons.menu_close,
+        children: [
+          SpeedDialChild(
+            child: Icon(Icons.school_outlined),
+            label: 'پوهنتون اضافه کړۍ',
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder:
+              (context) => AddUniversity(),),);
+            },
+            backgroundColor: colors.buttonColor,
+            foregroundColor: colors.helperWhiteColor,
+          ),
+          SpeedDialChild(
+            label: 'پوهنتون اډمین اضافه کړۍ',
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddUser(),),);
+            },
+            backgroundColor: colors.buttonColor,
+            foregroundColor: colors.helperWhiteColor,
+            child: Icon(Icons.account_circle_outlined),
+          ),
+        ]);
   }
 }
