@@ -214,4 +214,16 @@ class ApiService {
       throw Exception('Faild to Sign Petition and Store in Database'+response.statusCode.toString());
     }
   }
+
+  Future takeBackup(String tableName)async{
+    final String baseUrl = await 'http://localhost/petition/api/$tableName.php';
+    final response=await http.post(Uri.parse(baseUrl));
+    if(response.statusCode==200){
+      return 200;
+    }else{
+      print(response.body);
+      return 404;
+    }
+  }
+
 }

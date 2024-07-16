@@ -4,6 +4,7 @@ import 'package:petition/Screens/Maktob.dart';
 import 'package:petition/Screens/Setting.dart';
 import 'package:petition/Screens/SignedPetitions.dart';
 import 'package:petition/Screens/Universities.dart';
+import 'package:petition/models/ApiService.dart';
 import '../Assets/NetworkImages.dart';
 import '../Authentication/AuthData.dart';
 import '../Colors/Colors.dart';
@@ -43,7 +44,7 @@ class _DesignedDrawerState extends State<DesignedDrawer> {
                 Text(
                   userName,
                   style:
-                      TextStyle(fontSize: 24, color: colors.helperWhiteColor),
+                  TextStyle(fontSize: 24, color: colors.helperWhiteColor),
                 ),
                 Text(
                   userEmail,
@@ -113,9 +114,10 @@ class _DesignedDrawerState extends State<DesignedDrawer> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Maktob(
-                            index: 0,
-                          ),
+                          builder: (context) =>
+                              Maktob(
+                                index: 0,
+                              ),
                         ));
                   },
                 ),
@@ -205,9 +207,9 @@ class _DesignedDrawerState extends State<DesignedDrawer> {
                     ],
                   ),
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignedPetitions(),));
-
-                    },
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => SignedPetitions(),));
+                  },
                 ),
                 SizedBox(
                   height: 10,
@@ -249,6 +251,72 @@ class _DesignedDrawerState extends State<DesignedDrawer> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Icon(
+                        Icons.backup_outlined,
+                        size: 30,
+                        color: colors.helperWhiteColor,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        'بیک اپ',
+                        style: TextStyle(
+                            fontSize: 18, color: colors.helperWhiteColor),
+                      ),
+                    ],
+                  ),
+                  onTap: () async {
+                    try {
+                      int res = await ApiService().takeBackup('backup');
+                      if (res == 200) {
+                        Navigator.pop(context);
+                        showDialog(context: context, builder: (context) {
+                          return AlertDialog(
+                            content: Text('بیک اپ له سیستم څخه واخستل شو'),
+                            title: Icon(Icons.done, color: Colors.green,),
+                            actions: [IconButton(onPressed: () {
+                              Navigator.pop(context);
+                            }, icon: Icon(Icons.close, color: Colors.red))
+                            ],);
+                        },);
+                      } else {
+                        Navigator.pop(context);
+                        showDialog(context: context, builder: (context) {
+                          return AlertDialog(
+                            content: Text('مشکل رامنځته شو'),
+                            title: Icon(
+                              Icons.error_outline, color: Colors.red,),
+                            actions: [IconButton(onPressed: () {
+                              Navigator.pop(context);
+                            }, icon: Icon(Icons.close, color: Colors.red))
+                            ],);
+                        },);
+                      }
+                    }
+                    catch(e){
+                      Navigator.pop(context);
+                      showDialog(context: context, builder: (context) {
+                        return AlertDialog(
+                          content: Text('مشکل رامنځته شو'),
+                          title: Icon(
+                            Icons.error_outline, color: Colors.red,),
+                          actions: [IconButton(onPressed: () {
+                            Navigator.pop(context);
+                          }, icon: Icon(Icons.close, color: Colors.red))
+                          ],);
+                      },);
+                    }
+                  }
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
                         Icons.settings_outlined,
                         size: 30,
                         color: colors.helperWhiteColor,
@@ -271,6 +339,7 @@ class _DesignedDrawerState extends State<DesignedDrawer> {
                         ));
                   },
                 ),
+
               ],
             ),
           ),
@@ -304,7 +373,6 @@ class _DesignedDrawerState extends State<DesignedDrawer> {
                     showAboutDialog(context: context
 
                     );
-
                   },
                 ),
                 SizedBox(
@@ -383,7 +451,7 @@ class _DrawerForUniversityState extends State<DrawerForUniversity> {
                 Text(
                   userName,
                   style:
-                      TextStyle(fontSize: 24, color: colors.helperWhiteColor),
+                  TextStyle(fontSize: 24, color: colors.helperWhiteColor),
                 ),
                 Text(
                   userEmail,
@@ -420,7 +488,8 @@ class _DrawerForUniversityState extends State<DrawerForUniversity> {
                     ],
                   ),
                   onTap: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Maktob(index: 0),));
+                    Navigator.pushReplacement(context, MaterialPageRoute(
+                      builder: (context) => Maktob(index: 0),));
                   },
                 ),
                 SizedBox(
@@ -447,8 +516,9 @@ class _DrawerForUniversityState extends State<DrawerForUniversity> {
                     ],
                   ),
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Faculty(),));
-                    },
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Faculty(),));
+                  },
                 ),
                 SizedBox(
                   height: 10,
@@ -474,7 +544,8 @@ class _DrawerForUniversityState extends State<DrawerForUniversity> {
                     ],
                   ),
                   onTap: () {
-                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Setting(),));
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Setting(),));
                   },
                 ),
               ],
@@ -586,7 +657,7 @@ class _DrawerForFacultyState extends State<DrawerForFaculty> {
                 Text(
                   userName,
                   style:
-                      TextStyle(fontSize: 24, color: colors.helperWhiteColor),
+                  TextStyle(fontSize: 24, color: colors.helperWhiteColor),
                 ),
                 Text(
                   userEmail,
@@ -625,9 +696,8 @@ class _DrawerForFacultyState extends State<DrawerForFaculty> {
                     ],
                   ),
                   onTap: () {
-
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Maktob(index: 10),));
-
+                    Navigator.pushReplacement(context, MaterialPageRoute(
+                      builder: (context) => Maktob(index: 10),));
                   },
                 ),
                 SizedBox(
@@ -654,7 +724,8 @@ class _DrawerForFacultyState extends State<DrawerForFaculty> {
                     ],
                   ),
                   onTap: () {
-                    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Setting(),),);
+                    Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Setting(),),);
                   },
                 ),
               ],
@@ -688,7 +759,7 @@ class _DrawerForFacultyState extends State<DrawerForFaculty> {
                   ),
                   onTap: () {
                     showAboutDialog(context: context);
-                     },
+                  },
                 ),
                 SizedBox(
                   height: 10,
