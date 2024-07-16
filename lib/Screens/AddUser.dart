@@ -15,7 +15,7 @@ class AddUser extends StatelessWidget {
         foregroundColor: colors.helperWhiteColor,
         onPressed: () {
           //adding university admin form
-          AddUniversityAdminForm(context);
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddUserToUniversity(),));
         },
         label: Text('اډمین اضافه کړۍ'),
       ),
@@ -102,37 +102,15 @@ class _AddUserScreenState extends State<AddUserScreen> {
   }
 }
 
-//Adding university admin form
-AddUniversityAdminForm(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(
-                Icons.close,
-                color: Colors.red,
-              ))
-        ],
-        backgroundColor: colors.backgroundColor,
-        content: _AdminForm(),
-      );
-    },
-  );
-}
 
-class _AdminForm extends StatefulWidget {
-  const _AdminForm({super.key});
+class AddUserToUniversity extends StatefulWidget {
+  const AddUserToUniversity({super.key});
 
   @override
-  State<_AdminForm> createState() => _AdminFormState();
+  State<AddUserToUniversity> createState() => _AddUserToUniversityState();
 }
 
-class _AdminFormState extends State<_AdminForm> {
+class _AddUserToUniversityState extends State<AddUserToUniversity> {
   final _formKey = GlobalKey<FormState>();
   List<String> _universities = ['...'];
   List chooseUniversity = [];
@@ -154,283 +132,280 @@ class _AdminFormState extends State<_AdminForm> {
     super.initState();
     _getUniversities();
   }
-
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-    String _selectedId = '';
-    TextEditingController nameController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    int universityId = 0;
+  final width=MediaQuery.of(context).size.width;
+  final height=MediaQuery.of(context).size.height;
 
-    //method for getting university admin last number
-    _getUniversitiesAdmins() async {
-      List universities = await ApiService().fetchData('users');
-      for (int i = 0; i < universities.length; i++) {
-        _selectedId = universities[i]['id'];
-      }
-      return _selectedId;
+  String _selectedId = '';
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  int universityId = 0;
+
+  //method for getting university admin last number
+  _getUniversitiesAdmins() async {
+    List universities = await ApiService().fetchData('users');
+    for (int i = 0; i < universities.length; i++) {
+      _selectedId = universities[i]['id'];
     }
+    return _selectedId;
+  }
 
-    return SingleChildScrollView(
-      child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                //User ID Field
-                decoration: BoxDecoration(
-                  color: colors.textFieldColor,
-                  borderRadius: BorderRadius.circular(22),
-                ),
-                width: width / 2,
-                child: FutureBuilder(
-                  future: _getUniversitiesAdmins(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return TextFormField(
-                        textDirection: TextDirection.rtl,
-                        enabled: false,
-                        initialValue: snapshot.data.toString(),
-                        validator: (value) {},
-                        keyboardType: TextInputType.emailAddress,
-                        style: const TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(22)),
-                          labelStyle: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w100),
-                          label: const Text(' مسلسله شمیره'),
-                        ),
-                      );
-                    } else if (snapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Center(
-                        child: Icon(
-                          Icons.error_outline_outlined,
-                          color: Colors.red,
-                        ),
-                      );
-                    } else {
-                      return Center(
-                        child: Text(
-                          'معلومات پیدا نشول',
-                          style: TextStyle(color: colors.helperWhiteColor),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ),
-              SizedBox(
-                height: height / 30,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: colors.textFieldColor,
-                    borderRadius: BorderRadius.circular(22)),
-                width: width / 2,
-                child: TextFormField(
-                  controller: nameController,
-                  textDirection: TextDirection.rtl,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'د استعمالوونکي پوره نوم ولیکۍ';
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(22)),
-                      labelStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w100),
-                      label: const Text('نوم')),
-                ),
-              ),
-              SizedBox(
-                height: height / 30,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: colors.textFieldColor,
-                    borderRadius: BorderRadius.circular(22)),
-                width: width / 2,
-                child: TextFormField(
-                  controller: emailController,
-                  textDirection: TextDirection.rtl,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'د استعمالوونکۍ ایمیل ادرس ولیکۍ';
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(22)),
-                      labelStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w100),
-                      label: const Text('ایمیل')),
-                ),
-              ),
-              SizedBox(
-                height: height / 30,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: colors.textFieldColor,
-                    borderRadius: BorderRadius.circular(22)),
-                width: width / 2,
-                child: TextFormField(
-                  controller: passwordController,
-                  textDirection: TextDirection.rtl,
-                  obscureText: true,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'د استعمالوونکي لپاره پټ نوم انتخاب کړۍ';
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(22)),
-                      labelStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w100),
-                      label: const Text('پټ نوم')),
-                ),
-              ),
-              SizedBox(
-                height: height / 30,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: colors.textFieldColor,
-                    borderRadius: BorderRadius.circular(22)),
-                width: width / 2,
-                child: FutureBuilder(
-                  future: _getUniversitiesAdmins(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Center(
-                        child: Icon(Icons.error_outline_outlined),
-                      );
-                    } else {
-                      print(snapshot.data);
-                      return Container(
-                        width: MediaQuery.of(context).size.width / 4,
-                        child: DropdownButtonFormField<String>(
-                          borderRadius: BorderRadius.circular(22),
-                          decoration: InputDecoration(
-                              label: Text(' پوهنتون'),
-                              labelStyle:
-                                  TextStyle(color: colors.helperWhiteColor),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(22)),
-                              fillColor: colors.textFieldColor,
-                              filled: true),
-                          dropdownColor: colors.backgroundColor,
-                          isExpanded: true,
-                          hint: Text('انتخاب کړۍ'),
-                          validator: (value) {
-                            if (value!.isEmpty ||
-                                value == '' ||
-                                value == _universities.first) {
-                              return 'د پوهنتون نوم انتخاب کړۍ';
-                            }
-                          },
-                          value: _selectedUniversity,
-                          items: _universities.map((String e) {
-                            return DropdownMenuItem<String>(
-                              value: e,
-                              child: Text(
-                                e,
-                                style: TextStyle(
-                                  color: colors.helperWhiteColor,
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (cha) {
-                            _selectedUniversity = cha!;
-                            chooseUniversity.forEach((element) {
-                              if (element['name'] == _selectedUniversity) {
-                                universityId = int.parse(element['id']);
-                              }
-                            });
-                          },
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ),
-              SizedBox(
-                height: height / 30,
-              ),
-              InkWell(
-                onTap: () async{
-                  if (_formKey.currentState!.validate()) {
-                    final model = UniversityAdminModel(
-                        name: nameController.text,
-                        email: emailController.text,
-                        password: passwordController.text,
-                        university_id: universityId,
-                        created_at: DateTime.now().toString().substring(0, 10),
-                        role: 'university');
+    return Scaffold(
 
-                  int response=await  ApiService().sendUAdmin(model, 'users');
-                    if(response==201){
-                      Navigator.pop(context);
-                      showMessage(true, context);
-                    }else {
-                      showMessage(false, context);
-                    }
-                    }
-                },
-                //Save Button
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(22),
-                      color: colors.buttonColor),
-                  width: width / 5,
-                  height: height / 15,
-                  child: const Text(
-                    'ثبت کړۍ',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
+      appBar: AppBar(
+        foregroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 15, 31, 253),
+        centerTitle: true,
+        title: Text('د اسنادو مدیریت عصری کول'),
+        leading: BackButton(),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          color: Colors.white,
+          width: double.infinity,
+          height: height,
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'د پوهنتون اډمین اضافه کړۍ',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-            ],
-          )),
+                const SizedBox(height: 20),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(22),
+                    border: Border.all(color: Colors.blueAccent),
+                  ),
+                  width: width / 1.5,
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      FutureBuilder(
+
+                        future: _getUniversitiesAdmins(),
+                        builder: (context, snapshot) {
+                          if(snapshot.connectionState==ConnectionState.waiting){
+                            return Center(child: CircularProgressIndicator(),);
+                          }else if(snapshot.hasError){
+                            return Center(child: Icon(Icons.error_outline_outlined),);
+                          }else if(snapshot.hasData){
+                            return TextFormField(
+                              textDirection: TextDirection.ltr,
+                              enabled: false,
+                              initialValue: snapshot.data.toString(),
+                              validator: (value) {},
+                              keyboardType: TextInputType.emailAddress,
+                              style: const TextStyle(color: Colors.black),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(22),
+                                ),
+                                labelStyle: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w100,
+                                ),
+                                labelText: ' مسلسله شمیره',
+                                prefixIcon: const Icon(Icons.confirmation_number),
+                              ),
+                            );
+
+                          }else{
+                            return Center(child: Text('معلومات لوډ نشول'),);
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: nameController,
+                        textDirection: TextDirection.rtl,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'د استعمالوونکي پوره نوم ولیکۍ';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.emailAddress,
+                        style: const TextStyle(color: Colors.black),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(22),
+                          ),
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w100,
+                          ),
+                          labelText: 'نوم',
+                          prefixIcon: const Icon(Icons.person),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: emailController,
+                        textDirection: TextDirection.rtl,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'د استعمالوونکۍ ایمیل ادرس ولیکۍ';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.emailAddress,
+                        style: const TextStyle(color: Colors.black),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(22),
+                          ),
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w100,
+                          ),
+                          labelText: 'ایمیل',
+                          prefixIcon: const Icon(Icons.email),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: passwordController,
+                        textDirection: TextDirection.rtl,
+                        obscureText: true,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'د استعمالوونکي لپاره پټ نوم انتخاب کړۍ';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.emailAddress,
+                        style: const TextStyle(color: Colors.black),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(22),
+                          ),
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w100,
+                          ),
+                          labelText: 'پټ نوم',
+                          prefixIcon: const Icon(Icons.lock),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      FutureBuilder(
+                        future: _getUniversitiesAdmins(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Center(
+                              child: Icon(Icons.error_outline_outlined),
+                            );
+                          } else {
+                            print(snapshot.data);
+                            return DropdownButtonFormField<String>(
+                              decoration: InputDecoration(
+                                  labelText: ' پوهنتون',
+                                  prefixIcon: const Icon(Icons.school_outlined),
+                                  border: OutlineInputBorder(),
+                                 ),
+                              hint: Text('انتخاب کړۍ'),
+                              validator: (value) {
+                                if (value!.isEmpty ||
+                                    value == '' ||
+                                    value == _universities.first) {
+                                  return 'د پوهنتون نوم انتخاب کړۍ';
+                                }
+                              },
+                              value: _selectedUniversity,
+                              items: _universities.map((String e) {
+                                return DropdownMenuItem<String>(
+                                  value: e,
+                                  child: Text(
+                                    e,
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (cha) {
+                                _selectedUniversity = cha!;
+                                chooseUniversity.forEach((element) {
+                                  if (element['name'] == _selectedUniversity) {
+                                    universityId = int.parse(element['id']);
+                                  }
+                                });
+                              },
+                            );
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      InkWell(
+                        onTap: () async{
+                          if (_formKey.currentState!.validate()) {
+                            final model = UniversityAdminModel(
+                                name: nameController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                                university_id: universityId,
+                                created_at: DateTime.now().toString().substring(0, 10),
+                                role: 'university');
+
+                            int response=await  ApiService().sendUAdmin(model, 'users');
+                            if(response==201){
+                              Navigator.pop(context);
+                              showMessage(true, context);
+                            }else {
+                              showMessage(false, context);
+                            }
+                          }
+
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(22),
+                            color: Colors.blue,
+                          ),
+                          width: 400,
+                          height: 50,
+                          child: const Text(
+                            'ثبت کړۍ',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                     SizedBox(height: 30,),
+                     TextButton(onPressed: (){Navigator.pop(context);}, child: Text('بهر شۍ',style: TextStyle(fontSize: 14),)),
+
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      )
+
     );
   }
 }
+
+
+
 
 //Message Showing Success and not success
 
