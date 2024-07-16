@@ -28,7 +28,6 @@ getUserData() async {
 class _AdminState extends State<Admin> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getUserData();
   }
@@ -51,9 +50,7 @@ class _AdminState extends State<Admin> {
                 )
               ],
             ),
-            SizedBox(
-              width: 10,
-            ),
+            SizedBox(width: 10),
             Column(
               children: [
                 InkWell(
@@ -79,7 +76,8 @@ class _AdminState extends State<Admin> {
       ),
       endDrawer: Drawer(
         backgroundColor: colors.backgroundColor,
-        child:DesignedDrawer(),),
+        child: DesignedDrawer(),
+      ),
       body: AdminScreen(),
     );
   }
@@ -95,7 +93,8 @@ class AdminScreen extends StatefulWidget {
 
 String userName = '';
 String userEmail = '';
-String userType='';
+String userType = '';
+
 class _AdminScreenState extends State<AdminScreen> {
   List adminList = [
     'ټــــــول مکتوبونه',
@@ -106,29 +105,12 @@ class _AdminScreenState extends State<AdminScreen> {
     'د پوهنتونونو اډمینان'
   ];
   List<Icon> adminIcons = const [
-    Icon(
-      Icons.storage_outlined,
-      size: 50,
-    ),
-    Icon(
-      Icons.call_made_outlined,
-      size: 50,
-    ),
-    Icon(
-      Icons.done_all_outlined,
-      size: 50,
-    ),
-    Icon(
-      Icons.school_outlined,
-      size: 50,
-    ),
-    Icon(
-      Icons.settings_outlined,
-      size: 50,
-    ),Icon(
-      Icons.person_add_outlined,
-      size: 50,
-    ),
+    Icon(Icons.storage_outlined, size: 50),
+    Icon(Icons.call_made_outlined, size: 50),
+    Icon(Icons.done_all_outlined, size: 50),
+    Icon(Icons.school_outlined, size: 50),
+    Icon(Icons.settings_outlined, size: 50),
+    Icon(Icons.person_add_outlined, size: 50),
   ];
 
   @override
@@ -140,128 +122,162 @@ class _AdminScreenState extends State<AdminScreen> {
       future: getUserData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Icon(Icons.error_outline_outlined);
+          return Center(child: Icon(Icons.error_outline_outlined));
         } else if (snapshot.hasData) {
           Map data = snapshot.data as Map;
           userName = data['name'];
           userEmail = data['email'];
-          userType=data['role'];
+          userType = data['role'];
           return Container(
-              width: width,
-              height: height,
-              decoration: BoxDecoration(color: colors.backgroundColor),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Row(
-                      children: [
-                        Column(
-                          children: [
-                            CircleAvatar(
-                              backgroundImage: NetworkImage(ministryImage),
-                              radius: 80,
+            width: width,
+            height: height,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [colors.backgroundColor, colors.textFieldColor],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(ministryImage),
+                            radius: 80,
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            userName,
+                            style: TextStyle(
+                              color: colors.helperWhiteColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
-                            const SizedBox(
-                              height: 10,
+                          ),
+                          Text(
+                            userEmail,
+                            style: TextStyle(
+                              color: colors.helperWhiteColor,
+                              fontSize: 14,
                             ),
-                            Text(
-                              userName,
-                              style: TextStyle(color: colors.helperWhiteColor),
+                          ),
+                          Text(
+                            userType,
+                            style: TextStyle(
+                              color: colors.helperWhiteColor,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 3 / 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                      ),
+                      itemCount: adminList.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            index == 0
+                                ? Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Maktob(index: 0);
+                                },
+                              ),
                             )
-                          ],
-                        ),
-                      ],
+                                : index == 1
+                                ? Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => Maktob(index: 1),
+                              ),
+                            )
+                                : index == 2
+                                ? Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => SignedPetitions(),
+                              ),
+                            )
+                                : index == 3
+                                ? Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Universities()))
+                                : index == 5
+                                ? Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => AddUser(),
+                              ),
+                            )
+                                : Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Setting(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: colors.buttonColor.withOpacity(0.3),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: Offset(3, 3),
+                                )
+                              ],
+                              color: colors.textFieldColor,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                adminIcons[index],
+                                SizedBox(height: 10),
+                                Text(
+                                  adminList[index],
+                                  style: TextStyle(
+                                    color: colors.helperWhiteColor,
+                                    fontSize: 16,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: adminList.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: const EdgeInsets.only(
-                                left: 5, right: 5, bottom: 20),
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: colors.buttonColor,
-                                      spreadRadius: 0.2,
-                                      offset: const Offset(3, 2))
-                                ],
-                                color: colors.textFieldColor,
-                                borderRadius: BorderRadius.circular(22)),
-                            width: width / 8,
-                            height: height / 4,
-                            child: InkWell(
-                              onTap: () {
-                                index == 0
-                                    ? Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return Maktob(
-                                              index: 0,
-                                            );
-                                          },
-                                        ),
-                                      )
-                                    : index == 1
-                                        ? Navigator.of(context)
-                                            .pushReplacement(MaterialPageRoute(
-                                            builder: (context) =>
-                                                Maktob(index: 1),
-                                          ))
-                                        : index == 2
-                                            ? Navigator.of(context)
-                                                .pushReplacement(
-                                                    MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SignedPetitions(),
-                                              ))
-                                            : index == 3
-                                                ? Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            Universities()))
-                                        :index==5?Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) =>
-                                      AddUser(),),)
-                                    : Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Setting(),
-                                                    ));
-                              },
-                              child: ListTile(
-                                title: Text(
-                                  adminList[index],
-                                  style:
-                                      TextStyle(color: colors.helperWhiteColor),
-                                ),
-                                subtitle: adminIcons[index],
-                                iconColor: Colors.grey.shade400,
-                              ),
-                            ),
-                          );
-                        }),
-                  ),
-                ],
-              ));
+                ),
+              ],
+            ),
+          );
         } else {
-          return Text('ډیټا لوډ نشول ډیټابیس کنیکشن چک کړۍ');
+          return Center(child: Text('ډیټا لوډ نشول ډیټابیس کنیکشن چک کړۍ'));
         }
       },
     );
   }
 }
-
