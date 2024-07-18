@@ -36,41 +36,55 @@ class _AdminState extends State<Admin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: colors.textFieldColor,
-        foregroundColor: colors.helperWhiteColor,
+        backgroundColor: Color.fromARGB(255, 15,31, 253),
+        foregroundColor: Colors.white,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
+                Text('د اسنادو د مدیریت عصری کول',textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold
+                ),
+                ),
+            Row(
               children: [
-                InkWell(child: Icon(Icons.notifications_none_outlined)),
-                Text(
-                  'خبرداری',
-                  style: TextStyle(fontSize: 10),
-                )
+                Column(
+
+                  children: [
+                    InkWell(child: Icon(Icons.notifications_none_outlined)),
+                    Text(
+                      'خبرداری',
+                      style: TextStyle(fontSize: 10),
+                    )
+
+                  ],
+                ),
+                SizedBox(width: 10),
+                Column(
+                  children: [
+                    InkWell(
+                        onTap: () {
+                          setState(() {
+                            AuthData().deleteShared();
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Login(),
+                                ));
+                          });
+                        },
+                        child: Icon(Icons.logout_outlined)),
+                    Text(
+                      'وتل',
+                      style: TextStyle(fontSize: 10),
+                    )
+                  ],
+                ),
+
               ],
             ),
-            SizedBox(width: 10),
-            Column(
-              children: [
-                InkWell(
-                    onTap: () {
-                      setState(() {
-                        AuthData().deleteShared();
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Login(),
-                            ));
-                      });
-                    },
-                    child: Icon(Icons.logout_outlined)),
-                Text(
-                  'وتل',
-                  style: TextStyle(fontSize: 10),
-                )
-              ],
-            )
+
           ],
         ),
       ),
@@ -135,9 +149,11 @@ class _AdminScreenState extends State<AdminScreen> {
             height: height,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [colors.backgroundColor, colors.textFieldColor],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+                colors: [Color.fromARGB(255, 223, 217, 215),
+                Color.fromARGB(252, 215, 246, 239)
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
             ),
             child: Column(
@@ -145,58 +161,38 @@ class _AdminScreenState extends State<AdminScreen> {
               children: [
                 Expanded(
                   flex: 2,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(ministryImage),
-                            radius: 80,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(ministryImage),
+                          radius: 100,
+                        ),
+                       const SizedBox(height: 10),
+                        Text('د سید جمالدین افغاني پوهنتون',
+                          style: TextStyle(
+                            color: Color.fromRGBO(0, 0,
+                                0, 0.933),
+                            fontSize: 34,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'CustomFont',
                           ),
-                          SizedBox(height: 10),
-                          Text(
-                            userName,
-                            style: TextStyle(
-                              color: colors.helperWhiteColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            userEmail,
-                            style: TextStyle(
-                              color: colors.helperWhiteColor,
-                              fontSize: 14,
-                            ),
-                          ),
-                          Text(
-                            userType,
-                            style: TextStyle(
-                              color: colors.helperWhiteColor,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+              const  SizedBox(height: 10,),
                 Expanded(
-                  flex: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 3 / 2,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                      ),
-                      itemCount: adminList.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
+                  flex: 1,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                    itemCount: adminList.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 22),
+                        child: GestureDetector(
                           onTap: () {
                             index == 0
                                 ? Navigator.pushReplacement(
@@ -238,37 +234,41 @@ class _AdminScreenState extends State<AdminScreen> {
                             );
                           },
                           child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                               boxShadow: [
                                 BoxShadow(
-                                  color: colors.buttonColor.withOpacity(0.3),
+                                  color: Colors.black26,
                                   spreadRadius: 1,
                                   blurRadius: 5,
                                   offset: Offset(3, 3),
                                 )
                               ],
-                              color: colors.textFieldColor,
+                              color: Color.fromARGB(255,
+                                  48, 145, 235),
                               borderRadius: BorderRadius.circular(20),
                             ),
+                            width: width/6,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 adminIcons[index],
-                                SizedBox(height: 10),
+                              const  SizedBox(height: 10),
                                 Text(
                                   adminList[index],
                                   style: TextStyle(
-                                    color: colors.helperWhiteColor,
-                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
                               ],
                             ),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],

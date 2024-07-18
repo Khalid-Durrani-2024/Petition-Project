@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:petition/Screens/Faculty.dart';
 import 'package:petition/models/ApiService.dart';
 import 'package:petition/models/UniversityAdminModel.dart';
-
 import '../Colors/Colors.dart';
 
 class AddUser extends StatelessWidget {
@@ -15,7 +15,9 @@ class AddUser extends StatelessWidget {
         foregroundColor: colors.helperWhiteColor,
         onPressed: () {
           //adding university admin form
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddUserToUniversity(),));
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => AddUserToUniversity(),
+          ));
         },
         label: Text('اډمین اضافه کړۍ'),
       ),
@@ -102,7 +104,6 @@ class _AddUserScreenState extends State<AddUserScreen> {
   }
 }
 
-
 class AddUserToUniversity extends StatefulWidget {
   const AddUserToUniversity({super.key});
 
@@ -132,73 +133,84 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
     super.initState();
     _getUniversities();
   }
+
   @override
   Widget build(BuildContext context) {
-  final width=MediaQuery.of(context).size.width;
-  final height=MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
-  String _selectedId = '';
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  int universityId = 0;
+    String _selectedId = '';
+    TextEditingController nameController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
+    int universityId = 0;
 
-  //method for getting university admin last number
-  _getUniversitiesAdmins() async {
-    List universities = await ApiService().fetchData('users');
-    for (int i = 0; i < universities.length; i++) {
-      _selectedId = universities[i]['id'];
+    //method for getting university admin last number
+    _getUniversitiesAdmins() async {
+      List universities = await ApiService().fetchData('users');
+      for (int i = 0; i < universities.length; i++) {
+        _selectedId = universities[i]['id'];
+      }
+      return _selectedId;
     }
-    return _selectedId;
-  }
 
     return Scaffold(
-
-      appBar: AppBar(
-        foregroundColor: Colors.white,
-        backgroundColor: Color.fromARGB(255, 15, 31, 253),
-        centerTitle: true,
-        title: Text('د اسنادو مدیریت عصری کول'),
-        leading: BackButton(),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          color: Colors.white,
-          width: double.infinity,
-          height: height,
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'د پوهنتون اډمین اضافه کړۍ',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Container(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          foregroundColor: Colors.white,
+          backgroundColor: Color.fromARGB(255, 15, 31, 253),
+          centerTitle: true,
+          title: Text('د اسنادو مدیریت عصری کول'),
+          leading: BackButton(),
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            alignment: Alignment.center,
+            width: double.infinity,
+            height: height,
+            padding: const EdgeInsets.all(20),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.all(30),
                   decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(22),
-                    border: Border.all(color: Colors.blueAccent),
-                  ),
-                  width: width / 1.5,
-                  padding: const EdgeInsets.all(16.0),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(22),
+                      border: Border.all(color: Colors.grey),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          blurRadius: 10,
+                          offset: Offset(0, 5),
+                        )
+                      ]),
+                  width: width * 0.8,
+                  constraints: BoxConstraints(maxWidth: 800),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
+                      const Text(
+                        'مهرباني وکړۍ پوهنتون اډمین اضافه کړۍ',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                       FutureBuilder(
-
                         future: _getUniversitiesAdmins(),
                         builder: (context, snapshot) {
-                          if(snapshot.connectionState==ConnectionState.waiting){
-                            return Center(child: CircularProgressIndicator(),);
-                          }else if(snapshot.hasError){
-                            return Center(child: Icon(Icons.error_outline_outlined),);
-                          }else if(snapshot.hasData){
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Center(
+                              child: Icon(Icons.error_outline_outlined),
+                            );
+                          } else if (snapshot.hasData) {
                             return TextFormField(
                               textDirection: TextDirection.ltr,
                               enabled: false,
@@ -207,21 +219,20 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                               keyboardType: TextInputType.emailAddress,
                               style: const TextStyle(color: Colors.black),
                               decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(22),
-                                ),
+                                border: OutlineInputBorder(),
                                 labelStyle: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w100,
                                 ),
                                 labelText: ' مسلسله شمیره',
-                                prefixIcon: const Icon(Icons.confirmation_number),
+                                prefixIcon: const Icon(Icons.confirmation_number_outlined),
                               ),
                             );
-
-                          }else{
-                            return Center(child: Text('معلومات لوډ نشول'),);
+                          } else {
+                            return Center(
+                              child: Text('معلومات لوډ نشول'),
+                            );
                           }
                         },
                       ),
@@ -238,16 +249,14 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                         keyboardType: TextInputType.emailAddress,
                         style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(22),
-                          ),
+                          border: OutlineInputBorder(),
                           labelStyle: const TextStyle(
                             color: Colors.black,
                             fontSize: 12,
                             fontWeight: FontWeight.w100,
                           ),
                           labelText: 'نوم',
-                          prefixIcon: const Icon(Icons.person),
+                          prefixIcon: const Icon(Icons.person_outline),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -263,16 +272,14 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                         keyboardType: TextInputType.emailAddress,
                         style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(22),
-                          ),
+                          border: OutlineInputBorder(),
                           labelStyle: const TextStyle(
                             color: Colors.black,
                             fontSize: 12,
                             fontWeight: FontWeight.w100,
                           ),
                           labelText: 'ایمیل',
-                          prefixIcon: const Icon(Icons.email),
+                          prefixIcon: const Icon(Icons.email_outlined),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -289,23 +296,22 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                         keyboardType: TextInputType.emailAddress,
                         style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(22),
-                          ),
+                          border: OutlineInputBorder(),
                           labelStyle: const TextStyle(
                             color: Colors.black,
                             fontSize: 12,
                             fontWeight: FontWeight.w100,
                           ),
                           labelText: 'پټ نوم',
-                          prefixIcon: const Icon(Icons.lock),
+                          prefixIcon: const Icon(Icons.lock_outline),
                         ),
                       ),
                       const SizedBox(height: 20),
                       FutureBuilder(
                         future: _getUniversitiesAdmins(),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
                             return CircularProgressIndicator();
                           } else if (snapshot.hasError) {
                             return Center(
@@ -315,10 +321,10 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                             print(snapshot.data);
                             return DropdownButtonFormField<String>(
                               decoration: InputDecoration(
-                                  labelText: ' پوهنتون',
-                                  prefixIcon: const Icon(Icons.school_outlined),
-                                  border: OutlineInputBorder(),
-                                 ),
+                                labelText: ' پوهنتون',
+                                prefixIcon: const Icon(Icons.school_outlined),
+                                border: OutlineInputBorder(),
+                              ),
                               hint: Text('انتخاب کړۍ'),
                               validator: (value) {
                                 if (value!.isEmpty ||
@@ -350,62 +356,74 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                       ),
                       const SizedBox(height: 20),
                       InkWell(
-                        onTap: () async{
+                        onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             final model = UniversityAdminModel(
                                 name: nameController.text,
                                 email: emailController.text,
                                 password: passwordController.text,
                                 university_id: universityId,
-                                created_at: DateTime.now().toString().substring(0, 10),
+                                created_at:
+                                    DateTime.now().toString().substring(0, 10),
                                 role: 'university');
-
-                            int response=await  ApiService().sendUAdmin(model, 'users');
-                            if(response==201){
+                
+                            int response =
+                                await ApiService().sendUAdmin(model, 'users');
+                            if (response == 201) {
                               Navigator.pop(context);
                               showMessage(true, context);
-                            }else {
+                            } else {
                               showMessage(false, context);
                             }
                           }
-
                         },
                         child: Container(
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(22),
-                            color: Colors.blue,
-                          ),
-                          width: 400,
-                          height: 50,
+                              borderRadius: BorderRadius.circular(22),
+                              color: hoverChange
+                                  ? Colors.blue.shade700
+                                  : Colors.blue,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  blurRadius: 10,
+                                  offset: Offset(0, 5),
+                                )
+                              ]),
+                          width: width * 0.2,
+                          height: height * 0.07,
                           child: const Text(
                             'ثبت کړۍ',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                              fontSize: 14,
                             ),
                           ),
                         ),
                       ),
-                     SizedBox(height: 30,),
-                     TextButton(onPressed: (){Navigator.pop(context);}, child: Text('بهر شۍ',style: TextStyle(fontSize: 14),)),
-
+                      SizedBox(
+                        height: 15,
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            'بهر شۍ',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.blue),
+                          )),
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      )
-
-    );
+        ));
   }
 }
-
-
-
 
 //Message Showing Success and not success
 

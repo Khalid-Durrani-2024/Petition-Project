@@ -108,8 +108,10 @@ class _FacultyScreenState extends State<FacultyScreen> {
                         padding: EdgeInsets.all(30),
                         //Faculty ID Field
                         decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(22),
                           color: Colors.white,
-                          border: Border.all(color: Colors.grey),
+                          border: Border.all(
+                              color: Colors.grey),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.2),
