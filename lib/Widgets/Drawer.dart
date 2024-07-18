@@ -22,403 +22,117 @@ class DesignedDrawer extends StatefulWidget {
 class _DesignedDrawerState extends State<DesignedDrawer> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          //for the user section
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            color: colors.textFieldColor,
-            alignment: Alignment.topRight,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Center(
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(ministryImage),
-                    radius: 40,
-                  ),
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Color.fromARGB(220, 32, 42, 239),
+            ),
+            child: Center(
+              child: Text(
+                'د اسنادو مدیریت عصری کول',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w800,
+                  fontFamily: 'CustomFont',
                 ),
-                Text(
-                  userName,
-                  style:
-                  TextStyle(fontSize: 24, color: colors.helperWhiteColor),
-                ),
-                Text(
-                  userEmail,
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
-                ),
-              ],
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
-          //For the Middle Section
-          Divider(),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: Column(
-              children: [
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.home_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'کور پاڼه',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Admin(),
-                        ));
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.book_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'ټول مکتوبونه',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              Maktob(
-                                index: 0,
-                              ),
-                        ));
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.edit_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'نوی مکتوب ولیږۍ',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Maktob(index: 0),
-                        ));
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.forward_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'لیږل شوي مکتوبونه',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Maktob(index: 1),
-                        ));
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.done_all_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'امضاء شوي مکتوبونه',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => SignedPetitions(),));
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.school_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'پوهنتونونه',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Universities(),
-                        ));
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.backup_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'بیک اپ',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () async {
-                    try {
-                      int res = await ApiService().takeBackup('backup');
-                      if (res == 200) {
-                        Navigator.pop(context);
-                        showDialog(context: context, builder: (context) {
-                          return AlertDialog(
-                            content: Text('بیک اپ له سیستم څخه واخستل شو'),
-                            title: Icon(Icons.done, color: Colors.green,),
-                            actions: [IconButton(onPressed: () {
-                              Navigator.pop(context);
-                            }, icon: Icon(Icons.close, color: Colors.red))
-                            ],);
-                        },);
-                      } else {
-                        Navigator.pop(context);
-                        showDialog(context: context, builder: (context) {
-                          return AlertDialog(
-                            content: Text('مشکل رامنځته شو'),
-                            title: Icon(
-                              Icons.error_outline, color: Colors.red,),
-                            actions: [IconButton(onPressed: () {
-                              Navigator.pop(context);
-                            }, icon: Icon(Icons.close, color: Colors.red))
-                            ],);
-                        },);
-                      }
-                    }
-                    catch(e){
-                      Navigator.pop(context);
-                      showDialog(context: context, builder: (context) {
-                        return AlertDialog(
-                          content: Text('مشکل رامنځته شو'),
-                          title: Icon(
-                            Icons.error_outline, color: Colors.red,),
-                          actions: [IconButton(onPressed: () {
-                            Navigator.pop(context);
-                          }, icon: Icon(Icons.close, color: Colors.red))
-                          ],);
-                      },);
-                    }
-                  }
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.settings_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'سیټینګ',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.of(
-                        context).push(
-                        MaterialPageRoute(
-                          builder: (context) => Setting(),
-                        ));
-                  },
-                ),
-
-              ],
-            ),
-          ),
-          Divider(),
-          //For the End Section
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: Column(
-              children: [
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.info_outline,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'معلومات',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    showAboutDialog(context: context
-
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.exit_to_app_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'وتل',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    setState(() {
-                      AuthData().deleteShared();
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Login(),
-                          ));
-                    });
-                  },
-                ),
-              ],
-            ),
-          )
+          _createDrawerItem(
+              context, Icons.home_outlined, 'کور پاڼه', () => _navigateTo(context, Admin())),
+          _createDrawerItem(
+              context, Icons.book_outlined, 'ټول مکتوبونه', () => _navigateTo(context, Maktob(index: 0))),
+          _createDrawerItem(
+              context, Icons.edit_outlined, 'نوی مکتوب ولیږۍ', () => _navigateTo(context, Maktob(index: 0))),
+          _createDrawerItem(
+              context, Icons.forward_outlined, 'لیږل شوي مکتوبونه', () => _navigateTo(context, Maktob(index: 1))),
+          _createDrawerItem(
+              context, Icons.done_all_outlined, 'امضاء شوي مکتوبونه', () => _navigateTo(context, SignedPetitions())),
+          _createDrawerItem(
+              context, Icons.school_outlined, 'پوهنتونونه', () => _navigateTo(context, Universities())),
+          _createDrawerItem(
+              context, Icons.backup_outlined, 'بیک اپ', () => _backup(context)),
+          _createDrawerItem(
+              context, Icons.settings_outlined, 'سیټینګ', () => _navigateTo(context, Setting())),
+          _createDrawerItem(
+              context, Icons.info_outline, 'معلومات', () => _showAbout(context)),
+          _createDrawerItem(
+              context, Icons.exit_to_app_outlined, 'وتل', () => _logout(context)),
         ],
       ),
+    );
+  }
+
+  Widget _createDrawerItem(BuildContext context, IconData icon, String text, Function() onTap) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(text),
+      onTap: onTap,
+    );
+  }
+
+  void _navigateTo(BuildContext context, Widget destination) {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => destination,
+        ));
+  }
+
+  void _showAbout(BuildContext context) {
+    showAboutDialog(context: context);
+  }
+
+  void _logout(BuildContext context) {
+    AuthData().deleteShared();
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Login(),
+        ));
+  }
+
+  void _backup(BuildContext context) async {
+    try {
+      int res = await ApiService().takeBackup('backup');
+      if (res == 200) {
+        _showDialog(context, 'بیک اپ له سیستم څخه واخستل شو', Icons.done, Colors.green);
+      } else {
+        _showDialog(context, 'مشکل رامنځته شو', Icons.error_outline, Colors.red);
+      }
+    } catch (e) {
+      _showDialog(context, 'مشکل رامنځته شو', Icons.error_outline, Colors.red);
+    }
+  }
+
+  void _showDialog(BuildContext context, String message, IconData icon, Color iconColor) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text(message),
+          title: Icon(icon, color: iconColor),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.close, color: Colors.red),
+            )
+          ],
+        );
+      },
     );
   }
 }
 
 //Drawer Designed For Univeristy
+
 class DrawerForUniversity extends StatefulWidget {
   const DrawerForUniversity({super.key});
 
@@ -429,198 +143,70 @@ class DrawerForUniversity extends StatefulWidget {
 class _DrawerForUniversityState extends State<DrawerForUniversity> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          //for the user section
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            color: colors.textFieldColor,
-            alignment: Alignment.topRight,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Center(
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(ministryImage),
-                    radius: 40,
-                  ),
-                ),
-                Text(
-                  userName,
-                  style:
-                  TextStyle(fontSize: 24, color: colors.helperWhiteColor),
-                ),
-                Text(
-                  userEmail,
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
-                ),
-              ],
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Color.fromARGB(220, 32, 42, 239),
             ),
-          ),
-          //For the Middle Section
-          Divider(),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: Column(
-              children: [
-
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.book_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'ټول مکتوبونه',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(
-                      builder: (context) => Maktob(index: 0),));
-                  },
+            child: Center(
+              child: Text(
+                'د اسنادو مدیریت عصری کول',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w800,
+                  fontFamily: 'CustomFont',
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.school_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'پوهنځی اضافه کړۍ',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => Faculty(),));
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.settings_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'سیټینګ',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Setting(),));
-                  },
-                ),
-              ],
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           Divider(),
-          //For the End Section
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: Column(
-              children: [
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.info_outline,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'معلومات',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    showAboutDialog(context: context);
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.exit_to_app_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'وتل',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    setState(() {
-                      AuthData().deleteShared();
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Login(),
-                          ));
-                    });
-                  },
-                ),
-              ],
-            ),
-          )
+          _createDrawerItem(
+              context, Icons.book_outlined, 'ټول مکتوبونه', () => _navigateTo(context, Maktob(index: 10))),
+          _createDrawerItem(
+              context, Icons.school_outlined, 'پوهنځی اضافه کړۍ', () => _navigateTo(context, Faculty())),
+          _createDrawerItem(
+              context, Icons.settings_outlined, 'سیټینګ', () => _navigateTo(context, Setting())),
+          Divider(),
+          _createDrawerItem(
+              context, Icons.info_outline, 'معلومات', () => _showAbout(context)),
+          _createDrawerItem(
+              context, Icons.exit_to_app_outlined, 'وتل', () => _logout(context)),
         ],
       ),
     );
+  }
+
+  Widget _createDrawerItem(BuildContext context, IconData icon, String text, Function() onTap) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(text),
+      onTap: onTap,
+    );
+  }
+
+  void _navigateTo(BuildContext context, Widget destination) {
+    Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => destination,
+        ));
+  }
+
+  void _showAbout(BuildContext context) {
+    showAboutDialog(context: context);
+  }
+
+  void _logout(BuildContext context) {
+    AuthData().deleteShared();
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Login(),
+        ));
   }
 }
 
@@ -635,171 +221,69 @@ class DrawerForFaculty extends StatefulWidget {
 class _DrawerForFacultyState extends State<DrawerForFaculty> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          //for the user section
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            color: colors.textFieldColor,
-            alignment: Alignment.topRight,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Center(
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(ministryImage),
-                    radius: 40,
-                  ),
-                ),
-                Text(
-                  userName,
-                  style:
-                  TextStyle(fontSize: 24, color: colors.helperWhiteColor),
-                ),
-                Text(
-                  userEmail,
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
-                ),
-              ],
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Color.fromARGB(220, 32, 42, 239),
             ),
-          ),
-          //For the Middle Section
-          Divider(),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 10,
+            child: Center(
+              child: Text(
+                'د اسنادو مدیریت عصری کول',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w800,
+                  fontFamily: 'CustomFont',
                 ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.book_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'پوهنتون ته راغلي مکتوبونه',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(
-                      builder: (context) => Maktob(index: 10),));
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.settings_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'سیټینګ',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Setting(),),);
-                  },
-                ),
-              ],
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           Divider(),
-          //For the End Section
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: Column(
-              children: [
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.info_outline,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'معلومات',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    showAboutDialog(context: context);
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.exit_to_app_outlined,
-                        size: 30,
-                        color: colors.helperWhiteColor,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'وتل',
-                        style: TextStyle(
-                            fontSize: 18, color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    setState(() {
-                      AuthData().deleteShared();
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Login(),
-                          ));
-                    });
-                  },
-                ),
-              ],
-            ),
-          )
+          _createDrawerItem(
+              context, Icons.book_outlined, 'پوهنتون ته راغلي مکتوبونه', () => _navigateTo(context, Maktob(index: 10))),
+          _createDrawerItem(
+              context, Icons.settings_outlined, 'سیټینګ', () => _navigateTo(context, Setting())),
+          Divider(),
+          _createDrawerItem(
+              context, Icons.info_outline, 'معلومات', () => _showAbout(context)),
+          _createDrawerItem(
+              context, Icons.exit_to_app_outlined, 'وتل', () => _logout(context)),
         ],
       ),
     );
+  }
+
+
+  Widget _createDrawerItem(BuildContext context, IconData icon, String text, Function() onTap) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(text),
+      onTap: onTap,
+    );
+  }
+
+  void _navigateTo(BuildContext context, Widget destination) {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => destination,
+        ));
+  }
+
+  void _showAbout(BuildContext context) {
+    showAboutDialog(context: context);
+  }
+
+  void _logout(BuildContext context) {
+    AuthData().deleteShared();
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Login(),
+        ));
   }
 }

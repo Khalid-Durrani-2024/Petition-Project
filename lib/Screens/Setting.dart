@@ -4,16 +4,21 @@ import '../Authentication/AuthData.dart';
 import '../Colors/Colors.dart';
 import '../Widgets/Drawer.dart';
 import 'Admin.dart';
+
 class Setting extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-endDrawer: Drawer(
-    backgroundColor: colors.backgroundColor,
-    child: userType=='admin'? DesignedDrawer(): userType=='university'?DrawerForUniversity():userType=='Faculty'? DrawerForFaculty():Drawer(),
-),
+      endDrawer: Drawer(
+        backgroundColor: colors.backgroundColor,
+        child: userType == 'admin'
+            ? DesignedDrawer()
+            : userType == 'university'
+            ? DrawerForUniversity()
+            : userType == 'Faculty'
+            ? DrawerForFaculty()
+            : Drawer(),
+      ),
       appBar: AppBar(
         centerTitle: true,
         foregroundColor: colors.helperWhiteColor,
@@ -21,14 +26,9 @@ endDrawer: Drawer(
         title: Text('سیټینګ'),
       ),
       body: SettingsScreen(),
-
     );
   }
 }
-
-
-
-
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -40,7 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   getUserData() async {
     try {
-     return userData = await AuthData().getSharedData();
+      return userData = await AuthData().getSharedData();
     } catch (e) {
       print('Error retrieving user data: ${e.toString()}');
     }
@@ -54,25 +54,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
-
       backgroundColor: colors.backgroundColor,
-
       body: FutureBuilder(
         future: getUserData(),
         builder: (context, snapshot) {
-          if(snapshot.connectionState==ConnectionState.waiting){
-            return Center(child: CircularProgressIndicator(),);
-          }else if(snapshot.hasError){
-            return Center(child: Icon(Icons.error_outline_outlined),);
-          }else if(snapshot.hasData){
-            return    SingleChildScrollView(
-
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Icon(Icons.error_outline_outlined));
+          } else if (snapshot.hasData) {
+            return SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
                   _buildUserCard(),
                   SizedBox(height: 20),
                   _buildSettingsSection('تنظیم اکونټ', [
@@ -116,7 +115,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onTap: () {
                         // Navigate to language settings screen
                       },
-
                     ),
                   ]),
                   SizedBox(height: 20),
@@ -132,14 +130,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         );
                       });
                     },
-
                     titleColor: Colors.white,
                   ),
                 ],
               ),
             );
-
-        }else {
+          } else {
             return Text('معلومات پیدا نشول');
           }
         },
@@ -149,8 +145,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildUserCard() {
     return Card(
-color: colors.textFieldColor,
-
+      color: colors.textFieldColor,
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
@@ -158,23 +153,28 @@ color: colors.textFieldColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
                   userData['name'],
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: colors.helperWhiteColor),
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: colors.helperWhiteColor),
                 ),
                 SizedBox(height: 5),
-                Text(userData['email'] ?? 'معلومات لاوډ نه شول',style: TextStyle(color: colors.helperWhiteColor),),
+                Text(
+                  userData['email'] ?? 'معلومات لاوډ نه شول',
+                  style: TextStyle(color: colors.helperWhiteColor),
+                ),
               ],
-            ),SizedBox(width: 20,),
-            CircleAvatar(
-                radius: 30,
-                child: Icon(Icons.verified_user_outlined)
             ),
-
+            SizedBox(width: 20),
+            CircleAvatar(
+              radius: 30,
+              child: Icon(Icons.verified_user_outlined),
+            ),
           ],
         ),
       ),
@@ -182,14 +182,15 @@ color: colors.textFieldColor,
   }
 
   Widget _buildSettingsSection(String title, List<Widget> tiles) {
-
     return Column(
-
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
           title,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: colors.helperWhiteColor),
+          style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: colors.helperWhiteColor),
         ),
         SizedBox(height: 10),
         ...tiles,
@@ -202,18 +203,21 @@ color: colors.textFieldColor,
     required String title,
     String? subtitle,
     required VoidCallback onTap,
-
     Color titleColor = Colors.white,
   }) {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ListTile(
-
         trailing: Icon(icon, color: colors.helperWhiteColor),
-        title: Text(title, style: TextStyle(color: titleColor),textAlign: TextAlign.end),
-        subtitle: subtitle != null ? Text(subtitle,style: TextStyle(color: colors.helperWhiteColor),textAlign: TextAlign.end,) : null,
-
+        title: Text(title, style: TextStyle(color: titleColor), textAlign: TextAlign.end),
+        subtitle: subtitle != null
+            ? Text(
+          subtitle,
+          style: TextStyle(color: colors.helperWhiteColor),
+          textAlign: TextAlign.end,
+        )
+            : null,
         onTap: onTap,
         tileColor: colors.textFieldColor,
       ),

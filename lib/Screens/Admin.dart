@@ -170,7 +170,7 @@ class _AdminScreenState extends State<AdminScreen> {
                           radius: 100,
                         ),
                        const SizedBox(height: 10),
-                        Text('د سید جمالدین افغاني پوهنتون',
+                        Text('د لوړو زده کړو وزارت',
                           style: TextStyle(
                             color: Color.fromRGBO(0, 0,
                                 0, 0.933),
