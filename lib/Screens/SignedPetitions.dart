@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Widgets/Drawer.dart';
+import '../Widgets/Drawer.dart';
 import '../models/ApiService.dart';
-import '../Colors/Colors.dart';
+
 
 
 class SignedPetitions extends StatelessWidget {
@@ -11,13 +11,18 @@ class SignedPetitions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
-        title: Text('امضاء شوي مکتوبونه'),
+        foregroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 15, 31, 253),
         centerTitle: true,
-        backgroundColor: colors.textFieldColor,
-        foregroundColor: colors.helperWhiteColor,
+        title: Text('د اسنادو مدیریت عصری کول'),
+
       ),
-      body: Signed(),
+      backgroundColor:
+      Color.fromARGB(255, 246, 246, 246),
+      body: Container(
+          color: Colors.white38,
+          child: Signed()),
+
   endDrawer: Drawer(
 
     child: DesignedDrawer(),
@@ -70,9 +75,7 @@ class _SignedState extends State<Signed> {
     final height = MediaQuery.of(context).size.height;
 
     return Container(
-      color: colors.backgroundColor,
-      width: width,
-      height: height,
+      padding: EdgeInsets.all(20),
       child: FutureBuilder(
         future: getSignedPetition,
         builder: (context, snapshot) {
@@ -82,36 +85,69 @@ class _SignedState extends State<Signed> {
             return Center(child: Icon(Icons.error_outline_outlined,color: Colors.red,),);
           }else if(snapshot.hasData){
 
-                return     GridView.builder(
-                  physics: BouncingScrollPhysics(),
-                  padding: const EdgeInsets.all(30),
-                  itemCount: snapshot.data.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: width > 500 ? 4 : 1),
-                  itemBuilder: (context, index) {
+                return    Scrollbar(
+                  child: GridView.builder(
+                    physics: BouncingScrollPhysics(),
+                    itemCount: snapshot.data.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: width > 300 ? 3 : 1,
+                    crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 1.5
+                    ),
 
-                    return InkWell(
-                      onTap: () {
-                        _resend(context, snapshot.data[index]);
-                      },
-                      child: Card(
-                        child: ListTile(
-                          textColor: colors.helperWhiteColor,
-                          tileColor: colors.textFieldColor,
-                          title: Text(
-                            snapshot.data[index]['date'],
-                            textAlign: TextAlign.right,
-                            style: TextStyle(fontSize: 20),
+                    itemBuilder: (context, index) {
+                  
+                      return InkWell(
+                        onTap: () {
+                          _resend(context, snapshot.data[index]);
+                        },
+                        child: Card(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                          subtitle: Text(
-                            snapshot.data[index]['description'],
-                            textAlign: TextAlign.right,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Color.fromARGB(
+                                  255, 167, 229, 255), // Adjust to your light color theme
+                            ),
+                            padding: EdgeInsets.all(15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                            Text(
+                            snapshot.data[index]['date'],
+                              textAlign: TextAlign.right,
+                              style:TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color:
+                                Colors.black, // Adjust to your light color theme
+                              ),
+
+                            ),
+                                SizedBox(height: 10,),
+                                Text(
+                                  snapshot.data[index]['description'],
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color:
+                                    Colors.black, // Adjust to your light color theme
+                                  ),
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 );
 
         }else {
@@ -129,34 +165,84 @@ _resend(BuildContext context, Map data) {
   showDialog(
     context: context,
     builder: (context) {
-      return AlertDialog(
-        backgroundColor: colors.backgroundColor,
-        title: Text(
-          data['title'],
-          style: TextStyle(color: colors.helperWhiteColor),
-          textAlign: TextAlign.center,
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0)
         ),
-        content: Text(
-          data['description'],
-          style: TextStyle(color: colors.helperWhiteColor),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-        ),
-        actions: [
-          ElevatedButton(
+
+          backgroundColor: Color.fromARGB(
+              255, 233, 242, 243),
+      child:  Container(
+        width: 600,
+        height: 500,
+        padding: EdgeInsets.all(20.0),
+        child: Scrollbar(child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text('غواړۍ مکتوب بیرته ولیږۍ وزارت ته',style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+              ),
+              textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20.0,),
+              Text(
+                data['description'],
+                style: TextStyle(
+                  color: Colors.black, // Adjust text color
+                  fontSize: 16.0,
+                ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20,),
+          ElevatedButton.icon(
             style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(colors.buttonColor),
+              backgroundColor:
+              MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.disabled)) {
+                    return Colors.blue.withOpacity(0.5);
+                  }
+                  return Colors.blue; // Adjust button color
+                },
+              ),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
             onPressed: () {
-              print('Resend Ptitioon button');
+              print('Resend Petition button');
               Navigator.pop(context);
             },
-            child: Icon(
-              Icons.done,
-              color: colors.helperWhiteColor,
+            icon: Icon(Icons.done,
+                color: Colors.white,
+                size: 30), // Adjust icon color and size
+            label: Text(
+              'تصدیق کړئ',
+              style: TextStyle(
+                color: Colors.white,
+                // Adjust text color
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
-        ],
+
+            ],
+          ),
+        ),
+
+        ),
+      )
+
+
       );
     },
 

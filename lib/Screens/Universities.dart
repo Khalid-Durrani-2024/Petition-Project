@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:petition/Screens/AddUniversities.dart';
-import 'package:petition/Screens/AddUser.dart';
-import 'package:petition/Screens/UpdateUniversities.dart';
-import 'package:petition/Widgets/Drawer.dart';
-import 'package:petition/models/ApiService.dart';
+import '../Screens/AddUniversities.dart';
+import '../Screens/AddUser.dart';
+import '../Screens/UpdateUniversities.dart';
+import '../Widgets/Drawer.dart';
+import '../models/ApiService.dart';
 
 import '../Colors/Colors.dart';
 
@@ -20,21 +20,25 @@ class _UniversitiesState extends State<Universities> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         leading: InkWell(
-            onTap: () {
-              setState(() {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Universities(),
-                    ));
-              });
-            },
-            child: Icon(Icons.refresh_outlined)),
+          onTap: () {
+            setState(() {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Universities(),
+                ),
+              );
+            });
+          },
+          child: Icon(Icons.refresh_outlined),
+        ),
         centerTitle: true,
-        foregroundColor: colors.helperWhiteColor,
-        backgroundColor: colors.textFieldColor,
-        title: Text('پوهنتونونه'),
+        foregroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 15, 31, 253),
+
+        title: Text('د اسنادو د مدیریت عصری کول'),
       ),
       endDrawer: Drawer(
         child: DesignedDrawer(),
@@ -45,7 +49,7 @@ class _UniversitiesState extends State<Universities> {
   }
 }
 
-//actual screen
+// Actual screen
 class UniversitiesScreen extends StatefulWidget {
   @override
   State<UniversitiesScreen> createState() => _UniversitiesScreenState();
@@ -60,7 +64,6 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _future = _getUniversities();
   }
@@ -73,6 +76,7 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
       width: double.infinity,
       height: double.infinity,
       color: colors.backgroundColor,
+      padding: EdgeInsets.all(20),
       child: FutureBuilder(
         future: _future,
         builder: (context, snapshot) {
@@ -88,43 +92,65 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
               ),
             );
           } else if (snapshot.hasData) {
-            return GridView.builder(
-              physics: BouncingScrollPhysics(),
-              padding: const EdgeInsets.all(30),
-              itemCount: snapshot.data.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: currentWidth > 500 ? 4 : 1),
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    UpdateUniversity(context, snapshot.data[index]);
-                  },
-                  child: Card(
-                    child: ListTile(
-                      textColor: colors.helperWhiteColor,
-                      tileColor: colors.textFieldColor,
-                      title: Text(
-                        snapshot.data[index]['name'],
-                        textAlign: TextAlign.right,
+            return Scrollbar(
+              child: GridView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: snapshot.data.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: currentWidth > 300 ? 3 : 1,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 1.5,
+                ),
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      UpdateUniversity(context, snapshot.data[index]);
+                    },
+                    child: Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          AspectRatio(
-                            aspectRatio: 16 / 9,
-                            child: Icon(
-                              Icons.school_outlined,
-                              color: colors.helperWhiteColor,
-                              size: 150,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Color.fromARGB(
+                              255, 167, 229, 255), // Adjust to your light color theme
+                        ),
+                        padding: EdgeInsets.all(15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              snapshot.data[index]['name'],
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color:
+                                Colors.black, // Adjust to your light color theme
+                              ),
                             ),
-                          ),
-                        ],
+                            SizedBox(height: 10),
+                            Expanded(
+                              child: AspectRatio(
+                                aspectRatio: 16 / 9,
+                                child: Icon(
+                                  Icons.school_outlined,
+                                  color: colors.helperWhiteColor,
+                                  size: 50,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             );
           } else {
             return Center(
@@ -137,7 +163,8 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
   }
 }
 
-//Speed Dial On adding University and User to a Specific University
+
+// Speed Dial On adding University and User to a Specific University
 class _SpeedDial extends StatefulWidget {
   const _SpeedDial({super.key});
 
@@ -149,32 +176,40 @@ class _SpeedDialState extends State<_SpeedDial> {
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
-        foregroundColor: colors.helperWhiteColor,
-        backgroundColor: colors.buttonColor,
-        overlayColor: colors.hoverColor,
-        overlayOpacity: 0.5,
-        spaceBetweenChildren: 10,
-        animatedIcon: AnimatedIcons.menu_close,
-        children: [
-          SpeedDialChild(
-            child: Icon(Icons.school_outlined),
-            label: 'پوهنتون اضافه کړۍ',
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder:
-              (context) => AddUniversity(),),);
-            },
-            backgroundColor: colors.buttonColor,
-            foregroundColor: colors.helperWhiteColor,
-          ),
-          SpeedDialChild(
-            label: 'پوهنتون اډمین اضافه کړۍ',
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddUser(),),);
-            },
-            backgroundColor: colors.buttonColor,
-            foregroundColor: colors.helperWhiteColor,
-            child: Icon(Icons.account_circle_outlined),
-          ),
-        ]);
+      foregroundColor: colors.helperWhiteColor,
+      backgroundColor: colors.buttonColor,
+      overlayColor: colors.hoverColor,
+      overlayOpacity: 0.5,
+      spaceBetweenChildren: 10,
+      animatedIcon: AnimatedIcons.menu_close,
+      children: [
+        SpeedDialChild(
+          child: Icon(Icons.school_outlined),
+          label: 'پوهنتون اضافه کړۍ',
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => AddUniversity(),
+              ),
+            );
+          },
+          backgroundColor: colors.buttonColor,
+          foregroundColor: colors.helperWhiteColor,
+        ),
+        SpeedDialChild(
+          label: 'پوهنتون اډمین اضافه کړۍ',
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => AddUser(),
+              ),
+            );
+          },
+          backgroundColor: colors.buttonColor,
+          foregroundColor: colors.helperWhiteColor,
+          child: Icon(Icons.account_circle_outlined),
+        ),
+      ],
+    );
   }
 }
