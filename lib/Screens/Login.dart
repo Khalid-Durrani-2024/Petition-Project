@@ -11,7 +11,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colors.backgroundColor,
+      backgroundColor: Colors.blue,
       body: LoginForm(),
     );
   }
@@ -168,9 +168,9 @@ class _LoginFormState extends State<LoginForm> {
                               filled: true,
                               labelStyle: TextStyle(
 
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: 12,
-                                  fontWeight: FontWeight.w100),
+                                  fontWeight: FontWeight.bold),
                               label: Text('ایمیل'),
                               alignLabelWithHint: true
                           ),

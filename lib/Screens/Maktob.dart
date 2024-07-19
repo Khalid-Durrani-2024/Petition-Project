@@ -30,9 +30,10 @@ class _MaktobState extends State<Maktob> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          foregroundColor: colors.helperWhiteColor,
-          backgroundColor: colors.textFieldColor,
-          title: Text('مکتوبونه'),
+          foregroundColor: Colors.white,
+          backgroundColor: Color.fromARGB(255, 15, 31, 253),
+
+          title: Text('د اسنادو مدیریت عصری کول'),
           centerTitle: true,
         ),
         endDrawer: FutureBuilder(
@@ -80,8 +81,8 @@ class __SpeedDialState extends State<_SpeedDial> {
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
-        foregroundColor: colors.helperWhiteColor,
-        backgroundColor: colors.buttonColor,
+        foregroundColor: Colors.white,
+        backgroundColor:Colors.red,
         overlayColor: colors.hoverColor,
         overlayOpacity: 0.5,
         direction: SpeedDialDirection.left,
@@ -92,7 +93,7 @@ class __SpeedDialState extends State<_SpeedDial> {
             onTap: () {
               Write(context);
             },
-            backgroundColor: colors.buttonColor,
+            backgroundColor: Colors.black,
             foregroundColor: colors.helperWhiteColor,
             child: Icon(Icons.create_outlined),
           ),
@@ -100,7 +101,7 @@ class __SpeedDialState extends State<_SpeedDial> {
             onTap: () {
               Upload(context);
             },
-            backgroundColor: colors.buttonColor,
+            backgroundColor:Colors.black,
             foregroundColor: colors.helperWhiteColor,
             child: Icon(Icons.cloud_upload_outlined),
           ),
@@ -227,8 +228,8 @@ print(receiver);
           } else if (snapshot.hasData) {
             return Container(
               padding: const EdgeInsets.only(top: 50),
-              decoration: BoxDecoration(color: colors.backgroundColor),
-              width: width,
+                color: Color.fromARGB(255, 230, 220, 220),
+          width: width,
               height: height,
               child: ListView.builder(
                 itemCount: snapshot.data!.length,
@@ -240,8 +241,10 @@ print(receiver);
                     },
                     child: Card(
                       margin:
-                      const EdgeInsets.only(left: 30, right: 30, bottom: 10),
-                      color: colors.textFieldColor,
+                      const EdgeInsets.only(
+                          left: 30, right: 30, bottom: 10),
+                      color: Color.fromARGB(255, 41, 135, 230),
+
                       child: ListTile(
                         title: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -267,7 +270,8 @@ print(receiver);
                         trailing: Container(
                           padding: const EdgeInsets.only(top: 10),
                           decoration: BoxDecoration(
-                              color: colors.buttonColor, shape: BoxShape.circle),
+                              color: Color.fromARGB(255, 33, 7, 181),
+                              shape: BoxShape.circle),
                           width: width / 15,
                           height: height / 15,
                           child: Text(
@@ -301,10 +305,10 @@ Sheet(BuildContext context, int no, List snapshot) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        backgroundColor: colors.backgroundColor,
+        backgroundColor: Color.fromARGB(255, 249, 230, 230),
         content: Container(
-          width: double.infinity,
-          height: double.infinity,
+          width: double.maxFinite,
+          height: double.maxFinite,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -317,31 +321,33 @@ Sheet(BuildContext context, int no, List snapshot) {
                         },
                         icon: Icon(
                           Icons.arrow_back_ios_new,
-                          color: colors.helperWhiteColor,
+                          color: Colors.blue,
                         ))
                   ],
                 ),
                 Text(
                   "نمبر مکتوب: " + snapshot[no]['id'],
                   style:
-                      TextStyle(color: colors.helperWhiteColor, fontSize: 20),
+                      TextStyle(color: Colors.black, fontSize: 20),
                 ),
                 Text(
                   "تاریخ: " + snapshot[no]['date'],
                   style:
-                      TextStyle(color: colors.helperWhiteColor, fontSize: 20),
+                      TextStyle(color: Colors.black,
+                          fontSize: 20),
                 ),
                 Text(
                   snapshot[no]['sender'] + " :لیږوونکی",
                   style:
-                      TextStyle(color: colors.helperWhiteColor, fontSize: 20),
+                      TextStyle(color: Colors.black, fontSize: 20),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
                   snapshot[no]['description'],
-                  style: TextStyle(color: colors.helperWhiteColor),
+                  style: TextStyle(color:
+                  Colors.black),
                 ),
                 Divider(),
                 SizedBox(
@@ -371,7 +377,7 @@ Sheet(BuildContext context, int no, List snapshot) {
                   },
                   icon: Icon(
                     Icons.create_outlined,
-                    color: colors.helperWhiteColor,
+                    color: Colors.blue,
                   ),
                 )),
               ],
@@ -394,33 +400,53 @@ Write(BuildContext context) {
 
   final _formKey = GlobalKey<FormState>();
 
-  return showModalBottomSheet(
+   showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (index) {
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
-              color: colors.backgroundColor,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(22),
-                topRight: Radius.circular(22),
-              )),
-          width: MediaQuery.of(context).size.width / 2,
-          height: MediaQuery.of(context).size.height / 2,
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(22),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 10.0,
+              offset: Offset(0,10),
+            )
+          ]
+          ),
+
+          width: MediaQuery.of(context).size.width *0.8,
+
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  Center(
+                    child: Text('د مکتوب فورم',style: TextStyle(
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                  SizedBox(height: 20,),
                   Row(
                     //Drop Down List
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Expanded(
                         child: DropdownButtonFormField(
-                          dropdownColor: colors.buttonColor,
-                          alignment: Alignment.centerRight,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            )
+                          ),
                           items: [
                             DropdownMenuItem(
                               child: Text(
@@ -435,27 +461,54 @@ Write(BuildContext context) {
                           },
                         ),
                       ),
+                      SizedBox(width: 10,),
                       Text(
                         'د مکتوب نوعه انتخاب کړۍ',
                         style: TextStyle(color: colors.helperWhiteColor),
                       ),
                     ],
                   ),
+                  SizedBox(height: 10,),
                   Row(
                     //DateTime
-
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      showDate(),
+                      Expanded(child: TextFormField(
+                        controller: dateController,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          labelText: 'تاریخ انتخاب کړۍ',
+                        ),
+                        onTap: () async {
+                          FocusScope.of(context)
+                              .requestFocus(new FocusNode());
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2101),
+                          );
+                          if (pickedDate != null) {
+                            dateController.text =
+                            "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+                          }
+                        },
+                      ),
+                      ),
+                          SizedBox(width: 10,),
                       Text(
                         'تاریخ',
-                        style: TextStyle(color: colors.helperWhiteColor),
+                        style: TextStyle(color: Colors.black),
                       ),
                     ],
                   ),
+                  SizedBox(height: 10,),
                   //title
                   Row(
-                    mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Expanded(
@@ -463,13 +516,13 @@ Write(BuildContext context) {
                           maxLines: 1,
                           textAlign: TextAlign.right,
                           decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.symmetric(horizontal: 10),
-                            label: Text('د مکتوب عنوان'),
-                            labelStyle: TextStyle(
-                                color: colors.helperWhiteColor, fontSize: 12),
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            labelText: 'د مکتوب عنوان',
                           ),
-                          style: TextStyle(color: colors.helperWhiteColor),
                           controller: titleController,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -478,27 +531,29 @@ Write(BuildContext context) {
                           },
                         ),
                       ),
+                      SizedBox(width: 10,),
                       Text(
                         'عنوان',
-                        style: TextStyle(color: colors.helperWhiteColor),
+                        style: TextStyle(color: Colors.black),
                       ),
                     ],
                   ),
+                  SizedBox(height: 10,),
                   //Description
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Expanded(
                         child: TextFormField(
-                          style: TextStyle(color: colors.helperWhiteColor),
                           maxLines: 5,
                           textAlign: TextAlign.right,
                           decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.symmetric(horizontal: 10),
-                            label: Text('د مکتوب تشریح'),
-                            labelStyle: TextStyle(
-                                color: colors.helperWhiteColor, fontSize: 12),
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0)
+                            ),
+                            labelText: 'د مکتوب تشریح',
                           ),
                           controller: descriptionController,
                           validator: (value) {
@@ -508,9 +563,10 @@ Write(BuildContext context) {
                           },
                         ),
                       ),
+                      SizedBox(width: 10,),
                       Text(
                         'ډیسکریبشن',
-                        style: TextStyle(color: colors.helperWhiteColor),
+                        style: TextStyle(color: Colors.black),
                       )
                     ],
                   ),
@@ -518,84 +574,90 @@ Write(BuildContext context) {
                   SizedBox(
                     height: 20,
                   ),
+               
                   Row(
                     //Drop Down List Reciever
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      FutureBuilder(
-                        future: _getUniversities,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            return Center(
-                              child: Icon(Icons.error_outline_outlined),
-                            );
-                          } else {
-                            print(snapshot.data);
-                            return Container(
-                              width: MediaQuery.of(context).size.width / 4,
-                              child: DropdownButtonFormField<String>(
-                                borderRadius: BorderRadius.circular(22),
-                                decoration: InputDecoration(
-                                    label: Text(' پوهنتون'),
-                                    labelStyle: TextStyle(
-                                        color: colors.helperWhiteColor),
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(22)),
-                                    fillColor: colors.textFieldColor,
-                                    filled: true),
-                                dropdownColor: colors.backgroundColor,
-                                isExpanded: true,
-                                hint: Text('انتخاب کړۍ'),
-                                validator: (value) {
-                                  if (value!.isEmpty ||
-                                      value == '' ||
-                                      value == universitiesInFaculty.first) {
-                                    return 'د پوهنتون نوم انتخاب کړۍ';
-                                  }
-                                },
-                                value: _selectedUniversity,
-                                items: universitiesInFaculty.map((String e) {
-                                  return DropdownMenuItem<String>(
-                                    value: e,
-                                    child: Text(
-                                      e,
-                                      style: TextStyle(
-                                        color: colors.helperWhiteColor,
+                      Expanded(
+                        child: FutureBuilder(
+                          future: _getUniversities,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                child: Icon(Icons.error_outline_outlined,color: Colors.red,),
+                              );
+                            } else if(snapshot.hasData){
+                              print(snapshot.data);
+                              return Row(
+                                children: [
+                                  Expanded(
+                                    child: DropdownButtonFormField<String>(
+                                        borderRadius: BorderRadius.circular(22),
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.grey[200],
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (cha) {
-                                  _selectedUniversity = cha!;
-                                },
-                              ),
-                            );
-                          }
-                        },
+                                        dropdownColor: Colors.blue,
+                                        isExpanded: true,
+                                        hint: Text('انتخاب کړۍ'),
+                                        validator: (value) {
+                                          if (value!.isEmpty ||
+                                              value == '' ||
+                                              value == universitiesInFaculty.first) {
+                                            return 'د پوهنتون نوم انتخاب کړۍ';
+                                          }
+                                        },
+                                        value: _selectedUniversity,
+                                        items: universitiesInFaculty.map((String e) {
+                                          return DropdownMenuItem<String>(
+                                            value: e,
+                                            child: Text(
+                                              e,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        onChanged: (cha) {
+                                          _selectedUniversity = cha!;
+                                        },
+                                      ),
+                                  ),
+                                  Text(
+                                    'د مکتوب ترلاسه کوونکی اداره',
+                                    style: TextStyle(
+                                        color: Colors.black),
+                                  ),
+                                ],
+                              );
+                            }else{
+                              return Center(child:Text('معلومات لوډ نشول'),);
+                            }
+                          },
+                        ),
                       ),
-                      Text(
-                        'د مکتوب ترلاسه کوونکی اداره',
-                        style: TextStyle(color: colors.helperWhiteColor),
-                      ),
+
                     ],
                   ),
                   SizedBox(
-                    height: 50,
+                    height: 30,
                   ),
                   Center(
-                    child: FloatingActionButton.extended(
-                      backgroundColor: colors.buttonColor,
-                      foregroundColor: colors.helperWhiteColor,
+                    child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           try {
                             final petition = Petition(
                                 type: type,
-                                date: dateTime.toString().substring(0, 10),
+                                date: dateController.text.toString(),
                                 title: titleController.text.toString(),
                                 sender: User['name'],
                                 description:
@@ -625,7 +687,19 @@ Write(BuildContext context) {
                           }
                         }
                       },
-                      label: Text('مکتوب ولیګۍ'),
+                      child: Text('مکتوب ولیګۍ'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 66, 23, 255),
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 30,
+                          vertical: 15,
+                        ),
+                        textStyle: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -633,43 +707,12 @@ Write(BuildContext context) {
             ),
           ),
         );
-      });
+      },
+   );
 }
 
-//show DatePickerDialog
-class showDate extends StatefulWidget {
-  const showDate({super.key});
 
-  @override
-  State<showDate> createState() => _showDateState();
-}
-
-var dateTime = DateTime.now();
-
-class _showDateState extends State<showDate> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: TextButton(
-        onPressed: () {
-          showDatePicker(
-                  context: context,
-                  firstDate: DateTime(2024),
-                  lastDate: DateTime(2030))
-              .then((value) {
-            setState(() {
-              dateTime = value!;
-            });
-          });
-        },
-        child: Text(
-          dateTime.toString().substring(0, 10),
-          style: TextStyle(color: colors.helperWhiteColor),
-        ),
-      ),
-    );
-  }
-}
+var dateController =TextEditingController();
 
 //Prompt to get file from user
 
@@ -684,162 +727,178 @@ Upload(BuildContext context) {
   ];
   String _selectedUniversity = universitiesInFaculty.first;
 
-  return showModalBottomSheet(
+   showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (index) {
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          decoration: BoxDecoration(
-              color: colors.backgroundColor,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(22),
-                topRight: Radius.circular(22),
-              )),
-          width: MediaQuery.of(context).size.width / 2,
-          height: MediaQuery.of(context).size.height / 2,
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //File Uploading
+        return Center(
+          child: Container(
+            padding: const EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10.0,
+                  offset: Offset(0, 10),
+                ),
+              ],
+            ),
+            width: MediaQuery.of(context).size.width * 0.8,
 
-                  InkWell(
-                    onTap: () async {
-                      await _OpenFile();
-                    },
-                    child: FutureBuilder(
-                      future: _OpenFile(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                              child: CircularProgressIndicator.adaptive());
-                        } else if (_fileProperty.length < 2) {
-                          return Center(
-                            child:
-                                Stack(alignment: Alignment.center, children: [
-                              Icon(
-                                Icons.stop_circle_outlined,
-                                color: Colors.red,
-                                size: MediaQuery.of(context).size.width / 5,
-                              ),
-                              Text(
-                                'لطفاً مکتوب انتخاب کړۍ',
-                                style:
-                                    TextStyle(color: colors.helperWhiteColor),
-                              )
-                            ]),
-                          );
-                        } else {
-                          return Container(
-                            alignment: Alignment.center,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                _fileTypeShowOnScreen(
-                                    _fileProperty[2], context),
-                                Column(
-                                  children: [
-                                    Text(
-                                      _fileProperty[0].toString(),
-                                      style: TextStyle(
-                                          color: colors.helperWhiteColor,
-                                          fontSize: 28),
-                                    ),
-                                    Text(
-                                      '${_fileProperty[1]} KB',
-                                      style: TextStyle(
-                                          color: colors.helperWhiteColor,
-                                          fontSize: 28),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          );
-                        }
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    //File Uploading
+
+                    InkWell(
+                      onTap: () async {
+                        await _OpenFile();
                       },
-                    ),
-                  ),
-
-                  //Reciever
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: DropdownButtonFormField<String>(
-                          borderRadius: BorderRadius.circular(22),
-                          decoration: InputDecoration(
-                              label: Text(' پوهنتون'),
-                              labelStyle:
-                                  TextStyle(color: colors.helperWhiteColor),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(22)),
-                              fillColor: colors.textFieldColor,
-                              filled: true),
-                          dropdownColor: colors.backgroundColor,
-                          isExpanded: true,
-                          hint: Text('انتخاب کړۍ'),
-                          validator: (value) {
-                            if (value!.isEmpty ||
-                                value == '' ||
-                                value == universitiesInFaculty.first) {
-                              return 'د پوهنتون انتخاب کړۍ';
-                            }
-                          },
-                          value: _selectedUniversity,
-                          items: universitiesInFaculty.map((String e) {
-                            return DropdownMenuItem<String>(
-                              value: e,
-                              child: Text(
-                                e,
-                                style: TextStyle(
-                                  color: colors.helperWhiteColor,
+                      child: FutureBuilder(
+                        future: _OpenFile(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                                child: CircularProgressIndicator.adaptive());
+                          } else if (_fileProperty.length < 2) {
+                            return Center(
+                              child:
+                                  Stack(alignment: Alignment.center, children: [
+                                Icon(
+                                  Icons.stop_circle_outlined,
+                                  color: Colors.red,
+                                  size: MediaQuery.of(context).size.width / 5,
                                 ),
+                                Text(
+                                  'لطفاً مکتوب انتخاب کړۍ',
+                                  style:
+                                      TextStyle(color: colors.helperWhiteColor),
+                                )
+                              ]),
+                            );
+                          } else {
+                            return Container(
+                              alignment: Alignment.center,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  _fileTypeShowOnScreen(
+                                      _fileProperty[2], context),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        _fileProperty[0].toString(),
+                                        style: TextStyle(
+                                            color: colors.helperWhiteColor,
+                                            fontSize: 28),
+                                      ),
+                                      Text(
+                                        '${_fileProperty[1]} KB',
+                                        style: TextStyle(
+                                            color: colors.helperWhiteColor,
+                                            fontSize: 28),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             );
-                          }).toList(),
-                          onChanged: (cha) {
-                            _selectedUniversity = cha!;
-                          },
-                        ),
+                          }
+                        },
                       ),
-                      Text(
-                        '  :ترلاسه کوونکی اداره',
-                        style: TextStyle(color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Center(
-                    child: FloatingActionButton.extended(
-                      backgroundColor: colors.buttonColor,
-                      foregroundColor: colors.helperWhiteColor,
-                      onPressed: () {
-                        if (_formKey.currentState!.validate() &&
-                            _fileProperty.length > 1) {
-                          print('Form is Valid');
-                        }
-                      },
-                      label: Text('مکتوب ولیګۍ'),
                     ),
-                  ),
-                ],
+
+                    //Reciever
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: DropdownButtonFormField<String>(
+                            borderRadius: BorderRadius.circular(22),
+                            decoration: InputDecoration(
+                              label: Text(' پوهنتون'),
+                              labelStyle: TextStyle(color: Colors.black),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(22),
+                              ),
+                              fillColor: Colors.white,
+                              filled: true,
+                            ),
+                            dropdownColor: Colors.blue,
+                            isExpanded: true,
+                            hint: Text('انتخاب کړۍ'),
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  value == '' ||
+                                  value == universitiesInFaculty.first) {
+                                return 'د پوهنتون انتخاب کړۍ';
+                              }
+                            },
+                            value: _selectedUniversity,
+                            items: universitiesInFaculty.map((String e) {
+                              return DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(
+                                  e,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (cha) {
+                              _selectedUniversity = cha!;
+                            },
+                          ),
+                        ),
+                        Text(
+                          '  :ترلاسه کوونکی اداره',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Center(
+                      child: FloatingActionButton.extended(
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                        onPressed: () {
+                          if (_formKey.currentState!.validate() &&
+                              _fileProperty.length > 1) {
+                            print('Form is Valid');
+                          }
+                        },
+                        label: Text('مکتوب ولیګۍ'),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         );
       });
 }
+
+
+
+
+
+
+
 
 //Opening File Function
 List _fileProperty = [];

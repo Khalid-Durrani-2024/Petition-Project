@@ -3,6 +3,7 @@ import 'package:petition/Authentication/AuthData.dart';
 import 'package:petition/Screens/AddUser.dart';
 import 'package:petition/Screens/Login.dart';
 import 'package:petition/Screens/Maktob.dart';
+import 'package:petition/Screens/ProfileScreen.dart';
 import 'package:petition/Screens/Setting.dart';
 import 'package:petition/Screens/SignedPetitions.dart';
 import 'package:petition/Screens/Universities.dart';
@@ -77,6 +78,27 @@ class _AdminState extends State<Admin> {
                         child: Icon(Icons.logout_outlined)),
                     Text(
                       'وتل',
+                      style: TextStyle(fontSize: 10),
+                    )
+                  ],
+                ),
+                SizedBox(width: 10,),
+                Column(
+                  children: [
+                    InkWell(
+                        onTap: () {
+                          setState(() {
+
+                            Navigator.of(
+                                context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ProfileScreen(),
+                                ));
+                          });
+                        },
+                        child: Icon(Icons.account_circle_outlined)),
+                    Text(
+                      'پروفایل',
                       style: TextStyle(fontSize: 10),
                     )
                   ],
