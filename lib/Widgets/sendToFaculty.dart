@@ -1,6 +1,5 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
+import 'package:petition/Widgets/Message.dart';
 import 'package:petition/models/sendToFacultyModel.dart';
 import '../Screens/Maktob.dart';
 import '../models/ApiService.dart';
@@ -10,14 +9,13 @@ List actFaculty = [];
 List<String> actFacultyName = ['...'];
 
 getFaculties() async {
-  Faculties=[];
-  actFaculty=[];
-  actFacultyName=['...'];
+  Faculties = [];
+  actFaculty = [];
+  actFacultyName = ['...'];
   Faculties = await ApiService().fetchData('faculty');
   Faculties.forEach((element) {
     if (element['university_id'] == User['id']) {
       actFaculty.add(element);
-
     }
   });
   actFaculty.forEach((element) {
@@ -26,9 +24,10 @@ getFaculties() async {
   return Faculties;
 }
 
-senddToFaculty(BuildContext context,Map snapshot) {
+senddToFaculty(BuildContext context, Map snapshot) {
   String? _selectedFaculty = actFacultyName.first;
-  TextEditingController CommentController=TextEditingController();
+  late String _facultyNo;
+  TextEditingController CommentController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   showModalBottomSheet(
     context: context,
@@ -123,6 +122,11 @@ senddToFaculty(BuildContext context,Map snapshot) {
                                     }).toList(),
                                     onChanged: (cha) {
                                       _selectedFaculty = cha;
+                                      actFaculty.forEach((element) {
+                                        if (element['name'] == cha) {
+                                          _facultyNo = element['id'];
+                                        }
+                                      });
                                     },
                                   ),
                                 ),
@@ -184,19 +188,26 @@ senddToFaculty(BuildContext context,Map snapshot) {
                 ),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         try {
-                       final sendfacultymodel=SendToFacultyModel(petition_id: snapshot['id'],faculty_id: actFaculty[0]['id'],comment: CommentController.text);
-                            print(sendfacultymodel.petition_id);
-                            print(sendfacultymodel.faculty_id);
-                            print(sendfacultymodel.comment);
-                       // ApiService().sendToFaculty(
-                          //     sendfacultymodel, 'received_to_faculty');
-                        }catch(e){
+                          final sendfacultymodel = SendToFacultyModel(
+                              petition_id: snapshot['id'],
+                              faculty_id: _facultyNo,
+                              comment: CommentController.text);
+
+                          var res = await ApiService().sendToFaculty(
+                              sendfacultymodel, 'received_to_faculties');
+                          Navigator.pop(context);
+
+                          if(res==201){
+                            Message(true, context, 'پوهنځی ته ولیږل شو');
+                          }else{
+                            Message(false,context,'ستونزه ده');
+                          }
+                        } catch (e) {
                           print('erro occured during sending to faculty${e}');
                         }
-
                       }
                       ;
                     },
