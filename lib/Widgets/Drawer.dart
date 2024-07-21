@@ -244,7 +244,7 @@ class _DrawerForFacultyState extends State<DrawerForFaculty> {
           ),
           Divider(),
           _createDrawerItem(
-              context, Icons.book_outlined, 'پوهنتون ته راغلي مکتوبونه', () => _navigateTo(context, Maktob(index: 10))),
+              context, Icons.book_outlined, 'پوهنځي ته راغلي مکتوبونه', () => _navigateTo(context, Maktob(index: 10))),
           _createDrawerItem(
               context, Icons.settings_outlined, 'سیټینګ', () => _navigateTo(context, Setting())),
           Divider(),

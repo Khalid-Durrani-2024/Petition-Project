@@ -156,11 +156,18 @@ class _maktobScreenState extends State<maktobScreen> {
     } else {
       if (widget.index == 10) {
         print('For Faculty');
-        List data = await ApiService().fetchData('petitions');
+        List data = await ApiService().fetchData('received_to_faculties');
+        List petitionsData=await ApiService().fetchData('petitions');
         List NaturalData = [];
-        data.forEach((element) {
-          if (element['receiver'] == User['university_name']) {
-            NaturalData.add(element);
+        data.forEach((elementUp) {
+          if (elementUp['faculty_id'] == User['id']) {
+            petitionsData.forEach((element) {
+            if(element['id']==elementUp['petition_id']){
+
+              NaturalData.add(element);
+            }
+
+            });
           }
         });
         return NaturalData;
