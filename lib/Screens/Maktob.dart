@@ -11,6 +11,7 @@ import 'package:petition/Screens/Universities.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:petition/Widgets/SignPetition.dart';
 import 'package:petition/Widgets/sendToFaculty.dart';
+import 'package:petition/Widgets/sendToUniversity.dart';
 import 'package:petition/models/ApiService.dart';
 import '../Authentication/AuthData.dart';
 import '../Colors/Colors.dart';
@@ -350,32 +351,16 @@ Sheet(BuildContext context, int no, List snapshot) {
                 SizedBox(
                   height: 20,
                 ),
-                userType != 'admin'
+                userType == 'university'
                     ? Center(
                         child: Column(
                         children: [
                           IconButton(
                             onPressed: () {
-                              if (User['role'] == 'admin') {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('نده امضا‌ء شوی مکتوب'),
-                                  ),
-                                );
-                                Navigator.pop(context);
-                              } else if (User['role'] == 'Faculty') {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        ' پوهنتون یواځی مکتوب جواب کولی شي'),
-                                  ),
-                                );
-                                Navigator.pop(context);
-                              } else {
+
                                 Navigator.pop(context);
                                 SignPetition(context, snapshot[no], User);
-                              }
-                            },
+                              },
                             icon: Icon(
                               Icons.create_outlined,
                               color: Colors.blue,
@@ -388,8 +373,15 @@ Sheet(BuildContext context, int no, List snapshot) {
                             child: Text('پوهنځی ته ولیږۍ'),
                           ),
                         ],
-                      ))
-                    : Container(),
+                      )):
+                    userType=='Faculty'? Center(
+                        child: TextButton(
+                          onPressed: () {
+                            senddToUniversity(context,snapshot[no]);
+                          },
+                          child: Text('پوهنتون ته ولیږۍ'),
+                        ))
+                :Container(),
               ],
             ),
           ),

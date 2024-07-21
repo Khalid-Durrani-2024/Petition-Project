@@ -23,10 +23,9 @@ class SignedPetitions extends StatelessWidget {
           color: Colors.white38,
           child: Signed()),
 
-  endDrawer: Drawer(
-
-    child: DesignedDrawer(),
-  ),
+      endDrawer: Drawer(
+        child: DesignedDrawer(),
+      ),
     );
   }
 }
@@ -181,7 +180,7 @@ _resend(BuildContext context, Map data) {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('غواړۍ مکتوب بیرته ولیږۍ وزارت ته',style: TextStyle(
+              Text('مکتوب ځواب شوی',style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 22,
@@ -225,7 +224,7 @@ _resend(BuildContext context, Map data) {
                 color: Colors.white,
                 size: 30), // Adjust icon color and size
             label: Text(
-              'تصدیق کړئ',
+              'اوکی',
               style: TextStyle(
                 color: Colors.white,
                 // Adjust text color

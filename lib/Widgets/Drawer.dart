@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petition/Screens/Faculty.dart';
 import 'package:petition/Screens/Maktob.dart';
 import 'package:petition/Screens/Setting.dart';
+import 'package:petition/Screens/SignedFromUniversity.dart';
 import 'package:petition/Screens/SignedPetitions.dart';
 import 'package:petition/Screens/Universities.dart';
 import 'package:petition/models/ApiService.dart';
@@ -166,7 +167,10 @@ class _DrawerForUniversityState extends State<DrawerForUniversity> {
           ),
           Divider(),
           _createDrawerItem(
-              context, Icons.book_outlined, 'ټول مکتوبونه', () => _navigateTo(context, Maktob(index: 10))),
+              context, Icons.book_outlined, 'ټول مکتوبونه', () => _navigateTo(context, Maktob(index: 9))),
+          _createDrawerItem(
+              context, Icons.check_box_outlined, 'امضاء شوي مکتوبونه', () => _navigateTo(context, SignedFromUniversity())),
+
           _createDrawerItem(
               context, Icons.school_outlined, 'پوهنځی اضافه کړۍ', () => _navigateTo(context, Faculty())),
           _createDrawerItem(

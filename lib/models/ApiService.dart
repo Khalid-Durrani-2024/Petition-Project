@@ -1,11 +1,11 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:petition/models/Faculty.dart';
 import 'package:petition/models/Petition.dart';
 import 'package:petition/models/SignPetitionModel.dart';
 import 'package:petition/models/UniversityAdminModel.dart';
 import 'package:petition/models/UniversityModel.dart';
+import 'package:petition/models/sendFromFacultyModel.dart';
 import 'package:petition/models/sendToFacultyModel.dart';
 
 
@@ -189,6 +189,32 @@ Future sendToFaculty(SendToFacultyModel sendfacultymodel,String tableName)async{
     throw Exception('Faild to send petition to faculty in Database'+response.statusCode.toString());
   }
 }
+ //Sending maktob from faculty to university back
+  Future sendFromFaculty(SendFromFacultyModel sendFromfacultymodel,String tableName)async{
+
+    final String baseUrl = await 'http://localhost/petition/api/$tableName.php';
+
+    final response = await http.post(
+      Uri.parse(baseUrl),
+      body: jsonEncode(sendFromfacultymodel.toJson()),
+    );
+
+
+    if (response.statusCode ==  201)
+    {
+      print('Petition Sended to sendFromFaculty Successfully in database');
+      return response.statusCode;
+    }else if(response.statusCode==400){
+
+      print('Error Data is Incomplete');
+    }
+
+    else {
+      throw Exception('Faild to send petition to faculty in Database'+response.statusCode.toString());
+    }
+  }
+
+
   Future sendUniversity(UniversityModel university, String tableName) async {
 
     final String baseUrl = await 'http://localhost/petition/api/$tableName.php';
