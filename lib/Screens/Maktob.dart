@@ -10,6 +10,7 @@ import 'package:petition/Screens/SignedPetitions.dart';
 import 'package:petition/Screens/Universities.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:petition/Widgets/SignPetition.dart';
+import 'package:petition/Widgets/sendToFaculty.dart';
 import 'package:petition/models/ApiService.dart';
 import '../Authentication/AuthData.dart';
 import '../Colors/Colors.dart';
@@ -32,40 +33,42 @@ class _MaktobState extends State<Maktob> {
         appBar: AppBar(
           foregroundColor: Colors.white,
           backgroundColor: Color.fromARGB(255, 15, 31, 253),
-
           title: Text('د اسنادو مدیریت عصری کول'),
           centerTitle: true,
         ),
         endDrawer: FutureBuilder(
           future: AuthData().getSharedData(),
           builder: (context, snapshot) {
-            if(snapshot.connectionState==ConnectionState.waiting){
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return CircularProgressIndicator();
-            }else if(snapshot.hasError){
+            } else if (snapshot.hasError) {
               return Text('معلومات لاوډ نه شول');
-            }
-          else if(snapshot.hasData){
-            return  Drawer(
-              backgroundColor: colors.backgroundColor,
-              child:
-              userType == 'admin'
-                  ? DesignedDrawer()
-                  : userType == 'university'
-                  ? DrawerForUniversity()
-                  : userType == 'Faculty'
-                  ? DrawerForFaculty()
-                  : Container(),
-            );
-
-          }else{
+            } else if (snapshot.hasData) {
+              return Drawer(
+                backgroundColor: colors.backgroundColor,
+                child: userType == 'admin'
+                    ? DesignedDrawer()
+                    : userType == 'university'
+                        ? DrawerForUniversity()
+                        : userType == 'Faculty'
+                            ? DrawerForFaculty()
+                            : Container(),
+              );
+            } else {
               return Container();
             }
           },
-          ),
+        ),
         body: maktobScreen(
           index: widget.index,
         ),
-        floatingActionButton: _SpeedDial());
+        floatingActionButton: userType == 'admin'
+            ? _SpeedDial()
+            : userType == 'university'
+                ? Container()
+                : userType == 'Faculty'
+                    ? Container()
+                    : Icon(Icons.error_outline_outlined));
   }
 }
 
@@ -82,7 +85,7 @@ class __SpeedDialState extends State<_SpeedDial> {
   Widget build(BuildContext context) {
     return SpeedDial(
         foregroundColor: Colors.white,
-        backgroundColor:Colors.red,
+        backgroundColor: Colors.red,
         overlayColor: colors.hoverColor,
         overlayOpacity: 0.5,
         direction: SpeedDialDirection.left,
@@ -101,7 +104,7 @@ class __SpeedDialState extends State<_SpeedDial> {
             onTap: () {
               Upload(context);
             },
-            backgroundColor:Colors.black,
+            backgroundColor: Colors.black,
             foregroundColor: colors.helperWhiteColor,
             child: Icon(Icons.cloud_upload_outlined),
           ),
@@ -139,7 +142,6 @@ class _maktobScreenState extends State<maktobScreen> {
     getUserData();
   }
 
-
   getUserData() async {
     User = await AuthData().getSharedData();
     userName = User['name'];
@@ -152,7 +154,7 @@ class _maktobScreenState extends State<maktobScreen> {
       print('For admin');
       return await ApiService().fetchDataSpecific('petitions', userName);
     } else {
-      if (widget.index==10) {
+      if (widget.index == 10) {
         print('For Faculty');
         List data = await ApiService().fetchData('petitions');
         List NaturalData = [];
@@ -162,30 +164,27 @@ class _maktobScreenState extends State<maktobScreen> {
           }
         });
         return NaturalData;
-      }
-      else if(widget.index==9){
+      } else if (widget.index == 9) {
         print('For University');
         List data = await ApiService().fetchData('petitions');
-        List _universities=await ApiService().fetchData('universities');
-        String receiver='ټول';
+        List _universities = await ApiService().fetchData('universities');
+        String receiver = 'ټول';
         _universities.forEach((element) {
-            if(User['university_id']==element['id']){
-              receiver=element['name'];
-            }
+          if (User['university_id'] == element['id']) {
+            receiver = element['name'];
+          }
         });
 
         List NaturalData = [];
 
-print(receiver);
+        print(receiver);
         data.forEach((element) {
-
           if (element['receiver'] == receiver) {
             NaturalData.add(element);
-
           }
         });
         return NaturalData;
-      }else{
+      } else {
         return await ApiService().fetchData('petitions');
       }
     }
@@ -211,91 +210,87 @@ print(receiver);
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-      return FutureBuilder(
-        future: _futureData,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator.adaptive(),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Icon(
-                Icons.error_outline_outlined,
-                size: 50,
-              ),
-            );
-          } else if (snapshot.hasData) {
-            return Container(
-              padding: const EdgeInsets.only(top: 50),
-                color: Color.fromARGB(255, 230, 220, 220),
-          width: width,
-              height: height,
-              child: ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      //showing maktob from button
-                      Sheet(context, index, snapshot.data);
-                    },
-                    child: Card(
-                      margin:
-                      const EdgeInsets.only(
-                          left: 30, right: 30, bottom: 10),
-                      color: Color.fromARGB(255, 41, 135, 230),
-
-                      child: ListTile(
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              snapshot.data[index]['sender'],
-                              style: TextStyle(
-                                  fontSize: 18, color: colors.helperWhiteColor),
-                            ),
-                            Text(snapshot.data[index]['date'],
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: colors.helperWhiteColor)),
-                          ],
-                        ),
-                        subtitle: Text(
-                          snapshot.data[index]['description'],
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(color: colors.helperWhiteColor),
-                        ),
-                        trailing: Container(
-                          padding: const EdgeInsets.only(top: 10),
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 33, 7, 181),
-                              shape: BoxShape.circle),
-                          width: width / 15,
-                          height: height / 15,
-                          child: Text(
-                            snapshot.data[index]['id'].toString(),
-                            textAlign: TextAlign.center,
+    return FutureBuilder(
+      future: _futureData,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator.adaptive(),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Icon(
+              Icons.error_outline_outlined,
+              size: 50,
+            ),
+          );
+        } else if (snapshot.hasData) {
+          return Container(
+            padding: const EdgeInsets.only(top: 50),
+            color: Color.fromARGB(255, 230, 220, 220),
+            width: width,
+            height: height,
+            child: ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    //showing maktob from button
+                    Sheet(context, index, snapshot.data);
+                  },
+                  child: Card(
+                    margin:
+                        const EdgeInsets.only(left: 30, right: 30, bottom: 10),
+                    color: Color.fromARGB(255, 41, 135, 230),
+                    child: ListTile(
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            snapshot.data[index]['sender'],
                             style: TextStyle(
-                                fontSize: 20, color: colors.helperWhiteColor),
+                                fontSize: 18, color: colors.helperWhiteColor),
                           ),
+                          Text(snapshot.data[index]['date'],
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: colors.helperWhiteColor)),
+                        ],
+                      ),
+                      subtitle: Text(
+                        snapshot.data[index]['description'],
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(color: colors.helperWhiteColor),
+                      ),
+                      trailing: Container(
+                        padding: const EdgeInsets.only(top: 10),
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 33, 7, 181),
+                            shape: BoxShape.circle),
+                        width: width / 15,
+                        height: height / 15,
+                        child: Text(
+                          snapshot.data[index]['id'].toString(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 20, color: colors.helperWhiteColor),
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
-            );
-          } else {
-            return Center(
-              child: Text('معلومات نشته'),
-            );
-          }
-        },
-      );
-
-
+                  ),
+                );
+              },
+            ),
+          );
+        } else {
+          return Center(
+            child: Text('معلومات نشته'),
+          );
+        }
+      },
+    );
   }
 }
 
@@ -327,59 +322,67 @@ Sheet(BuildContext context, int no, List snapshot) {
                 ),
                 Text(
                   "نمبر مکتوب: " + snapshot[no]['id'],
-                  style:
-                      TextStyle(color: Colors.black, fontSize: 20),
+                  style: TextStyle(color: Colors.black, fontSize: 20),
                 ),
                 Text(
                   "تاریخ: " + snapshot[no]['date'],
-                  style:
-                      TextStyle(color: Colors.black,
-                          fontSize: 20),
+                  style: TextStyle(color: Colors.black, fontSize: 20),
                 ),
                 Text(
                   snapshot[no]['sender'] + " :لیږوونکی",
-                  style:
-                      TextStyle(color: Colors.black, fontSize: 20),
+                  style: TextStyle(color: Colors.black, fontSize: 20),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
                   snapshot[no]['description'],
-                  style: TextStyle(color:
-                  Colors.black),
+                  style: TextStyle(color: Colors.black),
                 ),
                 Divider(),
                 SizedBox(
                   height: 20,
                 ),
-                Center(
-                    child: IconButton(
-                  onPressed: () {
-                    if (User['role'] == 'admin') {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('نده امضا‌ء شوی مکتوب'),
-                        ),
-                      );
-                      Navigator.pop(context);
-                    } else if (User['role'] == 'Faculty') {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(' پوهنتون یواځی مکتوب جواب کولی شي'),
-                        ),
-                      );
-                      Navigator.pop(context);
-                    } else {
-                      Navigator.pop(context);
-                      SignPetition(context, snapshot[no], User);
-                    }
-                  },
-                  icon: Icon(
-                    Icons.create_outlined,
-                    color: Colors.blue,
-                  ),
-                )),
+                userType != 'admin'
+                    ? Center(
+                        child: Column(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              if (User['role'] == 'admin') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('نده امضا‌ء شوی مکتوب'),
+                                  ),
+                                );
+                                Navigator.pop(context);
+                              } else if (User['role'] == 'Faculty') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        ' پوهنتون یواځی مکتوب جواب کولی شي'),
+                                  ),
+                                );
+                                Navigator.pop(context);
+                              } else {
+                                Navigator.pop(context);
+                                SignPetition(context, snapshot[no], User);
+                              }
+                            },
+                            icon: Icon(
+                              Icons.create_outlined,
+                              color: Colors.blue,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              senddToFaculty(context,snapshot[no]);
+                            },
+                            child: Text('پوهنځی ته ولیږۍ'),
+                          ),
+                        ],
+                      ))
+                    : Container(),
               ],
             ),
           ),
@@ -400,80 +403,82 @@ Write(BuildContext context) {
 
   final _formKey = GlobalKey<FormState>();
 
-   showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (index) {
-        return Container(
-          padding: const EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(22),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10.0,
-              offset: Offset(0,10),
-            )
-          ]
-          ),
-
-          width: MediaQuery.of(context).size.width *0.8,
-
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Center(
-                    child: Text('د مکتوب فورم',style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold
-                    ),),
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (index) {
+      return Container(
+        padding: const EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(22),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10.0,
+                offset: Offset(0, 10),
+              )
+            ]),
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Center(
+                  child: Text(
+                    'د مکتوب فورم',
+                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 20,),
-                  Row(
-                    //Drop Down List
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: DropdownButtonFormField(
-                          decoration: InputDecoration(
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  //Drop Down List
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: DropdownButtonFormField(
+                        decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.grey[200],
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                            )
-                          ),
-                          items: [
-                            DropdownMenuItem(
-                              child: Text(
-                                'مکتوب',
-                                style:
-                                    TextStyle(color: colors.helperWhiteColor),
-                              ),
+                            )),
+                        items: [
+                          DropdownMenuItem(
+                            child: Text(
+                              'مکتوب',
+                              style: TextStyle(color: colors.helperWhiteColor),
                             ),
-                          ],
-                          onChanged: (value) {
-                            type = value;
-                          },
-                        ),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          type = value;
+                        },
                       ),
-                      SizedBox(width: 10,),
-                      Text(
-                        'د مکتوب نوعه انتخاب کړۍ',
-                        style: TextStyle(color: colors.helperWhiteColor),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10,),
-                  Row(
-                    //DateTime
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Expanded(child: TextFormField(
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'د مکتوب نوعه انتخاب کړۍ',
+                      style: TextStyle(color: colors.helperWhiteColor),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  //DateTime
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: TextFormField(
                         controller: dateController,
                         decoration: InputDecoration(
                           filled: true,
@@ -484,8 +489,7 @@ Write(BuildContext context) {
                           labelText: 'تاریخ انتخاب کړۍ',
                         ),
                         onTap: () async {
-                          FocusScope.of(context)
-                              .requestFocus(new FocusNode());
+                          FocusScope.of(context).requestFocus(new FocusNode());
                           DateTime? pickedDate = await showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),
@@ -494,225 +498,239 @@ Write(BuildContext context) {
                           );
                           if (pickedDate != null) {
                             dateController.text =
-                            "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+                                "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
                           }
                         },
                       ),
-                      ),
-                          SizedBox(width: 10,),
-                      Text(
-                        'تاریخ',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10,),
-                  //title
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          maxLines: 1,
-                          textAlign: TextAlign.right,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey[200],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            labelText: 'د مکتوب عنوان',
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'تاریخ',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                //title
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        maxLines: 1,
+                        textAlign: TextAlign.right,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
-                          controller: titleController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'د مکتوب عنوان ولیکۍ';
-                            }
-                          },
+                          labelText: 'د مکتوب عنوان',
                         ),
+                        controller: titleController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'د مکتوب عنوان ولیکۍ';
+                          }
+                        },
                       ),
-                      SizedBox(width: 10,),
-                      Text(
-                        'عنوان',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10,),
-                  //Description
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          maxLines: 5,
-                          textAlign: TextAlign.right,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey[200],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0)
-                            ),
-                            labelText: 'د مکتوب تشریح',
-                          ),
-                          controller: descriptionController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "د مکتوب تشریح ولیکۍ";
-                            }
-                          },
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'عنوان',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                //Description
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        maxLines: 5,
+                        textAlign: TextAlign.right,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          labelText: 'د مکتوب تشریح',
                         ),
+                        controller: descriptionController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "د مکتوب تشریح ولیکۍ";
+                          }
+                        },
                       ),
-                      SizedBox(width: 10,),
-                      Text(
-                        'ډیسکریبشن',
-                        style: TextStyle(color: Colors.black),
-                      )
-                    ],
-                  ),
-                  //Reciever
-                  SizedBox(
-                    height: 20,
-                  ),
-               
-                  Row(
-                    //Drop Down List Reciever
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: FutureBuilder(
-                          future: _getUniversities,
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return CircularProgressIndicator();
-                            } else if (snapshot.hasError) {
-                              return Center(
-                                child: Icon(Icons.error_outline_outlined,color: Colors.red,),
-                              );
-                            } else if(snapshot.hasData){
-                              print(snapshot.data);
-                              return Row(
-                                children: [
-                                  Expanded(
-                                    child: DropdownButtonFormField<String>(
-                                        borderRadius: BorderRadius.circular(22),
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.grey[200],
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10.0),
-                                        ),
-                                      ),
-                                        dropdownColor: Colors.blue,
-                                        isExpanded: true,
-                                        hint: Text('انتخاب کړۍ'),
-                                        validator: (value) {
-                                          if (value!.isEmpty ||
-                                              value == '' ||
-                                              value == universitiesInFaculty.first) {
-                                            return 'د پوهنتون نوم انتخاب کړۍ';
-                                          }
-                                        },
-                                        value: _selectedUniversity,
-                                        items: universitiesInFaculty.map((String e) {
-                                          return DropdownMenuItem<String>(
-                                            value: e,
-                                            child: Text(
-                                              e,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          );
-                                        }).toList(),
-                                        onChanged: (cha) {
-                                          _selectedUniversity = cha!;
-                                        },
-                                      ),
-                                  ),
-                                  Text(
-                                    'د مکتوب ترلاسه کوونکی اداره',
-                                    style: TextStyle(
-                                        color: Colors.black),
-                                  ),
-                                ],
-                              );
-                            }else{
-                              return Center(child:Text('معلومات لوډ نشول'),);
-                            }
-                          },
-                        ),
-                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'ډیسکریبشن',
+                      style: TextStyle(color: Colors.black),
+                    )
+                  ],
+                ),
+                //Reciever
+                SizedBox(
+                  height: 20,
+                ),
 
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          try {
-                            final petition = Petition(
-                                type: type,
-                                date: dateController.text.toString(),
-                                title: titleController.text.toString(),
-                                sender: User['name'],
-                                description:
-                                    descriptionController.text.toString(),
-                                receiver: _selectedUniversity,
-                                status: 'seen',
-                                tracking: 'tracking');
-                            ApiService()
-                                .sendPetition(petition, 'petitions')
-                                .whenComplete(() {
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('مکتوب ولیږل شو'),
-                                  showCloseIcon: true,
+                Row(
+                  //Drop Down List Reciever
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: FutureBuilder(
+                        future: _getUniversities,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Center(
+                              child: Icon(
+                                Icons.error_outline_outlined,
+                                color: Colors.red,
+                              ),
+                            );
+                          } else if (snapshot.hasData) {
+                            print(snapshot.data);
+                            return Row(
+                              children: [
+                                Expanded(
+                                  child: DropdownButtonFormField<String>(
+                                    borderRadius: BorderRadius.circular(22),
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.grey[200],
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                    ),
+                                    dropdownColor: Colors.blue,
+                                    isExpanded: true,
+                                    hint: Text('انتخاب کړۍ'),
+                                    validator: (value) {
+                                      if (value!.isEmpty ||
+                                          value == '' ||
+                                          value ==
+                                              universitiesInFaculty.first) {
+                                        return 'د پوهنتون نوم انتخاب کړۍ';
+                                      }
+                                    },
+                                    value: _selectedUniversity,
+                                    items:
+                                        universitiesInFaculty.map((String e) {
+                                      return DropdownMenuItem<String>(
+                                        value: e,
+                                        child: Text(
+                                          e,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (cha) {
+                                      _selectedUniversity = cha!;
+                                    },
+                                  ),
                                 ),
-                              );
-                            });
-                          } catch (e) {
-                            print(e.toString());
+                                Text(
+                                  'د مکتوب ترلاسه کوونکی اداره',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return Center(
+                              child: Text('معلومات لوډ نشول'),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        try {
+                          final petition = Petition(
+                              type: type,
+                              date: dateController.text.toString(),
+                              title: titleController.text.toString(),
+                              sender: User['name'],
+                              description:
+                                  descriptionController.text.toString(),
+                              receiver: _selectedUniversity,
+                              status: 'seen',
+                              tracking: 'tracking');
+                          ApiService()
+                              .sendPetition(petition, 'petitions')
+                              .whenComplete(() {
+                            Navigator.pop(context);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('ستونزه ده'),
+                                content: Text('مکتوب ولیږل شو'),
                                 showCloseIcon: true,
                               ),
                             );
-                          }
+                          });
+                        } catch (e) {
+                          print(e.toString());
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('ستونزه ده'),
+                              showCloseIcon: true,
+                            ),
+                          );
                         }
-                      },
-                      child: Text('مکتوب ولیګۍ'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 66, 23, 255),
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 15,
-                        ),
-                        textStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      }
+                    },
+                    child: Text('مکتوب ولیګۍ'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 66, 23, 255),
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 15,
+                      ),
+                      textStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        );
-      },
-   );
+        ),
+      );
+    },
+  );
 }
 
-
-var dateController =TextEditingController();
+var dateController = TextEditingController();
 
 //Prompt to get file from user
 
@@ -727,7 +745,7 @@ Upload(BuildContext context) {
   ];
   String _selectedUniversity = universitiesInFaculty.first;
 
-   showModalBottomSheet(
+  showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -747,7 +765,6 @@ Upload(BuildContext context) {
               ],
             ),
             width: MediaQuery.of(context).size.width * 0.8,
-
             child: SingleChildScrollView(
               child: Form(
                 key: _formKey,
@@ -892,13 +909,6 @@ Upload(BuildContext context) {
         );
       });
 }
-
-
-
-
-
-
-
 
 //Opening File Function
 List _fileProperty = [];

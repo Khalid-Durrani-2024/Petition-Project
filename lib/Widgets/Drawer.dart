@@ -48,7 +48,7 @@ class _DesignedDrawerState extends State<DesignedDrawer> {
           _createDrawerItem(
               context, Icons.book_outlined, 'ټول مکتوبونه', () => _navigateTo(context, Maktob(index: 0))),
           _createDrawerItem(
-              context, Icons.edit_outlined, 'نوی مکتوب ولیږۍ', () => _navigateTo(context, Maktob(index: 0))),
+              context, Icons.edit_outlined, 'نوی مکتوب ولیږۍ', () => _navigateTo(context, Write(context))),
           _createDrawerItem(
               context, Icons.forward_outlined, 'لیږل شوي مکتوبونه', () => _navigateTo(context, Maktob(index: 1))),
           _createDrawerItem(

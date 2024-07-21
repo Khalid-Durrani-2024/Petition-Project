@@ -130,6 +130,7 @@ class AdminScreen extends StatefulWidget {
 String userName = '';
 String userEmail = '';
 String userType = '';
+String userId='n ';
 
 class _AdminScreenState extends State<AdminScreen> {
   List adminList = [

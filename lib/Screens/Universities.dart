@@ -94,7 +94,9 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
           } else if (snapshot.hasData) {
             return Scrollbar(
               child: GridView.builder(
-                physics: BouncingScrollPhysics(),
+                physics: BouncingScrollPhysics(
+
+                ),
                 itemCount: snapshot.data.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: currentWidth > 300 ? 3 : 1,

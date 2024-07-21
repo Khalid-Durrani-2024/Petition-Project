@@ -6,6 +6,7 @@ import 'package:petition/models/Petition.dart';
 import 'package:petition/models/SignPetitionModel.dart';
 import 'package:petition/models/UniversityAdminModel.dart';
 import 'package:petition/models/UniversityModel.dart';
+import 'package:petition/models/sendToFacultyModel.dart';
 
 
 class ApiService {
@@ -165,7 +166,29 @@ class ApiService {
     }
   }
 
+Future sendToFaculty(SendToFacultyModel sendfacultymodel,String tableName)async{
 
+  final String baseUrl = await 'http://localhost/petition/api/$tableName.php';
+
+  final response = await http.post(
+    Uri.parse(baseUrl),
+    body: jsonEncode(sendfacultymodel.toJson()),
+  );
+
+
+  if (response.statusCode ==  201)
+  {
+    print('Petition Sended to faculty Successfully in database');
+    return response.statusCode;
+  }else if(response.statusCode==400){
+
+    print('Error Data is Incomplete');
+  }
+
+  else {
+    throw Exception('Faild to send petition to faculty in Database'+response.statusCode.toString());
+  }
+}
   Future sendUniversity(UniversityModel university, String tableName) async {
 
     final String baseUrl = await 'http://localhost/petition/api/$tableName.php';
