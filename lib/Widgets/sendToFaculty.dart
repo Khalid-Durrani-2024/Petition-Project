@@ -14,7 +14,7 @@ getFaculties() async {
   actFacultyName = ['...'];
   Faculties = await ApiService().fetchData('faculty');
   Faculties.forEach((element) {
-    if (element['university_id'] == User['id']) {
+    if (element['university_id'] == User['university_id']) {
       actFaculty.add(element);
     }
   });

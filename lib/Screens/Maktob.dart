@@ -742,15 +742,16 @@ var dateController = TextEditingController();
 
 //Prompt to get file from user
 
-Upload(BuildContext context) {
+Upload(BuildContext context) async{
   final _formKey = GlobalKey<FormState>();
   List<String> universitiesInFaculty = [
     '...',
-    'ننګرهار پوهنتون',
-    'کنړ پوهنتون',
-    'کابل پوهنتون',
-    'خوست پوهنتون'
+
   ];
+  List res=  await ApiService().fetchData('universities');
+  res.forEach((element) {
+    universitiesInFaculty.add(element['name']);
+  });
   String _selectedUniversity = universitiesInFaculty.first;
 
   showModalBottomSheet(
@@ -901,6 +902,7 @@ Upload(BuildContext context) {
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,
                         onPressed: () {
+
                           if (_formKey.currentState!.validate() &&
                               _fileProperty.length > 1) {
                             print('Form is Valid');
