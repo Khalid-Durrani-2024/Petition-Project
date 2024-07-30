@@ -21,20 +21,7 @@ class _UniversitiesState extends State<Universities> {
     return Scaffold(
       appBar: AppBar(
 
-        leading: InkWell(
-          onTap: () {
-            setState(() {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Universities(),
-                ),
-              );
-            });
-          },
-          child: Icon(Icons.refresh_outlined),
-
-        ),
+        leading: BackButton(),
         centerTitle: true,
         foregroundColor: Colors.white,
         backgroundColor: Color.fromARGB(255, 15, 31, 253),

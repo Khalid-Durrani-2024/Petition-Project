@@ -64,7 +64,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
   Future<void> getUniversities() async {
     List data = await ApiService().fetchData('universities');
     data.forEach((element) {
-      if (element['id'] == User['id']) {
+      if (element['id'] == User['university_id']) {
         _selectedUniversity = element['name'];
         _selectedId = int.parse(element['id']);
       }
@@ -198,7 +198,9 @@ class _FacultyScreenState extends State<FacultyScreen> {
                                   ),
                                 )
                               ],
-                              onChanged: (Object? value) {},
+                              onChanged: (Object? value) {
+                                print(_selectedUniversity);
+                              },
                             ),
                             SizedBox(
                               height: 15,
