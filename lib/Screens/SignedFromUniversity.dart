@@ -252,14 +252,17 @@ showMaktobBeforeSendingToMinistry(BuildContext context, Map snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return CircularProgressIndicator();
                       } else if (snapshot.hasData) {
-                        var temp = res;
-                        res = ' پوهنځی نظر ' +
-                            snapshot.data?['comment'] +
-                            ' پوهنتون نظر ' +
-                            temp!;
+                        // var temp = res;
+                        // res = ' پوهنځی نظر ' +
+                        //     snapshot.data?['comment'] +
+                        //     ' پوهنتون نظر ' +
+                        //     temp!;
                         return Text(
                             '${snapshot.data?['comment']} :پوهنتون نظر');
-                      } else {
+                      }else if(snapshot.hasError){
+                        return Icon(Icons.error_outline_outlined);
+                      }
+                      else {
                         return Text('معلومات لوډ نشول');
                       }
                     },

@@ -159,16 +159,14 @@ class _maktobScreenState extends State<maktobScreen> {
       if (widget.index == 10) {
         print('For Faculty');
         List data = await ApiService().fetchData('received_to_faculties');
-        List petitionsData=await ApiService().fetchData('petitions');
+        List petitionsData = await ApiService().fetchData('petitions');
         List NaturalData = [];
         data.forEach((elementUp) {
           if (elementUp['faculty_id'] == User['id']) {
             petitionsData.forEach((element) {
-            if(element['id']==elementUp['petition_id']){
-
-              NaturalData.add(element);
-            }
-
+              if (element['id'] == elementUp['petition_id']) {
+                NaturalData.add(element);
+              }
             });
           }
         });
@@ -258,12 +256,13 @@ class _maktobScreenState extends State<maktobScreen> {
                           Text(
                             snapshot.data[index]['sender'],
                             style: TextStyle(
-                                fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                           Text(snapshot.data[index]['date'],
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white)),
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.white)),
                         ],
                       ),
                       subtitle: Text(
@@ -358,10 +357,9 @@ Sheet(BuildContext context, int no, List snapshot) {
                         children: [
                           IconButton(
                             onPressed: () {
-
-                                Navigator.pop(context);
-                                SignPetition(context, snapshot[no], User);
-                              },
+                              Navigator.pop(context);
+                              SignPetition(context, snapshot[no], User);
+                            },
                             icon: Icon(
                               Icons.create_outlined,
                               color: Colors.blue,
@@ -369,20 +367,21 @@ Sheet(BuildContext context, int no, List snapshot) {
                           ),
                           TextButton(
                             onPressed: () {
-                              senddToFaculty(context,snapshot[no]);
+                              senddToFaculty(context, snapshot[no]);
                             },
                             child: Text('پوهنځی ته ولیږۍ'),
                           ),
                         ],
-                      )):
-                    userType=='Faculty'? Center(
-                        child: TextButton(
-                          onPressed: () {
-                            senddToUniversity(context,snapshot[no]);
-                          },
-                          child: Text('پوهنتون ته ولیږۍ'),
-                        ))
-                :Container(),
+                      ))
+                    : userType == 'Faculty'
+                        ? Center(
+                            child: TextButton(
+                            onPressed: () {
+                              senddToUniversity(context, snapshot[no]);
+                            },
+                            child: Text('پوهنتون ته ولیږۍ'),
+                          ))
+                        : Container(),
               ],
             ),
           ),
@@ -395,8 +394,9 @@ Sheet(BuildContext context, int no, List snapshot) {
 //Creating new maktob
 
 Write(BuildContext context) {
+  List<String> MaktobTypes = ['...', 'جدي', 'عادي', 'محرم', 'غیر محرم'];
   String _selectedUniversity = universitiesInFaculty.first;
-  String type = 'مکتوب';
+  String type = MaktobTypes.first;
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -441,26 +441,34 @@ Write(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Expanded(
-                      child: DropdownButtonFormField(
+                      child: DropdownButtonFormField<String>(
                         decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey[200],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            )),
-                        items: [
-                          DropdownMenuItem(
+                          labelText: ' مکتوب نوعه',
+                          border: OutlineInputBorder(),
+                        ),
+                        hint: Text('انتخاب کړۍ'),
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              value == '' ||
+                              value == MaktobTypes.first) {
+                            return 'د مکتوب نوعه انتخاب کړۍ';
+                          }
+                        },
+                        value: type,
+                        items: MaktobTypes.map((String e) {
+                          return DropdownMenuItem<String>(
+                            value: e,
                             child: Text(
-                              'مکتوب',
-                              style: TextStyle(color: colors.helperWhiteColor),
+                              e,
                             ),
-                          ),
-                        ],
-                        onChanged: (value) {
-                          type = value;
+                          );
+                        }).toList(),
+                        onChanged: (cha) {
+                          type = cha!;
                         },
                       ),
                     ),
+
                     SizedBox(
                       width: 10,
                     ),
