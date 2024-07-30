@@ -54,7 +54,7 @@ class _SignedFromUniversityState extends State<SignedFromUniversity> {
         foregroundColor: Colors.white,
         backgroundColor: Color.fromARGB(255, 15, 31, 253),
         centerTitle: true,
-        title: Text('د اسنادو مدیریت عصری کول'),
+        title: Text('د اسنادو د لیږد را لیږد مدیریتی سیستم'),
       ),
       backgroundColor: Color.fromARGB(255, 246, 246, 246),
       body: Container(

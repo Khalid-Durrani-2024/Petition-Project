@@ -42,9 +42,9 @@ class _AdminState extends State<Admin> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-                Text('د اسنادو د مدیریت عصری کول',textAlign: TextAlign.center,
+                Text('د اسنادو د لیږد را لیږد مدیریتی سیستم',textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 26,
                   fontWeight: FontWeight.bold
                 ),
                 ),
@@ -271,7 +271,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                   48, 145, 235),
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            width: width/6,
+                            width: width/6.7,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

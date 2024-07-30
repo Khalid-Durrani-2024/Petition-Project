@@ -33,12 +33,13 @@ class _UniversitiesState extends State<Universities> {
             });
           },
           child: Icon(Icons.refresh_outlined),
+
         ),
         centerTitle: true,
         foregroundColor: Colors.white,
         backgroundColor: Color.fromARGB(255, 15, 31, 253),
 
-        title: Text('د اسنادو د مدیریت عصری کول'),
+        title: Text('د اسنادو د لیږد رالیږد مدیریتی سسیتم', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       ),
       endDrawer: Drawer(
         child: DesignedDrawer(),
@@ -75,7 +76,15 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: colors.backgroundColor,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color.fromARGB(255, 223, 217, 215),
+            Color.fromARGB(252, 215, 246, 239)
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
       padding: EdgeInsets.all(20),
       child: FutureBuilder(
         future: _future,
@@ -141,8 +150,8 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
                                 aspectRatio: 16 / 9,
                                 child: Icon(
                                   Icons.school_outlined,
-                                  color: colors.helperWhiteColor,
-                                  size: 50,
+                                  color: Colors.black,
+                                  size: 120,
                                 ),
                               ),
                             ),

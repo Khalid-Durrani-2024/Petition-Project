@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:petition/Screens/AddUniversities.dart';
@@ -34,7 +35,7 @@ class _MaktobState extends State<Maktob> {
         appBar: AppBar(
           foregroundColor: Colors.white,
           backgroundColor: Color.fromARGB(255, 15, 31, 253),
-          title: Text('د اسنادو مدیریت عصری کول'),
+          title: Text('د اسنادو د لیږد رالیږد مدیریتی سسیتم'),
           centerTitle: true,
         ),
         endDrawer: FutureBuilder(
@@ -257,12 +258,12 @@ class _maktobScreenState extends State<maktobScreen> {
                           Text(
                             snapshot.data[index]['sender'],
                             style: TextStyle(
-                                fontSize: 18, color: colors.helperWhiteColor),
+                                fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                           Text(snapshot.data[index]['date'],
                               style: TextStyle(
                                   fontSize: 12,
-                                  color: colors.helperWhiteColor)),
+                                  color: Colors.white)),
                         ],
                       ),
                       subtitle: Text(
@@ -270,7 +271,7 @@ class _maktobScreenState extends State<maktobScreen> {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.justify,
-                        style: TextStyle(color: colors.helperWhiteColor),
+                        style: TextStyle(color: Colors.white),
                       ),
                       trailing: Container(
                         padding: const EdgeInsets.only(top: 10),

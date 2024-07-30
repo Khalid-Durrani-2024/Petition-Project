@@ -23,10 +23,10 @@ class AddUser extends StatelessWidget {
       ),
       body: AddUserScreen(),
       appBar: AppBar(
-        foregroundColor: colors.helperWhiteColor,
-        backgroundColor: colors.textFieldColor,
-        title: Text('د پوهنتونونو اډمینان'),
+        foregroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 15, 31, 253),
         centerTitle: true,
+        title: Text('د اسنادو د لیږد را لیږد مدیریتی سیستم', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       ),
     );
   }
@@ -52,7 +52,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
 
     var _currentWidt = MediaQuery.of(context).size.width;
     return Container(
-        color: colors.backgroundColor,
+        color: Color.fromARGB(255, 223, 217, 215),
         width: double.infinity,
         height: double.infinity,
         child: FutureBuilder(
@@ -71,19 +71,26 @@ class _AddUserScreenState extends State<AddUserScreen> {
               return GridView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      tileColor: colors.textFieldColor,
-                      textColor: colors.helperWhiteColor,
-                      title: Text(
-                        '${snapshot.data[index]['name']} :نوم',
-                        style:
-                            TextStyle(fontSize: _currentWidt > 500 ? 20 : 36),
-                      ),
-                      subtitle: Text(
-                        '${snapshot.data[index]['email']} :ایمیل ',
-                        style:
-                            TextStyle(fontSize: _currentWidt > 500 ? 18 : 36),
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: ListTile(
+                        tileColor: colors.textFieldColor,
+                        textColor: colors.helperWhiteColor,
+                        title: Text(
+                          '${snapshot.data[index]['name']} :نوم',
+                          style:
+                              TextStyle(fontSize: _currentWidt > 500 ? 20 : 36),
+                        ),
+                        subtitle: Text(
+                          '${snapshot.data[index]['email']} :ایمیل ',
+                          style:
+                              TextStyle(fontSize: _currentWidt > 500 ? 18 : 36),
+
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20), // Adjust border radius as needed
+                        ),
                       ),
                     ),
                   );

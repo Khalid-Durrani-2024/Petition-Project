@@ -24,7 +24,7 @@ class Setting extends StatelessWidget {
         backgroundColor: Color.fromARGB(
             255, 15, 31, 253), // Changed background color of the app bar
         foregroundColor: Colors.white,
-        title: Text('د اسنادو مدیریت عصری کول'),
+        title: Text('د اسنادو د لیږد را لیږد مدیریتی سیسیتم'),
       ),
       body: SettingsScreen(),
     );
@@ -130,7 +130,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       padding: EdgeInsets.all(30),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(22),
-        color: Colors.white,
+        color: Colors.white10,
         border: Border.all(color: Colors.grey),
         boxShadow: [
           BoxShadow(

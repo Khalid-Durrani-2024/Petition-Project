@@ -21,7 +21,7 @@ class _FacultyState extends State<Faculty> {
         backgroundColor: Color.fromARGB(255, 15, 31, 253),
         foregroundColor: colors.helperWhiteColor,
         centerTitle: true,
-        title: Text('د اسنادو مدیریت عصری کول'),
+        title: Text('د اسنادو د لیږد را لیږد مدیریتی سیستم'),
         leading: BackButton(),
       ),
     );

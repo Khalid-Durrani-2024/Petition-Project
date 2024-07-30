@@ -9,7 +9,7 @@ class ForgotPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colors.backgroundColor,
+      backgroundColor: Color.fromARGB(255, 222, 223, 223),
       body: ForgotPasswordForm(),
     );
   }
@@ -25,7 +25,7 @@ class ForgotPasswordForm extends StatefulWidget {
 class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
-  List<String> _users = ['...', 'وزارت', 'پوهنتون', 'پوهنځی'];
+  List<String> _users = ['د یوزر نوع انتخاب کړی', 'وزارت', 'پوهنتون', 'پوهنځی'];
   String checkingUser = '';
   String _selectedType = '';
   bool isHover = false;
@@ -167,7 +167,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                     ),
                     SizedBox(height: height / 30),
                     Container(
-                      width: width * 0.2,
+                      width: width * 0.3,
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -177,11 +177,11 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                         borderRadius: BorderRadius.circular(22),
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          icon: Icon(Icons.arrow_drop_down),
+                          // icon: Icon(Icons.arrow_drop_down),
                           fillColor: Colors.grey.shade200,
                           filled: true,
                         ),
-                        dropdownColor: Colors.blue.shade300,
+                        dropdownColor: Colors.grey.shade300,
                         isExpanded: true,
                         hint: Text('انتخاب کړۍ'),
                         validator: (value) {
@@ -240,14 +240,19 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                           ]
                               : [],
                         ),
-                        width: width * 0.1,
+                        width: width * 0.2,
                         height: height / 15,
-                        child: const Text(
-                          'پاسورډ حذف کړۍ',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: const Text(
+                              'پاسورډ معلوم کړی',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
                           ),
                         ),
                       ),

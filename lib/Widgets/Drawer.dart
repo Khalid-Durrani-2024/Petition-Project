@@ -33,7 +33,7 @@ class _DesignedDrawerState extends State<DesignedDrawer> {
             ),
             child: Center(
               child: Text(
-                'د اسنادو مدیریت عصری کول',
+                'د اسنادو د لیږد رالیږد مدیریتی سیستم',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 30,
