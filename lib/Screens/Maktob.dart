@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:petition/Assets/NetworkImages.dart';
 import 'package:petition/Screens/AddUniversities.dart';
 import 'package:petition/Screens/AddUser.dart';
 import 'package:petition/Screens/Admin.dart';
@@ -317,37 +318,163 @@ Sheet(BuildContext context, int no, List snapshot) {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios_new,
-                          color: Colors.blue,
-                        ))
+                    Container(
+                      width: 120,
+                      height: 120,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(ministryImage),
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        Text('بسم الله الرحمن الرحیم'),
+                        Text(
+                          'د افغانستان اسلامي امارت',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'د لوړو زده کړو وزارت',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'سید جمال الدین افغاني پوهنتون',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'محصلانو چارو معاونیت',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'محصلانو چارو آمریت',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'اجرائېه ماموریت',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                    Container(
+                      width: 120,
+                      height: 120,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(ministryImage),
+                      ),
+                    ),
                   ],
                 ),
-                Text(
-                  "نمبر مکتوب: " + snapshot[no]['id'],
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    //Row For Type of Maktob
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Text('غیر محرم'),
+                            Checkbox(
+                                value: snapshot[no]['type'] == 'غیر محرم'
+                                    ? true
+                                    : false,
+                                onChanged: (val) {}),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Column(
+                          children: [
+                            Text('محرم'),
+                            Checkbox(
+                                value: snapshot[no]['type'] == 'محرم'
+                                    ? true
+                                    : false,
+                                onChanged: (val) {}),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Column(
+                          children: [
+                            Text('عادي'),
+                            Checkbox(
+                                value: snapshot[no]['type'] == 'عادي'
+                                    ? true
+                                    : false,
+                                onChanged: (val) {}),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Column(
+                          children: [
+                            Text('جدی'),
+                            Checkbox(
+                                value: snapshot[no]['type'] == 'جدي'
+                                    ? true
+                                    : false,
+                                onChanged: (val) {}),
+                          ],
+                        ),
+                      ],
+                    ),
+                    //Row For Gana and Date
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  snapshot[no]['id'].toString(),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(' :ګڼه'),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  snapshot[no]['date'].toString(),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(' :نیټه'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                Text(
-                  "تاریخ: " + snapshot[no]['date'],
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+                Divider(
+                  thickness: 2,
                 ),
+                Text(': د ازموینو ملی اداری محترم مقام'),
+                Text('! د ازموینو د سمون محترم ریاست د پام وړ'),
+                Text('! السلام علیکم ورحمت الله وبرکاته'),
                 Text(
-                  snapshot[no]['sender'] + " :لیږوونکی",
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+                  'موضوع: ${snapshot[no]['title']} ',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
                   snapshot[no]['description'],
+                  textAlign: TextAlign.right,
                   style: TextStyle(color: Colors.black),
                 ),
-                Divider(),
                 SizedBox(
                   height: 20,
                 ),
@@ -382,6 +509,37 @@ Sheet(BuildContext context, int no, List snapshot) {
                             child: Text('پوهنتون ته ولیږۍ'),
                           ))
                         : Container(),
+                SizedBox(height: 50,),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    children: [
+                      Divider(thickness: 2,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text('کوټی سنګي ،کابل، افغانستان'),
+                              Icon(Icons.location_on_outlined)
+                            ],
+                          ),
+                          Row(
+                            children: [Text('Wezarat@gmail.com'),
+                              Icon(Icons.email_outlined),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text('+9378787887'),
+                              Icon(Icons.phone_enabled_outlined)
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
@@ -468,7 +626,6 @@ Write(BuildContext context) {
                         },
                       ),
                     ),
-
                     SizedBox(
                       width: 10,
                     ),
@@ -742,13 +899,12 @@ var dateController = TextEditingController();
 
 //Prompt to get file from user
 
-Upload(BuildContext context) async{
+Upload(BuildContext context) async {
   final _formKey = GlobalKey<FormState>();
   List<String> universitiesInFaculty = [
     '...',
-
   ];
-  List res=  await ApiService().fetchData('universities');
+  List res = await ApiService().fetchData('universities');
   res.forEach((element) {
     universitiesInFaculty.add(element['name']);
   });
@@ -902,7 +1058,6 @@ Upload(BuildContext context) async{
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,
                         onPressed: () {
-
                           if (_formKey.currentState!.validate() &&
                               _fileProperty.length > 1) {
                             print('Form is Valid');

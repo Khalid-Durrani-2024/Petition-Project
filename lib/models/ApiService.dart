@@ -7,6 +7,7 @@ import 'package:petition/models/UniversityAdminModel.dart';
 import 'package:petition/models/UniversityModel.dart';
 import 'package:petition/models/sendFromFacultyModel.dart';
 import 'package:petition/models/sendToFacultyModel.dart';
+import 'package:petition/models/updateUser.dart';
 
 
 class ApiService {
@@ -103,12 +104,25 @@ class ApiService {
       throw Exception('Faild to َUpdate University');
     }
   }
-
-
-
+  Future updateUser(updateUserModel user)async{
+    final String baseUrl = await 'http://localhost/petition/api/users.php';
+    final response = await http.put(
+      Uri.parse(baseUrl),
+      body: json.encode(user.toJson()),
+    );
+    if (response.statusCode == 200)
+    {
+      return {
+        'message': 'Updated Record  Successfully',
+        'response Code':response.statusCode
+      };
+    } else {
+      print('error Occured');
+      throw Exception('Faild to َUpdate University Admin');
+    }
+  }
   Future<void> sendPetition(Petition petition, String tableName) async {
     final String baseUrl = await 'http://localhost/petition/api/$tableName.php';
-
     final response = await http.post(
       Uri.parse(baseUrl),
       body: jsonEncode(petition.toJson()),

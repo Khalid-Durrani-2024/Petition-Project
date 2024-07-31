@@ -177,8 +177,11 @@ class _DrawerForUniversityState extends State<DrawerForUniversity> {
               context, Icons.settings_outlined, 'سیټینګ', () => _navigateTo(context, Setting())),
           Divider(),
           _createDrawerItem(
-              context, Icons.info_outline, 'معلومات', () => _showAbout(context)),
-          _createDrawerItem(
+            
+              // context, Icons.info_outline, 'معلومات', () => _showAbout(context)),
+     context, Icons.info_outline, 'معلومات', () => changeName(context)),
+
+    _createDrawerItem(
               context, Icons.exit_to_app_outlined, 'وتل', () => _logout(context)),
         ],
       ),

@@ -3,7 +3,10 @@ import 'package:petition/Screens/Login.dart';
 import '../Authentication/AuthData.dart';
 import '../Colors/Colors.dart';
 import '../Widgets/Drawer.dart';
+import '../models/ApiService.dart';
+import '../models/updateUser.dart';
 import 'Admin.dart';
+import 'Maktob.dart';
 
 class Setting extends StatelessWidget {
   @override
@@ -156,8 +159,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               icon: Icons.person_outline,
               title: 'استعمالوونکي نوم',
               subtitle: userData['name'],
-              onTap: () {
-                // Navigate to username change screen
+              onTap: (){
+                 changeName(context);
               },
             ),
             _buildSettingsTile(
@@ -166,6 +169,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               subtitle: userData['email'] ?? 'ندی تعین شوی',
               onTap: () {
                 // Navigate to email change screen
+                print('Email Section is Tapping');
               },
             ),
             _buildSettingsTile(
@@ -252,4 +256,138 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     );
   }
+}
+
+
+
+
+
+
+
+
+
+//Changing Name Section
+
+
+
+changeName(BuildContext Mycontext) {
+
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _nameController = TextEditingController();
+  showModalBottomSheet(
+    context: Mycontext,
+
+    backgroundColor: Colors.transparent,
+    builder: (context) {
+      return Container(
+          padding: const EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(22),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10.0,
+                  offset: Offset(0, 10),
+                )
+              ]),
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const Center(
+                    child: Text(
+                      'نوم بدل کړۍ',
+                      style:
+                      TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    //DateTime
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "مهرباني وکړۍ نوم دننه کړۍ";
+                            }
+                          },
+                          controller: _nameController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            labelText: 'نوم دننه کړۍ',
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'نوم',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          print("userType: $userType");
+                          print("User: $User");
+
+                          if (userType == 'university') {
+                            try {
+                              final userModel = updateUserModel(
+                                  id: User['id'],
+                                  name: _nameController.text,
+                                  email: userEmail,
+                                  password: User['password'],
+                                  university_id: User['university_id'],
+                                  created_at: User['created_at'],
+                                  role: User['role']
+                              );
+                              var res = await ApiService().updateUser(userModel);
+                              print(res);
+                            } catch (e) {
+                              print("Error creating userModel: $e");
+                            }
+                          } else {
+                            print('Wrong User Type');
+                          }
+                        }
+                      },                      child: Text('تایید'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 66, 23, 255),
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 30,
+                          vertical: 15,
+                        ),
+                        textStyle: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ));
+    },
+  );
 }
