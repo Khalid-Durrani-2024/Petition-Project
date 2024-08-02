@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Widgets/Drawer.dart';
-import 'package:petition/Widgets/Message.dart';
+import '../Widgets/Drawer.dart';
+import '../Widgets/Message.dart';
 
 import '../models/ApiService.dart';
 import '../models/SignPetitionModel.dart';
@@ -25,7 +25,10 @@ class _SignedFromUniversityState extends State<SignedFromUniversity> {
       petitions.forEach((Petitionelement) {
         signed.forEach((element) {
           if (Petitionelement['id'] == element['petition_id']) {
+            if(element['university_id']==User['university_id']){
+
             naturalData.add(Petitionelement);
+            }
           }
         });
       });
@@ -211,7 +214,7 @@ showMaktobBeforeSendingToMinistry(BuildContext context, Map snapshot) {
                     ],
                   ),
                   Text(
-                    "نمبر مکتوب: " + snapshot['id'],
+                    "نمبر مکتوب: " + snapshot['id'].toString(),
                     style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                   Text(
@@ -274,10 +277,10 @@ showMaktobBeforeSendingToMinistry(BuildContext context, Map snapshot) {
                     child: TextButton(
                         onPressed: () async {
                           final signPetition = SignPetitionModel(
-                              user_id: User['id'],
+                              user_id: User['id'].toString(),
                               signed_at:
                                   DateTime.now().toString().substring(0, 10),
-                              petition_id: snapshot['id'],
+                              petition_id: snapshot['id'].toString(),
                               comment: res.toString());
 
                           int signResponseCode = await ApiService()

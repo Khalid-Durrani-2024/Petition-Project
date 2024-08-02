@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Assets/NetworkImages.dart';
-import 'package:petition/Authentication/AuthData.dart';
-import 'package:petition/Authentication/AuthWrapper.dart';
-import 'package:petition/Colors/Colors.dart';
-import 'package:petition/Screens/ForgotPassword.dart';
+import '../Assets/NetworkImages.dart';
+import '../Authentication/AuthData.dart';
+import '../Authentication/AuthWrapper.dart';
+import '../Colors/Colors.dart';
+import '../Screens/ForgotPassword.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});

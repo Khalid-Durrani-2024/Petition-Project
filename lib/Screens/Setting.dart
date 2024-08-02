@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Screens/Login.dart';
+import '../Screens/Login.dart';
 import '../Authentication/AuthData.dart';
 import '../Colors/Colors.dart';
 import '../Widgets/Drawer.dart';
@@ -352,11 +352,11 @@ changeName(BuildContext Mycontext) {
                           if (userType == 'university') {
                             try {
                               final userModel = updateUserModel(
-                                  id: User['id'],
+                                  id: User['id'].toString(),
                                   name: _nameController.text,
                                   email: userEmail,
                                   password: User['password'],
-                                  university_id: User['university_id'],
+                                  university_id: User['university_id'].toString(),
                                   created_at: User['created_at'],
                                   role: User['role']
                               );

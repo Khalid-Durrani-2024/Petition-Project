@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Authentication/AuthWrapper.dart';
+import '../Authentication/AuthWrapper.dart';
 
 
 void main() {

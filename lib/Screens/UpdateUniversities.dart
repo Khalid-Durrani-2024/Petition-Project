@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Screens/Admin.dart';
-import 'package:petition/models/ApiService.dart';
+import '../Screens/Admin.dart';
+import '../models/ApiService.dart';
 
 import '../Colors/Colors.dart';
 

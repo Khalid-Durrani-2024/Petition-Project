@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:petition/models/Faculty.dart';
-import 'package:petition/models/Petition.dart';
-import 'package:petition/models/SignPetitionModel.dart';
-import 'package:petition/models/UniversityAdminModel.dart';
-import 'package:petition/models/UniversityModel.dart';
-import 'package:petition/models/sendFromFacultyModel.dart';
-import 'package:petition/models/sendToFacultyModel.dart';
-import 'package:petition/models/updateUser.dart';
+import '../models/Faculty.dart';
+import '../models/Petition.dart';
+import '../models/SignPetitionModel.dart';
+import '../models/UniversityAdminModel.dart';
+import '../models/UniversityModel.dart';
+import '../models/sendFromFacultyModel.dart';
+import '../models/sendToFacultyModel.dart';
+import '../models/updateUser.dart';
 
 
 class ApiService {

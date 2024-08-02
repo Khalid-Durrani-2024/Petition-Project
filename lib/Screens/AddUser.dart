@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Screens/Faculty.dart';
-import 'package:petition/models/ApiService.dart';
-import 'package:petition/models/UniversityAdminModel.dart';
+import '../Screens/Faculty.dart';
+import '../models/ApiService.dart';
+import '../models/UniversityAdminModel.dart';
 import '../Colors/Colors.dart';
 
 class AddUser extends StatelessWidget {
@@ -150,13 +150,13 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
     TextEditingController nameController = TextEditingController();
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
-    int universityId = 0;
+    String universityId = '';
 
     //method for getting university admin last number
-    _getUniversitiesAdmins() async {
+   Future _getUniversitiesAdmins() async {
       List universities = await ApiService().fetchData('users');
       for (int i = 0; i < universities.length; i++) {
-        _selectedId = universities[i]['id'];
+        _selectedId = universities[i]['id'].toString();
       }
       return _selectedId;
     }
@@ -214,6 +214,7 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                               child: CircularProgressIndicator(),
                             );
                           } else if (snapshot.hasError) {
+                              print(snapshot.error);
                             return Center(
                               child: Icon(Icons.error_outline_outlined),
                             );
@@ -352,8 +353,10 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                               onChanged: (cha) {
                                 _selectedUniversity = cha!;
                                 chooseUniversity.forEach((element) {
+                                   print(element);
+                                   print(_selectedUniversity);
                                   if (element['name'] == _selectedUniversity) {
-                                    universityId = int.parse(element['id']);
+                                    universityId = element['id'].toString();
                                   }
                                 });
                               },
@@ -376,10 +379,16 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                 
                             int response =
                                 await ApiService().sendUAdmin(model, 'users');
+                            
                             if (response == 201) {
                               Navigator.pop(context);
                               showMessage(true, context);
                             } else {
+                              print(model.name);
+                               print(model.email); 
+                               print(model.password);
+                               print(model.university_id);
+                               print(model.created_at);
                               showMessage(false, context);
                             }
                           }

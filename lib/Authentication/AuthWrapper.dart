@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:petition/Screens/Admin.dart';
-import  'package:petition/Screens/Login.dart';
-import 'package:petition/Screens/Maktob.dart';
-import 'package:petition/models/ApiService.dart';
+import '../Screens/Admin.dart';
+import  '../Screens/Login.dart';
+import '../Screens/Maktob.dart';
+import '../models/ApiService.dart';
 
 import 'AuthData.dart';
 class AuthWrapper extends StatefulWidget {

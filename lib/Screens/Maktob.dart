@@ -2,19 +2,19 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:petition/Assets/NetworkImages.dart';
-import 'package:petition/Screens/AddUniversities.dart';
-import 'package:petition/Screens/AddUser.dart';
-import 'package:petition/Screens/Admin.dart';
-import 'package:petition/Screens/Faculty.dart';
-import 'package:petition/Screens/Login.dart';
-import 'package:petition/Screens/SignedPetitions.dart';
-import 'package:petition/Screens/Universities.dart';
+import '../Assets/NetworkImages.dart';
+import '../Screens/AddUniversities.dart';
+import '../Screens/AddUser.dart';
+import '../Screens/Admin.dart';
+import '../Screens/Faculty.dart';
+import '../Screens/Login.dart';
+import '../Screens/SignedPetitions.dart';
+import '../Screens/Universities.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:petition/Widgets/SignPetition.dart';
-import 'package:petition/Widgets/sendToFaculty.dart';
-import 'package:petition/Widgets/sendToUniversity.dart';
-import 'package:petition/models/ApiService.dart';
+import '../Widgets/SignPetition.dart';
+import '../Widgets/sendToFaculty.dart';
+import '../Widgets/sendToUniversity.dart';
+import '../models/ApiService.dart';
 import '../Authentication/AuthData.dart';
 import '../Colors/Colors.dart';
 import '../Widgets/Drawer.dart';
@@ -317,9 +317,14 @@ Sheet(BuildContext context, int no, List snapshot) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                InkWell(
+                  child: Icon(Icons.arrow_forward_ios_rounded),
+                  onTap: (){Navigator.pop(context);},
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+
                     Container(
                       width: 120,
                       height: 120,
@@ -329,6 +334,7 @@ Sheet(BuildContext context, int no, List snapshot) {
                     ),
                     Column(
                       children: [
+
                         Text('بسم الله الرحمن الرحیم'),
                         Text(
                           'د افغانستان اسلامي امارت',
@@ -552,6 +558,8 @@ Sheet(BuildContext context, int no, List snapshot) {
 //Creating new maktob
 
 Write(BuildContext context) {
+DateTime dt=DateTime.now();
+TextEditingController dateController = TextEditingController(text: '${dt.year}-${dt.month}-${dt.day}');
   List<String> MaktobTypes = ['...', 'جدي', 'عادي', 'محرم', 'غیر محرم'];
   String _selectedUniversity = universitiesInFaculty.first;
   String type = MaktobTypes.first;
@@ -600,10 +608,18 @@ Write(BuildContext context) {
                   children: [
                     Expanded(
                       child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
+                         decoration: InputDecoration(
+                           
                           labelText: ' مکتوب نوعه',
-                          border: OutlineInputBorder(),
-                        ),
+                                      filled: true,
+                                      fillColor: Colors.grey[200],
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                    ),
+                                    dropdownColor: Colors.blue,
+                                isExpanded: true,                     
                         hint: Text('انتخاب کړۍ'),
                         validator: (value) {
                           if (value!.isEmpty ||
@@ -630,8 +646,7 @@ Write(BuildContext context) {
                       width: 10,
                     ),
                     Text(
-                      'د مکتوب نوعه انتخاب کړۍ',
-                      style: TextStyle(color: colors.helperWhiteColor),
+                      'د مکتوب نوعه',
                     ),
                   ],
                 ),
@@ -644,7 +659,8 @@ Write(BuildContext context) {
                   children: [
                     Expanded(
                       child: TextFormField(
-                        controller: dateController,
+                        enabled: false,
+                        initialValue: dateController.text.toString(),
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.grey[200],
@@ -653,19 +669,7 @@ Write(BuildContext context) {
                           ),
                           labelText: 'تاریخ انتخاب کړۍ',
                         ),
-                        onTap: () async {
-                          FocusScope.of(context).requestFocus(new FocusNode());
-                          DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2101),
-                          );
-                          if (pickedDate != null) {
-                            dateController.text =
-                                "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
-                          }
-                        },
+                   
                       ),
                     ),
                     SizedBox(
@@ -894,8 +898,6 @@ Write(BuildContext context) {
     },
   );
 }
-
-var dateController = TextEditingController();
 
 //Prompt to get file from user
 

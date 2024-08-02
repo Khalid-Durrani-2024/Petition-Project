@@ -36,16 +36,16 @@ class FacultyScreen extends StatefulWidget {
 }
 
 List universitiesMap = [];
-int _selectedId = 0;
+String _selectedId ='';
 TextEditingController _noFaculty = TextEditingController();
-int _selectedFaculty = 0;
+String _selectedFaculty = '';
 
 getFaculties() async {
   try {
     var data = await ApiService().fetchData('faculty');
     if (data != null) {
       for (int i = 0; i < data.length; i++) {
-        _selectedFaculty = int.parse(data[i]['id']);
+        _selectedFaculty = data[i]['id'].toString();
       }
       print(_selectedFaculty);
       _noFaculty.text = _selectedFaculty.toString();
@@ -66,7 +66,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
     data.forEach((element) {
       if (element['id'] == User['university_id']) {
         _selectedUniversity = element['name'];
-        _selectedId = int.parse(element['id']);
+        _selectedId = element['id'].toString();
       }
     });
     return await ApiService().fetchData('universities');
@@ -351,6 +351,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
                 )),
           );
         } else if (snapshot.hasError) {
+          print(snapshot.error);
           return Center(
             child: Text('!!! معلومات نشته'),
           );

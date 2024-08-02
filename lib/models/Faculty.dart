@@ -1,6 +1,6 @@
 class FacultyModel {
   final String name;
-  final int university_id;
+  final String university_id;
   final String email;
   final String password;
   final String university_name;

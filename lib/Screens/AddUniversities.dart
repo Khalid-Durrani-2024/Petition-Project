@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:petition/models/ApiService.dart';
-import 'package:petition/models/UniversityModel.dart';
+import '../models/ApiService.dart';
+import '../models/UniversityModel.dart';
 import '../Colors/Colors.dart';
 
 class AddUniversity extends StatelessWidget {
@@ -35,7 +35,7 @@ class _UniversityScreenState extends State<UniversityScreen> {
   _getUniversities()async{
  List universities= await ApiService().fetchData('universities');
   for(int i=0;i<universities.length;i++){
-   id=universities[i]['id'];
+   id=universities[i]['id'].toString();
   }
   return id;
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Colors/Colors.dart';
-import 'package:petition/models/ApiService.dart';
-import 'package:petition/Assets/NetworkImages.dart';
+import '../Colors/Colors.dart';
+import '../models/ApiService.dart';
+import '../Assets/NetworkImages.dart';
 
 class ForgotPassword extends StatelessWidget {
   const ForgotPassword({super.key});
