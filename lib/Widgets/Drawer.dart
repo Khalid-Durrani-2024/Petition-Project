@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Screens/Faculty.dart';
-import 'package:petition/Screens/Maktob.dart';
-import 'package:petition/Screens/Setting.dart';
-import 'package:petition/Screens/SignedFromUniversity.dart';
-import 'package:petition/Screens/SignedPetitions.dart';
-import 'package:petition/Screens/Universities.dart';
-import 'package:petition/models/ApiService.dart';
+import '../Screens/Faculty.dart';
+import '../Screens/Maktob.dart';
+import '../Screens/Setting.dart';
+import '../Screens/SignedFromUniversity.dart';
+import '../Screens/SignedPetitions.dart';
+import '../Screens/Universities.dart';
+import '../models/ApiService.dart';
 import '../Assets/NetworkImages.dart';
 import '../Authentication/AuthData.dart';
 import '../Colors/Colors.dart';
@@ -33,7 +33,7 @@ class _DesignedDrawerState extends State<DesignedDrawer> {
             ),
             child: Center(
               child: Text(
-                'د اسنادو مدیریت عصری کول',
+                'د اسنادو د لیږد رالیږد مدیریتی سیستم',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 30,
@@ -48,8 +48,6 @@ class _DesignedDrawerState extends State<DesignedDrawer> {
               context, Icons.home_outlined, 'کور پاڼه', () => _navigateTo(context, Admin())),
           _createDrawerItem(
               context, Icons.book_outlined, 'ټول مکتوبونه', () => _navigateTo(context, Maktob(index: 0))),
-          _createDrawerItem(
-              context, Icons.edit_outlined, 'نوی مکتوب ولیږۍ', () => _navigateTo(context, Write(context))),
           _createDrawerItem(
               context, Icons.forward_outlined, 'لیږل شوي مکتوبونه', () => _navigateTo(context, Maktob(index: 1))),
           _createDrawerItem(
@@ -177,8 +175,8 @@ class _DrawerForUniversityState extends State<DrawerForUniversity> {
               context, Icons.settings_outlined, 'سیټینګ', () => _navigateTo(context, Setting())),
           Divider(),
           _createDrawerItem(
-              context, Icons.info_outline, 'معلومات', () => _showAbout(context)),
-          _createDrawerItem(
+               context, Icons.info_outline, 'معلومات', () => _showAbout(context)),
+    _createDrawerItem(
               context, Icons.exit_to_app_outlined, 'وتل', () => _logout(context)),
         ],
       ),

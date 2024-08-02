@@ -2,7 +2,7 @@ class UniversityAdminModel {
   final String name;
   final String email;
   final String password;
-  final int university_id;
+  final String university_id;
   final String created_at;
   final String role;
 

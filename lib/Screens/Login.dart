@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Assets/NetworkImages.dart';
-import 'package:petition/Authentication/AuthData.dart';
-import 'package:petition/Authentication/AuthWrapper.dart';
-import 'package:petition/Colors/Colors.dart';
-import 'package:petition/Screens/ForgotPassword.dart';
+import '../Assets/NetworkImages.dart';
+import '../Authentication/AuthData.dart';
+import '../Authentication/AuthWrapper.dart';
+import '../Colors/Colors.dart';
+import '../Screens/ForgotPassword.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -11,7 +11,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Color.fromARGB(255, 222, 223, 223),
       body: LoginForm(),
     );
   }
@@ -24,7 +24,7 @@ class LoginForm extends StatefulWidget {
   State<LoginForm> createState() => _LoginFormState();
 }
 List<String> _users = [
-  '...',
+  'یوزر نوع انتخاب کړی',
   'وزارت',
   'پوهنتون',
   'پوهنځی'
@@ -105,10 +105,10 @@ class _LoginFormState extends State<LoginForm> {
                           borderRadius: BorderRadius.circular(22),
                           decoration: InputDecoration(
                               border: InputBorder.none,
-                              icon: Icon(Icons.arrow_drop_down),
+                              // icon: Icon(Icons.arrow_drop_down_circle_sharp),
                               fillColor: Colors.grey.shade200,
                               filled: true),
-                          dropdownColor: Colors.blue.shade300,
+                          dropdownColor: Colors.grey.shade300,
                           isExpanded: true,
                           hint: Text('انتخاب کړۍ'),
                           validator: (value) {

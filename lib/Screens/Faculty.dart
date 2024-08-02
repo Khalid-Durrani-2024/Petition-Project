@@ -21,7 +21,7 @@ class _FacultyState extends State<Faculty> {
         backgroundColor: Color.fromARGB(255, 15, 31, 253),
         foregroundColor: colors.helperWhiteColor,
         centerTitle: true,
-        title: Text('د اسنادو مدیریت عصری کول'),
+        title: Text('د اسنادو د لیږد را لیږد مدیریتی سیستم'),
         leading: BackButton(),
       ),
     );
@@ -36,16 +36,16 @@ class FacultyScreen extends StatefulWidget {
 }
 
 List universitiesMap = [];
-int _selectedId = 0;
+String _selectedId ='';
 TextEditingController _noFaculty = TextEditingController();
-int _selectedFaculty = 0;
+String _selectedFaculty = '';
 
 getFaculties() async {
   try {
     var data = await ApiService().fetchData('faculty');
     if (data != null) {
       for (int i = 0; i < data.length; i++) {
-        _selectedFaculty = int.parse(data[i]['id']);
+        _selectedFaculty = data[i]['id'].toString();
       }
       print(_selectedFaculty);
       _noFaculty.text = _selectedFaculty.toString();
@@ -64,9 +64,9 @@ class _FacultyScreenState extends State<FacultyScreen> {
   Future<void> getUniversities() async {
     List data = await ApiService().fetchData('universities');
     data.forEach((element) {
-      if (element['id'] == User['id']) {
+      if (element['id'] == User['university_id']) {
         _selectedUniversity = element['name'];
-        _selectedId = int.parse(element['id']);
+        _selectedId = element['id'].toString();
       }
     });
     return await ApiService().fetchData('universities');
@@ -198,7 +198,9 @@ class _FacultyScreenState extends State<FacultyScreen> {
                                   ),
                                 )
                               ],
-                              onChanged: (Object? value) {},
+                              onChanged: (Object? value) {
+                                print(_selectedUniversity);
+                              },
                             ),
                             SizedBox(
                               height: 15,
@@ -349,6 +351,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
                 )),
           );
         } else if (snapshot.hasError) {
+          print(snapshot.error);
           return Center(
             child: Text('!!! معلومات نشته'),
           );

@@ -1,15 +1,14 @@
 <?php
-class Signatures {
+class send_from_faculty {
     private $conn;
-    private $table_name = "signatures";
+    private $table_name = "send_from_faculty";
 
     public $id;
-    public $user_id;
-    public $signed_at;
-   
     public $petition_id;
+    public $university_id;
     public $comment;
-    
+    public $faculty_id;   
+
     public function __construct($db) {//constructor
         $this->conn = $db;
     }
@@ -22,21 +21,20 @@ class Signatures {
         return $stmt;
     }
 
-    public function create() { //Signing petition
-        $query = "INSERT INTO " . $this->table_name . " SET user_id=:user_id, signed_at=:signed_at, petition_id=:petition_id, comment=:comment";
+    public function create() { //creating a new user for university adming
+        $query = "INSERT INTO " . $this->table_name . " SET petition_id=:petition_id,university_id=:university_id ,comment=:comment,faculty_id=:faculty_id";
         $stmt = $this->conn->prepare($query);
 
-
-        $this->user_id = htmlspecialchars(strip_tags($this->user_id));
-        $this->signed_at = htmlspecialchars(strip_tags($this->signed_at));
         $this->petition_id = htmlspecialchars(strip_tags($this->petition_id));
+        $this->university_id = htmlspecialchars(strip_tags($this->university_id));
         $this->comment = htmlspecialchars(strip_tags($this->comment));
+        $this->faculty_id = htmlspecialchars(strip_tags($this->faculty_id));
 
-        $stmt->bindParam(":user_id", $this->user_id);
-        $stmt->bindParam(":signed_at", $this->signed_at);
         $stmt->bindParam(":petition_id", $this->petition_id);
+        $stmt->bindParam(":university_id", $this->university_id);
         $stmt->bindParam(":comment", $this->comment);
-
+        $stmt->bindParam(":faculty_id", $this->faculty_id);
+        
         if($stmt->execute()) {
             return true;
         }
@@ -44,22 +42,23 @@ class Signatures {
         return false;
     }
 
-    public function update() {//updating Sign in database 
-        $query = "UPDATE " . $this->table_name . " SET user_id = :user_id, signed_at = :signed_at, petition_id = :petition_id, comment = :comment WHERE id = :id";
+    public function update() {//updating the user 
+        $query = "UPDATE " . $this->table_name . " SET petition_id = :petition_id,university_id=:university_id,
+         comment = :comment,
+         faculty_id = :faculty_id";
         $stmt = $this->conn->prepare($query);
 
-        $this->user_id = htmlspecialchars(strip_tags($this->user_id));
-        $this->signed_at = htmlspecialchars(strip_tags($this->signed_at));
         $this->petition_id = htmlspecialchars(strip_tags($this->petition_id));
+        $this->university_id = htmlspecialchars(strip_tags($this->university_id));
         $this->comment = htmlspecialchars(strip_tags($this->comment));
-        $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->faculty_id = htmlspecialchars(strip_tags($this->faculty_id));
+        
 
-        $stmt->bindParam(':user_id', $this->user_id);
-        $stmt->bindParam(':signed_at', $this->signed_at);
         $stmt->bindParam(':petition_id', $this->petition_id);
+        $stmt->bindParam(":university_id", $this->university_id);
         $stmt->bindParam(':comment', $this->comment);
-        $stmt->bindParam(':id', $this->id);
-
+        $stmt->bindParam(':faculty_id', $this->faculty_id);
+      
         if ($stmt->execute()) {
             return true;
         }
@@ -67,7 +66,7 @@ class Signatures {
         return false;
     }
 
-    public function delete() { //deleting the sign from database
+    public function delete() { //deleting the user from database
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 

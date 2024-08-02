@@ -1,9 +1,8 @@
 <?php
 header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE");
+header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once '../config/database.php';//importing previous file of Database connectivity into this one file
 include_once '../models/universities.php';
@@ -100,7 +99,7 @@ switch($request_method) {
 
     case 'DELETE':
         $data = json_decode(file_get_contents("php://input"));
-
+error_log("Delete Data:" .json_encode($data));
         $universities->id = $data->id;
 
         if ($universities->delete()) {

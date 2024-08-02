@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Widgets/Message.dart';
-import 'package:petition/models/sendFromFacultyModel.dart';
-import 'package:petition/models/sendToFacultyModel.dart';
+import '../Widgets/Message.dart';
+import '../models/sendFromFacultyModel.dart';
 import '../Screens/Maktob.dart';
 import '../models/ApiService.dart';
 
@@ -133,10 +132,10 @@ senddToUniversity(BuildContext context, Map snapshot) {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         final sfmodel = SendFromFacultyModel(
-                            petition_id: snapshot['id'],
-                            university_id: User['university_id'],
+                            petition_id: snapshot['id'].toString(),
+                            university_id: User['university_id'].toString(),
                             comment: CommentController.text,
-                            faculty_id: User['id']);
+                            faculty_id: User['id'].toString());
 
                         int res = await ApiService()
                             .sendFromFaculty(sfmodel, 'send_from_faculty')

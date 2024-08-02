@@ -1,27 +1,30 @@
-class FacultyModel {
+class updateUserModel {
+  final String id;
   final String name;
-  final String university_id;
   final String email;
   final String password;
-  final String university_name;
+  final String university_id;
+  final String created_at;
   final String role;
 
 
-  FacultyModel(
+  updateUserModel(
       {
+        required this.id,
         required this.name,
-        required this.university_id,
         required this.email,
         required this.password,
-        required this.university_name,
+        required this.university_id,
+        required this.created_at,
         required this.role,});
-    Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson() {
     return {
+      'id':id,
       'name': name,
-      'university_id': university_id,
       'email': email,
       'password': password,
-      'university_name': university_name,
+      'university_id': university_id,
+      'created_at':created_at,
       'role': role,
     };
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Assets/NetworkImages.dart';
-import 'package:petition/Screens/Admin.dart';
-import 'package:petition/Screens/Setting.dart';
+import '../Assets/NetworkImages.dart';
+import '../Screens/Admin.dart';
+import '../Screens/Setting.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 

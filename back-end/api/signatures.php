@@ -1,7 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET");
+header("Access-Control-Allow-Methods: GET,POST,PUT,DELETE");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
@@ -34,7 +34,8 @@ switch($request_method) {
                     "id" => $id,
                     "user_id" => $user_id,
                     "signed_at" => $signed_at,
-                    "petition_id" => $petition_id
+                    "petition_id" => $petition_id,
+                    "comment" => $comment
                 );
 
                 array_push($signatures_arr["records"], $signatures_item);
@@ -45,7 +46,7 @@ switch($request_method) {
             echo json_encode($signatures_arr);
         } else {
             http_response_code(404);
-            echo json_encode(array("message" => "No University found."));
+            echo json_encode(array("message" => "No Signature found."));
         }
         break;
 
@@ -56,21 +57,24 @@ switch($request_method) {
             !empty($data->user_id) &&
             !empty($data->signed_at) &&
             !empty($data->petition_id)
+            &&!empty($data->comment)
+            
         ) {
             $signatures->user_id = $data->user_id;
             $signatures->signed_at = $data->signed_at;
             $signatures->petition_id = $data->petition_id;
+            $signatures->comment = $data->comment;
 
             if ($signatures->create()) {
                 http_response_code(201);
-                echo json_encode(array("message" => "University added in Database."));
+                echo json_encode(array("message" => "Signature added in Database."));
             } else {
                 http_response_code(503);
-                echo json_encode(array("message" => "Unable to add university."));
+                echo json_encode(array("message" => "Unable to add Sign of petition."));
             }
         } else {
             http_response_code(400);
-            echo json_encode(array("message" => "Unable to add university in database. Data is incomplete."));
+            echo json_encode(array("message" => "Unable to add Signature in database. Data is incomplete."));
         }
         break;
 
@@ -82,22 +86,24 @@ switch($request_method) {
         if (
             !empty($data->user_id) &&
             !empty($data->signed_at) &&
-            !empty($data->petition_id)
+            !empty($data->petition_id)&&
+            !empty($data->comment)
         ) {
             $signatures->user_id = $data->user_id;
             $signatures->signed_at = $data->signed_at;
             $signatures->petition_id = $data->petition_id;
+            $signatures->comment = $data->comment;
 
             if ($signatures->update()) {
                 http_response_code(200);
-                echo json_encode(array("message" => "University has been Updated."));
+                echo json_encode(array("message" => "Signature has been Updated."));
             } else {
                 http_response_code(503);
-                echo json_encode(array("message" => "Unable to update University some error occured."));
+                echo json_encode(array("message" => "Unable to update Signature some error occured."));
             }
         } else {
             http_response_code(400);
-            echo json_encode(array("message" => "Unable to update Univeristy. Data is incomplete."));
+            echo json_encode(array("message" => "Unable to update Signature. Data is incomplete."));
         }
         break;
 

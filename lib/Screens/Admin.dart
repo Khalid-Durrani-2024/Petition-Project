@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Authentication/AuthData.dart';
-import 'package:petition/Screens/AddUser.dart';
-import 'package:petition/Screens/Login.dart';
-import 'package:petition/Screens/Maktob.dart';
-import 'package:petition/Screens/ProfileScreen.dart';
-import 'package:petition/Screens/Setting.dart';
-import 'package:petition/Screens/SignedPetitions.dart';
-import 'package:petition/Screens/Universities.dart';
+import '../Authentication/AuthData.dart';
+import '../Screens/AddUser.dart';
+import '../Screens/Login.dart';
+import '../Screens/Maktob.dart';
+import '../Screens/ProfileScreen.dart';
+import '../Screens/Setting.dart';
+import '../Screens/SignedPetitions.dart';
+import '../Screens/Universities.dart';
 import '../Assets/NetworkImages.dart';
 import '../Colors/Colors.dart';
 import '../Widgets/Drawer.dart';
@@ -42,9 +42,9 @@ class _AdminState extends State<Admin> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-                Text('د اسنادو د مدیریت عصری کول',textAlign: TextAlign.center,
+                Text('د اسنادو د لیږد را لیږد مدیریتی سیستم',textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 26,
                   fontWeight: FontWeight.bold
                 ),
                 ),
@@ -271,7 +271,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                   48, 145, 235),
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            width: width/6,
+                            width: width/6.7,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

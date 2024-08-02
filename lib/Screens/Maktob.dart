@@ -1,18 +1,20 @@
 import 'dart:typed_data';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:petition/Screens/AddUniversities.dart';
-import 'package:petition/Screens/AddUser.dart';
-import 'package:petition/Screens/Admin.dart';
-import 'package:petition/Screens/Faculty.dart';
-import 'package:petition/Screens/Login.dart';
-import 'package:petition/Screens/SignedPetitions.dart';
-import 'package:petition/Screens/Universities.dart';
+import '../Assets/NetworkImages.dart';
+import '../Screens/AddUniversities.dart';
+import '../Screens/AddUser.dart';
+import '../Screens/Admin.dart';
+import '../Screens/Faculty.dart';
+import '../Screens/Login.dart';
+import '../Screens/SignedPetitions.dart';
+import '../Screens/Universities.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:petition/Widgets/SignPetition.dart';
-import 'package:petition/Widgets/sendToFaculty.dart';
-import 'package:petition/Widgets/sendToUniversity.dart';
-import 'package:petition/models/ApiService.dart';
+import '../Widgets/SignPetition.dart';
+import '../Widgets/sendToFaculty.dart';
+import '../Widgets/sendToUniversity.dart';
+import '../models/ApiService.dart';
 import '../Authentication/AuthData.dart';
 import '../Colors/Colors.dart';
 import '../Widgets/Drawer.dart';
@@ -34,7 +36,7 @@ class _MaktobState extends State<Maktob> {
         appBar: AppBar(
           foregroundColor: Colors.white,
           backgroundColor: Color.fromARGB(255, 15, 31, 253),
-          title: Text('د اسنادو مدیریت عصری کول'),
+          title: Text('د اسنادو د لیږد رالیږد مدیریتی سسیتم'),
           centerTitle: true,
         ),
         endDrawer: FutureBuilder(
@@ -158,16 +160,14 @@ class _maktobScreenState extends State<maktobScreen> {
       if (widget.index == 10) {
         print('For Faculty');
         List data = await ApiService().fetchData('received_to_faculties');
-        List petitionsData=await ApiService().fetchData('petitions');
+        List petitionsData = await ApiService().fetchData('petitions');
         List NaturalData = [];
         data.forEach((elementUp) {
           if (elementUp['faculty_id'] == User['id']) {
             petitionsData.forEach((element) {
-            if(element['id']==elementUp['petition_id']){
-
-              NaturalData.add(element);
-            }
-
+              if (element['id'] == elementUp['petition_id']) {
+                NaturalData.add(element);
+              }
             });
           }
         });
@@ -257,12 +257,13 @@ class _maktobScreenState extends State<maktobScreen> {
                           Text(
                             snapshot.data[index]['sender'],
                             style: TextStyle(
-                                fontSize: 18, color: colors.helperWhiteColor),
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                           Text(snapshot.data[index]['date'],
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: colors.helperWhiteColor)),
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.white)),
                         ],
                       ),
                       subtitle: Text(
@@ -270,7 +271,7 @@ class _maktobScreenState extends State<maktobScreen> {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.justify,
-                        style: TextStyle(color: colors.helperWhiteColor),
+                        style: TextStyle(color: Colors.white),
                       ),
                       trailing: Container(
                         padding: const EdgeInsets.only(top: 10),
@@ -316,38 +317,170 @@ Sheet(BuildContext context, int no, List snapshot) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                InkWell(
+                  child: Icon(Icons.arrow_forward_ios_rounded),
+                  onTap: (){Navigator.pop(context);},
+                ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios_new,
-                          color: Colors.blue,
-                        ))
+
+                    Container(
+                      width: 120,
+                      height: 120,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(ministryImage),
+                      ),
+                    ),
+                    Column(
+                      children: [
+
+                        Text('بسم الله الرحمن الرحیم'),
+                        Text(
+                          'د افغانستان اسلامي امارت',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'د لوړو زده کړو وزارت',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'سید جمال الدین افغاني پوهنتون',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'محصلانو چارو معاونیت',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'محصلانو چارو آمریت',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'اجرائېه ماموریت',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                    Container(
+                      width: 120,
+                      height: 120,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(ministryImage),
+                      ),
+                    ),
                   ],
                 ),
-                Text(
-                  "نمبر مکتوب: " + snapshot[no]['id'],
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    //Row For Type of Maktob
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Text('غیر محرم'),
+                            Checkbox(
+                                value: snapshot[no]['type'] == 'غیر محرم'
+                                    ? true
+                                    : false,
+                                onChanged: (val) {}),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Column(
+                          children: [
+                            Text('محرم'),
+                            Checkbox(
+                                value: snapshot[no]['type'] == 'محرم'
+                                    ? true
+                                    : false,
+                                onChanged: (val) {}),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Column(
+                          children: [
+                            Text('عادي'),
+                            Checkbox(
+                                value: snapshot[no]['type'] == 'عادي'
+                                    ? true
+                                    : false,
+                                onChanged: (val) {}),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Column(
+                          children: [
+                            Text('جدی'),
+                            Checkbox(
+                                value: snapshot[no]['type'] == 'جدي'
+                                    ? true
+                                    : false,
+                                onChanged: (val) {}),
+                          ],
+                        ),
+                      ],
+                    ),
+                    //Row For Gana and Date
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  snapshot[no]['id'].toString(),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(' :ګڼه'),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  snapshot[no]['date'].toString(),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(' :نیټه'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                Text(
-                  "تاریخ: " + snapshot[no]['date'],
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+                Divider(
+                  thickness: 2,
                 ),
+                Text(': د ازموینو ملی اداری محترم مقام'),
+                Text('! د ازموینو د سمون محترم ریاست د پام وړ'),
+                Text('! السلام علیکم ورحمت الله وبرکاته'),
                 Text(
-                  snapshot[no]['sender'] + " :لیږوونکی",
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+                  'موضوع: ${snapshot[no]['title']} ',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
                   snapshot[no]['description'],
+                  textAlign: TextAlign.right,
                   style: TextStyle(color: Colors.black),
                 ),
-                Divider(),
                 SizedBox(
                   height: 20,
                 ),
@@ -357,10 +490,9 @@ Sheet(BuildContext context, int no, List snapshot) {
                         children: [
                           IconButton(
                             onPressed: () {
-
-                                Navigator.pop(context);
-                                SignPetition(context, snapshot[no], User);
-                              },
+                              Navigator.pop(context);
+                              SignPetition(context, snapshot[no], User);
+                            },
                             icon: Icon(
                               Icons.create_outlined,
                               color: Colors.blue,
@@ -368,20 +500,52 @@ Sheet(BuildContext context, int no, List snapshot) {
                           ),
                           TextButton(
                             onPressed: () {
-                              senddToFaculty(context,snapshot[no]);
+                              senddToFaculty(context, snapshot[no]);
                             },
                             child: Text('پوهنځی ته ولیږۍ'),
                           ),
                         ],
-                      )):
-                    userType=='Faculty'? Center(
-                        child: TextButton(
-                          onPressed: () {
-                            senddToUniversity(context,snapshot[no]);
-                          },
-                          child: Text('پوهنتون ته ولیږۍ'),
-                        ))
-                :Container(),
+                      ))
+                    : userType == 'Faculty'
+                        ? Center(
+                            child: TextButton(
+                            onPressed: () {
+                              senddToUniversity(context, snapshot[no]);
+                            },
+                            child: Text('پوهنتون ته ولیږۍ'),
+                          ))
+                        : Container(),
+                SizedBox(height: 50,),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    children: [
+                      Divider(thickness: 2,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text('کوټی سنګي ،کابل، افغانستان'),
+                              Icon(Icons.location_on_outlined)
+                            ],
+                          ),
+                          Row(
+                            children: [Text('Wezarat@gmail.com'),
+                              Icon(Icons.email_outlined),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text('+9378787887'),
+                              Icon(Icons.phone_enabled_outlined)
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
@@ -394,8 +558,11 @@ Sheet(BuildContext context, int no, List snapshot) {
 //Creating new maktob
 
 Write(BuildContext context) {
+DateTime dt=DateTime.now();
+TextEditingController dateController = TextEditingController(text: '${dt.year}-${dt.month}-${dt.day}');
+  List<String> MaktobTypes = ['...', 'جدي', 'عادي', 'محرم', 'غیر محرم'];
   String _selectedUniversity = universitiesInFaculty.first;
-  String type = 'مکتوب';
+  String type = MaktobTypes.first;
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -440,23 +607,38 @@ Write(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Expanded(
-                      child: DropdownButtonFormField(
-                        decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey[200],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            )),
-                        items: [
-                          DropdownMenuItem(
+                      child: DropdownButtonFormField<String>(
+                         decoration: InputDecoration(
+                           
+                          labelText: ' مکتوب نوعه',
+                                      filled: true,
+                                      fillColor: Colors.grey[200],
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                    ),
+                                    dropdownColor: Colors.blue,
+                                isExpanded: true,                     
+                        hint: Text('انتخاب کړۍ'),
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              value == '' ||
+                              value == MaktobTypes.first) {
+                            return 'د مکتوب نوعه انتخاب کړۍ';
+                          }
+                        },
+                        value: type,
+                        items: MaktobTypes.map((String e) {
+                          return DropdownMenuItem<String>(
+                            value: e,
                             child: Text(
-                              'مکتوب',
-                              style: TextStyle(color: colors.helperWhiteColor),
+                              e,
                             ),
-                          ),
-                        ],
-                        onChanged: (value) {
-                          type = value;
+                          );
+                        }).toList(),
+                        onChanged: (cha) {
+                          type = cha!;
                         },
                       ),
                     ),
@@ -464,8 +646,7 @@ Write(BuildContext context) {
                       width: 10,
                     ),
                     Text(
-                      'د مکتوب نوعه انتخاب کړۍ',
-                      style: TextStyle(color: colors.helperWhiteColor),
+                      'د مکتوب نوعه',
                     ),
                   ],
                 ),
@@ -478,7 +659,8 @@ Write(BuildContext context) {
                   children: [
                     Expanded(
                       child: TextFormField(
-                        controller: dateController,
+                        enabled: false,
+                        initialValue: dateController.text.toString(),
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.grey[200],
@@ -487,19 +669,7 @@ Write(BuildContext context) {
                           ),
                           labelText: 'تاریخ انتخاب کړۍ',
                         ),
-                        onTap: () async {
-                          FocusScope.of(context).requestFocus(new FocusNode());
-                          DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2101),
-                          );
-                          if (pickedDate != null) {
-                            dateController.text =
-                                "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
-                          }
-                        },
+                   
                       ),
                     ),
                     SizedBox(
@@ -729,19 +899,17 @@ Write(BuildContext context) {
   );
 }
 
-var dateController = TextEditingController();
-
 //Prompt to get file from user
 
-Upload(BuildContext context) {
+Upload(BuildContext context) async {
   final _formKey = GlobalKey<FormState>();
   List<String> universitiesInFaculty = [
     '...',
-    'ننګرهار پوهنتون',
-    'کنړ پوهنتون',
-    'کابل پوهنتون',
-    'خوست پوهنتون'
   ];
+  List res = await ApiService().fetchData('universities');
+  res.forEach((element) {
+    universitiesInFaculty.add(element['name']);
+  });
   String _selectedUniversity = universitiesInFaculty.first;
 
   showModalBottomSheet(

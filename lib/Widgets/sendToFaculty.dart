@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Widgets/Message.dart';
-import 'package:petition/models/sendToFacultyModel.dart';
+import '../Widgets/Message.dart';
+import '../models/sendToFacultyModel.dart';
 import '../Screens/Maktob.dart';
 import '../models/ApiService.dart';
 
@@ -14,7 +14,7 @@ getFaculties() async {
   actFacultyName = ['...'];
   Faculties = await ApiService().fetchData('faculty');
   Faculties.forEach((element) {
-    if (element['university_id'] == User['id']) {
+    if (element['university_id'] == User['university_id']) {
       actFaculty.add(element);
     }
   });
@@ -124,7 +124,7 @@ senddToFaculty(BuildContext context, Map snapshot) {
                                       _selectedFaculty = cha;
                                       actFaculty.forEach((element) {
                                         if (element['name'] == cha) {
-                                          _facultyNo = element['id'];
+                                          _facultyNo = element['id'].toString();
                                         }
                                       });
                                     },
@@ -192,8 +192,8 @@ senddToFaculty(BuildContext context, Map snapshot) {
                       if (_formKey.currentState!.validate()) {
                         try {
                           final sendfacultymodel = SendToFacultyModel(
-                              petition_id: snapshot['id'],
-                              faculty_id: _facultyNo,
+                              petition_id: snapshot['id'].toString(),
+                              faculty_id: _facultyNo.toString(),
                               comment: CommentController.text);
 
                           var res = await ApiService().sendToFaculty(

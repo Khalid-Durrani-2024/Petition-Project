@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:petition/models/ApiService.dart';
-import 'package:petition/models/UniversityModel.dart';
+import '../models/ApiService.dart';
+import '../models/UniversityModel.dart';
 import '../Colors/Colors.dart';
 
 class AddUniversity extends StatelessWidget {
@@ -10,25 +10,16 @@ class AddUniversity extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        foregroundColor: colors.helperWhiteColor,
-        backgroundColor: colors.textFieldColor,
+        foregroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 15, 31, 253),
         centerTitle: true,
-        title: Text('پوهنتون اضافه کړۍ'),
+        title: Text('د اسنادو د لیږد را لیږد مدیریتی سیستم', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       ),
-      backgroundColor: colors.backgroundColor,
+      backgroundColor: Color.fromARGB(255, 223, 217, 215),
       body: UniversityScreen(),
     );
   }
 }
-
-
-
-
-
-
-
-
-
 
 
 //adding university in database
@@ -44,7 +35,7 @@ class _UniversityScreenState extends State<UniversityScreen> {
   _getUniversities()async{
  List universities= await ApiService().fetchData('universities');
   for(int i=0;i<universities.length;i++){
-   id=universities[i]['id'];
+   id=universities[i]['id'].toString();
   }
   return id;
 }
@@ -65,15 +56,31 @@ class _UniversityScreenState extends State<UniversityScreen> {
     return Container(
       width: double.infinity,
       height: double.infinity,
+      margin: EdgeInsets.symmetric(vertical: 80, horizontal: 200), // Optional: Add margin for spacing around the border
+      padding: EdgeInsets.all(10), // Optional: Add padding for spacing inside the border
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey, // Border color
+          width: 2.0, // Specify the width of the border
+        ),
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,// Optional: Border radius
+      ),
       child: Form(
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+
+              Padding(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: Text('پوهنتون اضافه کړی', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.black)),
+              ),
               Container(
+
                 //University ID Field
                 decoration: BoxDecoration(
-                    color: colors.textFieldColor,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: FutureBuilder(
@@ -93,16 +100,20 @@ class _UniversityScreenState extends State<UniversityScreen> {
                      validator: (value) {
 
                      },
+
                      keyboardType: TextInputType.emailAddress,
-                     style: TextStyle(color: Colors.white),
+                     style: TextStyle(color: Colors.black),
                      decoration: InputDecoration(
                          border: OutlineInputBorder(
                              borderRadius: BorderRadius.circular(22)),
                          labelStyle: TextStyle(
-                             color: Colors.white,
+                             color: Colors.black,
                              fontSize: 12,
                              fontWeight: FontWeight.w100),
-                         label: Text('د پوهنتون مسلسل شمیره')),
+                         label: Padding(
+                           padding: const EdgeInsets.only(top: 30),
+                           child: Text('د پوهنتون مسلسل شمیره'),
+                         )),
                    );
                     }
                   },
@@ -114,7 +125,7 @@ class _UniversityScreenState extends State<UniversityScreen> {
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: colors.textFieldColor,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: TextFormField(
@@ -127,12 +138,12 @@ class _UniversityScreenState extends State<UniversityScreen> {
                     return null;
                   },
                   keyboardType: TextInputType.emailAddress,
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(22)),
                       labelStyle: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 12,
                           fontWeight: FontWeight.w100),
                       label: Text('پوهنتون نوم')),
@@ -143,7 +154,7 @@ class _UniversityScreenState extends State<UniversityScreen> {
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: colors.textFieldColor,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(22)),
                 width: width / 2,
                 child: TextFormField(
@@ -156,12 +167,12 @@ class _UniversityScreenState extends State<UniversityScreen> {
                     return null;
                   },
                   keyboardType: TextInputType.emailAddress,
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(22)),
                       labelStyle: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 12,
                           fontWeight: FontWeight.w100),
                       label: Text('پوهنتون موقعیت')),
@@ -193,7 +204,7 @@ class _UniversityScreenState extends State<UniversityScreen> {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(22),
-                      color: colors.buttonColor),
+                      color: Colors.blue.shade700),
                   width: width / 5,
                   height: height / 15,
                   child: const Text(
