@@ -6,9 +6,7 @@ import '../Screens/SignedFromUniversity.dart';
 import '../Screens/SignedPetitions.dart';
 import '../Screens/Universities.dart';
 import '../models/ApiService.dart';
-import '../Assets/NetworkImages.dart';
 import '../Authentication/AuthData.dart';
-import '../Colors/Colors.dart';
 import '../Screens/Admin.dart';
 import '../Screens/Login.dart';
 //Drawer Designed for Admin

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Widgets/Drawer.dart';
-import 'package:petition/Widgets/Message.dart';
-
+import '../Widgets/Drawer.dart';
+import '../Widgets/Message.dart';
 import '../models/ApiService.dart';
 import '../models/SignPetitionModel.dart';
 import 'Maktob.dart';
@@ -25,9 +24,8 @@ class _SignedFromUniversityState extends State<SignedFromUniversity> {
       petitions.forEach((Petitionelement) {
         signed.forEach((element) {
           if (Petitionelement['id'] == element['petition_id']) {
-            if(element['university_id']==User['university_id']){
-
-            naturalData.add(Petitionelement);
+            if (element['university_id'] == User['university_id']) {
+              naturalData.add(Petitionelement);
             }
           }
         });
@@ -124,7 +122,7 @@ class _SignedFromUniversityState extends State<SignedFromUniversity> {
                                       color: Colors
                                           .black, // Adjust to your light color theme
                                     ),
-                                    ),
+                                  ),
                                   Text(
                                     snapshot.data[index]['date'],
                                     textAlign: TextAlign.right,
@@ -209,7 +207,9 @@ showMaktobBeforeSendingToMinistry(BuildContext context, Map snapshot) {
                 children: [
                   InkWell(
                     child: Icon(Icons.arrow_forward_ios_rounded),
-                    onTap: (){Navigator.pop(context);},
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -263,11 +263,15 @@ showMaktobBeforeSendingToMinistry(BuildContext context, Map snapshot) {
                       } else if (snapshot.hasData) {
                         res = snapshot.data?['comment'];
                         return Row(
-
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(snapshot.data?['comment']),
-                            Text(' :پوهنځي نظر',style: TextStyle(decoration: TextDecoration.underline,fontWeight: FontWeight.bold),),
+                            Text(
+                              ' :پوهنځي نظر',
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ],
                         );
                       } else {
@@ -286,13 +290,16 @@ showMaktobBeforeSendingToMinistry(BuildContext context, Map snapshot) {
                           children: [
                             Text(snapshot.data?['comment']),
                             Text(
-                                ' :پوهنتون نظر',style: TextStyle(decoration: TextDecoration.underline,fontWeight: FontWeight.bold),),
+                              ' :پوهنتون نظر',
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ],
                         );
-                      }else if(snapshot.hasError){
+                      } else if (snapshot.hasError) {
                         return Icon(Icons.error_outline_outlined);
-                      }
-                      else {
+                      } else {
                         return Text('معلومات لوډ نشول');
                       }
                     },

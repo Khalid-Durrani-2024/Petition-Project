@@ -1,15 +1,8 @@
 import 'dart:typed_data';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:petition/Assets/NetworkImages.dart';
-import 'package:petition/Screens/AddUniversities.dart';
-import 'package:petition/Screens/AddUser.dart';
-import 'package:petition/Screens/Admin.dart';
-import 'package:petition/Screens/Faculty.dart';
-import 'package:petition/Screens/Login.dart';
-import 'package:petition/Screens/SignedPetitions.dart';
-import 'package:petition/Screens/Universities.dart';
+import '../Assets/NetworkImages.dart';
+import '../Screens/Admin.dart';
 import 'package:file_picker/file_picker.dart';
 import '../Widgets/SignPetition.dart';
 import '../Widgets/sendToFaculty.dart';

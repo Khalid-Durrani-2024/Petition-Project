@@ -20,13 +20,12 @@ class _UniversitiesState extends State<Universities> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         leading: BackButton(),
         centerTitle: true,
         foregroundColor: Colors.white,
         backgroundColor: Color.fromARGB(255, 15, 31, 253),
-
-        title: Text('د اسنادو د لیږد رالیږد مدیریتی سسیتم', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        title: Text('د اسنادو د لیږد رالیږد مدیریتی سسیتم',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       ),
       endDrawer: Drawer(
         child: DesignedDrawer(),
@@ -65,7 +64,8 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
       height: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color.fromARGB(255, 223, 217, 215),
+          colors: [
+            Color.fromARGB(255, 223, 217, 215),
             Color.fromARGB(252, 215, 246, 239)
           ],
           begin: Alignment.topLeft,
@@ -88,67 +88,63 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
               ),
             );
           } else if (snapshot.hasData) {
-            return Scrollbar(
-              child: GridView.builder(
-                physics: BouncingScrollPhysics(
-
-                ),
-                itemCount: snapshot.data.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: currentWidth > 300 ? 3 : 1,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 1.5,
-                ),
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      UpdateUniversity(context, snapshot.data[index]);
-                    },
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
+            return GridView.builder(
+              physics: BouncingScrollPhysics(),
+              itemCount: snapshot.data.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: currentWidth > 300 ? 3 : 1,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 1.5,
+              ),
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    UpdateUniversity(context, snapshot.data[index]);
+                  },
+                  child: Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
+                        color: Color.fromARGB(255, 167, 229,
+                            255), // Adjust to your light color theme
                       ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Color.fromARGB(
-                              255, 167, 229, 255), // Adjust to your light color theme
-                        ),
-                        padding: EdgeInsets.all(15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              snapshot.data[index]['name'],
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color:
-                                Colors.black, // Adjust to your light color theme
+                      padding: EdgeInsets.all(15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            snapshot.data[index]['name'],
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors
+                                  .black, // Adjust to your light color theme
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Expanded(
+                            child: AspectRatio(
+                              aspectRatio: 16 / 9,
+                              child: Icon(
+                                Icons.school_outlined,
+                                color: Colors.black,
+                                size: 120,
                               ),
                             ),
-                            SizedBox(height: 10),
-                            Expanded(
-                              child: AspectRatio(
-                                aspectRatio: 16 / 9,
-                                child: Icon(
-                                  Icons.school_outlined,
-                                  color: Colors.black,
-                                  size: 120,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             );
           } else {
             return Center(
@@ -160,7 +156,6 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
     );
   }
 }
-
 
 // Speed Dial On adding University and User to a Specific University
 class _SpeedDial extends StatefulWidget {
