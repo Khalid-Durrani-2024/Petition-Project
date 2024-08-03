@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Widgets/Drawer.dart';
 import '../Widgets/Message.dart';
-
+import '../Assets/NetworkImages.dart';
 import '../models/ApiService.dart';
 import '../models/SignPetitionModel.dart';
 import 'Maktob.dart';
@@ -108,32 +108,38 @@ class _SignedFromUniversityState extends State<SignedFromUniversity> {
                               padding: EdgeInsets.all(15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
                                 children: [
+                                  Text(
+                                    snapshot.data[index]['sender'],
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                      color: Colors
+                                          .black, // Adjust to your light color theme
+                                    ),
+                                  ),
+                                  Text(
+                                    snapshot.data[index]['title'],
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                      color: Colors
+                                          .black, // Adjust to your light color theme
+                                    ),
+                                    ),
                                   Text(
                                     snapshot.data[index]['date'],
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
                                       color: Colors
                                           .black, // Adjust to your light color theme
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
                                   ),
                                   Text(
-                                    snapshot.data[index]['description'],
+                                    snapshot.data[index]['receiver'],
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
-                                      fontSize: 18,
                                       color: Colors
                                           .black, // Adjust to your light color theme
                                     ),
-                                    maxLines: 4,
-                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),
@@ -201,37 +207,177 @@ showMaktobBeforeSendingToMinistry(BuildContext context, Map snapshot) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  InkWell(
+                    child: Icon(Icons.arrow_forward_ios_rounded),
+                    onTap: (){Navigator.pop(context);},
+                  ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_ios_new,
-                            color: Colors.blue,
-                          ))
+
+                      Container(
+                        width: 120,
+                        height: 120,
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(ministryImage),
+                        ),
+                      ),
+                      Column(
+                        children: [
+
+                          Text('بسم الله الرحمن الرحیم'),
+                          Text(
+                            'د افغانستان اسلامي امارت',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'د لوړو زده کړو وزارت',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'سید جمال الدین افغاني پوهنتون',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'محصلانو چارو معاونیت',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'محصلانو چارو آمریت',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'اجرائېه ماموریت',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                      Container(
+                        width: 120,
+                        height: 120,
+                        child: ClipRRect(
+borderRadius: BorderRadius.circular(50),
+                          child: Image.asset('lib/Assets/ulogo.jpg'),),
+                      ),
+
                     ],
                   ),
-                  Text(
-                    "نمبر مکتوب: " + snapshot['id'].toString(),
-                    style: TextStyle(color: Colors.black, fontSize: 20),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      //Row For Type of Maktob
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              Text('غیر محرم'),
+                              Checkbox(
+                                  value: snapshot['type'] == 'غیر محرم'
+                                      ? true
+                                      : false,
+                                  onChanged: (val) {}),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Column(
+                            children: [
+                              Text('محرم'),
+                              Checkbox(
+                                  value: snapshot['type'] == 'محرم'
+                                      ? true
+                                      : false,
+                                  onChanged: (val) {}),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Column(
+                            children: [
+                              Text('عادي'),
+                              Checkbox(
+                                  value: snapshot['type'] == 'عادي'
+                                      ? true
+                                      : false,
+                                  onChanged: (val) {}),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Column(
+                            children: [
+                              Text('جدی'),
+                              Checkbox(
+                                  value: snapshot['type'] == 'جدي'
+                                      ? true
+                                      : false,
+                                  onChanged: (val) {}),
+                            ],
+                          ),
+                        ],
+                      ),
+                      //Row For Gana and Date
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    snapshot['id'].toString(),
+                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(' :ګڼه'),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    snapshot['date'].toString(),
+                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(' :نیټه'),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  Text(
-                    "تاریخ: " + snapshot['date'],
-                    style: TextStyle(color: Colors.black, fontSize: 20),
+
+                  Divider(
+                    thickness: 2,
                   ),
+                  Text(': د ازموینو ملی اداری محترم مقام'),
+                  Text('! د ازموینو د سمون محترم ریاست د پام وړ'),
+                  Text('! السلام علیکم ورحمت الله وبرکاته'),
                   Text(
-                    snapshot['sender'] + " :لیږوونکی",
-                    style: TextStyle(color: Colors.black, fontSize: 20),
+                    'موضوع: ${snapshot['title']} ',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Text(
                     snapshot['description'],
+                    textAlign: TextAlign.right,
                     style: TextStyle(color: Colors.black),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  //erased till description
                   Divider(),
                   SizedBox(
                     height: 10,
@@ -243,7 +389,14 @@ showMaktobBeforeSendingToMinistry(BuildContext context, Map snapshot) {
                         return CircularProgressIndicator();
                       } else if (snapshot.hasData) {
                         res = snapshot.data?['comment'];
-                        return Text('${snapshot.data?['comment']} :پوهنځي نظر');
+                        return Row(
+
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(snapshot.data?['comment']),
+                            Text(' :پوهنځي نظر',style: TextStyle(decoration: TextDecoration.underline,fontWeight: FontWeight.bold),),
+                          ],
+                        );
                       } else {
                         return Text('معلومات لوډ نشول');
                       }
@@ -255,13 +408,14 @@ showMaktobBeforeSendingToMinistry(BuildContext context, Map snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return CircularProgressIndicator();
                       } else if (snapshot.hasData) {
-                        // var temp = res;
-                        // res = ' پوهنځی نظر ' +
-                        //     snapshot.data?['comment'] +
-                        //     ' پوهنتون نظر ' +
-                        //     temp!;
-                        return Text(
-                            '${snapshot.data?['comment']} :پوهنتون نظر');
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(snapshot.data?['comment']),
+                            Text(
+                                ' :پوهنتون نظر',style: TextStyle(decoration: TextDecoration.underline,fontWeight: FontWeight.bold),),
+                          ],
+                        );
                       }else if(snapshot.hasError){
                         return Icon(Icons.error_outline_outlined);
                       }

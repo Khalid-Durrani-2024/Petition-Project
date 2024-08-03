@@ -3,13 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import '../Assets/NetworkImages.dart';
-import '../Screens/AddUniversities.dart';
-import '../Screens/AddUser.dart';
 import '../Screens/Admin.dart';
-import '../Screens/Faculty.dart';
-import '../Screens/Login.dart';
-import '../Screens/SignedPetitions.dart';
-import '../Screens/Universities.dart';
 import 'package:file_picker/file_picker.dart';
 import '../Widgets/SignPetition.dart';
 import '../Widgets/sendToFaculty.dart';
@@ -261,16 +255,19 @@ class _maktobScreenState extends State<maktobScreen> {
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
+                          Text(
+                            snapshot.data[index]['title'],
+                            style: TextStyle(
+                                color: Colors.white,
+                            ),    ),
                           Text(snapshot.data[index]['date'],
                               style:
                                   TextStyle(fontSize: 12, color: Colors.white)),
                         ],
                       ),
                       subtitle: Text(
-                        snapshot.data[index]['description'],
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.justify,
+                        snapshot.data[index]['receiver'],
+                        textAlign: TextAlign.end,
                         style: TextStyle(color: Colors.white),
                       ),
                       trailing: Container(
@@ -328,9 +325,9 @@ Sheet(BuildContext context, int no, List snapshot) {
                     Container(
                       width: 120,
                       height: 120,
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(ministryImage),
-                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.asset('lib/Assets/ulogo.jpg'),),
                     ),
                     Column(
                       children: [

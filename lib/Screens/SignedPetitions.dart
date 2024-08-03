@@ -84,69 +84,79 @@ class _SignedState extends State<Signed> {
             return Center(child: Icon(Icons.error_outline_outlined,color: Colors.red,),);
           }else if(snapshot.hasData){
 
-                return    Scrollbar(
-                  child: GridView.builder(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: snapshot.data.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: width > 300 ? 3 : 1,
-                    crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 1.5
-                    ),
+                return    GridView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: snapshot.data.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: width > 300 ? 3 : 1,
+                  crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 1.5
+                  ),
 
-                    itemBuilder: (context, index) {
-                  
-                      return InkWell(
-                        onTap: () {
-                          _resend(context, snapshot.data[index]);
-                        },
-                        child: Card(
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
+                  itemBuilder: (context, index) {
+
+                    return InkWell(
+                      onTap: () {
+                        _resend(context, snapshot.data[index]);
+                      },
+                      child: Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
+                            color: Color.fromARGB(
+                                255, 167, 229, 255), // Adjust to your light color theme
                           ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Color.fromARGB(
-                                  255, 167, 229, 255), // Adjust to your light color theme
-                            ),
-                            padding: EdgeInsets.all(15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                            Text(
-                            snapshot.data[index]['date'],
-                              textAlign: TextAlign.right,
-                              style:TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color:
-                                Colors.black, // Adjust to your light color theme
-                              ),
-
-                            ),
-                                SizedBox(height: 10,),
-                                Text(
-                                  snapshot.data[index]['description'],
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color:
-                                    Colors.black, // Adjust to your light color theme
-                                  ),
-                                  maxLines: 4,
-                                  overflow: TextOverflow.ellipsis,
+                          padding: EdgeInsets.all(15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                snapshot.data[index]['sender'],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color:
+                                  Colors.black, // Adjust to your light color theme
                                 ),
-                              ],
-                            ),
+                              ),
+                              Text(
+                                snapshot.data[index]['title'],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color:
+                                  Colors.black, // Adjust to your light color theme
+                                ),
+                              ),
+                              Text(
+                                snapshot.data[index]['date'],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color:
+                                  Colors.black, // Adjust to your light color theme
+                                ),
+                              ),
+                              Text(
+                                snapshot.data[index]['receiver'],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color:
+                                  Colors.black, // Adjust to your light color theme
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 );
 
         }else {
