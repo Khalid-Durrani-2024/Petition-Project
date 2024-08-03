@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../Widgets/Drawer.dart';
-import '../Widgets/Message.dart';
-import '../Assets/NetworkImages.dart';
+import 'package:petition/Widgets/Drawer.dart';
+import 'package:petition/Widgets/Message.dart';
+
 import '../models/ApiService.dart';
 import '../models/SignPetitionModel.dart';
 import 'Maktob.dart';
@@ -214,151 +214,24 @@ showMaktobBeforeSendingToMinistry(BuildContext context, Map snapshot) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
-                      Container(
-                        width: 120,
-                        height: 120,
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(ministryImage),
-                        ),
-                      ),
-                      Column(
-                        children: [
-
-                          Text('بسم الله الرحمن الرحیم'),
-                          Text(
-                            'د افغانستان اسلامي امارت',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'د لوړو زده کړو وزارت',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'سید جمال الدین افغاني پوهنتون',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'محصلانو چارو معاونیت',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'محصلانو چارو آمریت',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'اجرائېه ماموریت',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
-                      Container(
-                        width: 120,
-                        height: 120,
-                        child: ClipRRect(
-borderRadius: BorderRadius.circular(50),
-                          child: Image.asset('lib/Assets/ulogo.jpg'),),
-                      ),
-
+                      IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_ios_new,
+                            color: Colors.blue,
+                          ))
                     ],
                   ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      //Row For Type of Maktob
-                      Row(
-                        children: [
-                          Column(
-                            children: [
-                              Text('غیر محرم'),
-                              Checkbox(
-                                  value: snapshot['type'] == 'غیر محرم'
-                                      ? true
-                                      : false,
-                                  onChanged: (val) {}),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Column(
-                            children: [
-                              Text('محرم'),
-                              Checkbox(
-                                  value: snapshot['type'] == 'محرم'
-                                      ? true
-                                      : false,
-                                  onChanged: (val) {}),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Column(
-                            children: [
-                              Text('عادي'),
-                              Checkbox(
-                                  value: snapshot['type'] == 'عادي'
-                                      ? true
-                                      : false,
-                                  onChanged: (val) {}),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Column(
-                            children: [
-                              Text('جدی'),
-                              Checkbox(
-                                  value: snapshot['type'] == 'جدي'
-                                      ? true
-                                      : false,
-                                  onChanged: (val) {}),
-                            ],
-                          ),
-                        ],
-                      ),
-                      //Row For Gana and Date
-                      Row(
-                        children: [
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    snapshot['id'].toString(),
-                                    style: TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(' :ګڼه'),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    snapshot['date'].toString(),
-                                    style: TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(' :نیټه'),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                  Text(
+                    "نمبر مکتوب: " + snapshot['id'],
+                    style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
-
-                  Divider(
-                    thickness: 2,
+                  Text(
+                    "تاریخ: " + snapshot['date'],
+                    style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
-                  Text(': د ازموینو ملی اداری محترم مقام'),
-                  Text('! د ازموینو د سمون محترم ریاست د پام وړ'),
-                  Text('! السلام علیکم ورحمت الله وبرکاته'),
                   Text(
                     'موضوع: ${snapshot['title']} ',
                     textAlign: TextAlign.right,

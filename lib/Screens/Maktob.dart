@@ -2,8 +2,14 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import '../Assets/NetworkImages.dart';
-import '../Screens/Admin.dart';
+import 'package:petition/Assets/NetworkImages.dart';
+import 'package:petition/Screens/AddUniversities.dart';
+import 'package:petition/Screens/AddUser.dart';
+import 'package:petition/Screens/Admin.dart';
+import 'package:petition/Screens/Faculty.dart';
+import 'package:petition/Screens/Login.dart';
+import 'package:petition/Screens/SignedPetitions.dart';
+import 'package:petition/Screens/Universities.dart';
 import 'package:file_picker/file_picker.dart';
 import '../Widgets/SignPetition.dart';
 import '../Widgets/sendToFaculty.dart';
@@ -258,8 +264,9 @@ class _maktobScreenState extends State<maktobScreen> {
                           Text(
                             snapshot.data[index]['title'],
                             style: TextStyle(
-                                color: Colors.white,
-                            ),    ),
+                              color: Colors.white,
+                            ),
+                          ),
                           Text(snapshot.data[index]['date'],
                               style:
                                   TextStyle(fontSize: 12, color: Colors.white)),
@@ -316,22 +323,23 @@ Sheet(BuildContext context, int no, List snapshot) {
               children: [
                 InkWell(
                   child: Icon(Icons.arrow_forward_ios_rounded),
-                  onTap: (){Navigator.pop(context);},
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-
                     Container(
                       width: 120,
                       height: 120,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(50),
-                        child: Image.asset('lib/Assets/ulogo.jpg'),),
+                        child: Image.asset('lib/Assets/ulogo.jpg'),
+                      ),
                     ),
                     Column(
                       children: [
-
                         Text('بسم الله الرحمن الرحیم'),
                         Text(
                           'د افغانستان اسلامي امارت',
@@ -512,12 +520,16 @@ Sheet(BuildContext context, int no, List snapshot) {
                             child: Text('پوهنتون ته ولیږۍ'),
                           ))
                         : Container(),
-                SizedBox(height: 50,),
+                SizedBox(
+                  height: 50,
+                ),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Column(
                     children: [
-                      Divider(thickness: 2,),
+                      Divider(
+                        thickness: 2,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -528,7 +540,8 @@ Sheet(BuildContext context, int no, List snapshot) {
                             ],
                           ),
                           Row(
-                            children: [Text('Wezarat@gmail.com'),
+                            children: [
+                              Text('Wezarat@gmail.com'),
                               Icon(Icons.email_outlined),
                             ],
                           ),
@@ -555,8 +568,9 @@ Sheet(BuildContext context, int no, List snapshot) {
 //Creating new maktob
 
 Write(BuildContext context) {
-DateTime dt=DateTime.now();
-TextEditingController dateController = TextEditingController(text: '${dt.year}-${dt.month}-${dt.day}');
+  DateTime dt = DateTime.now();
+  TextEditingController dateController =
+      TextEditingController(text: '${dt.year}-${dt.month}-${dt.day}');
   List<String> MaktobTypes = ['...', 'جدي', 'عادي', 'محرم', 'غیر محرم'];
   String _selectedUniversity = universitiesInFaculty.first;
   String type = MaktobTypes.first;
@@ -605,18 +619,16 @@ TextEditingController dateController = TextEditingController(text: '${dt.year}-$
                   children: [
                     Expanded(
                       child: DropdownButtonFormField<String>(
-                         decoration: InputDecoration(
-                           
+                        decoration: InputDecoration(
                           labelText: ' مکتوب نوعه',
-                                      filled: true,
-                                      fillColor: Colors.grey[200],
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                    ),
-                                    dropdownColor: Colors.blue,
-                                isExpanded: true,                     
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        dropdownColor: Colors.blue,
+                        isExpanded: true,
                         hint: Text('انتخاب کړۍ'),
                         validator: (value) {
                           if (value!.isEmpty ||
@@ -666,7 +678,6 @@ TextEditingController dateController = TextEditingController(text: '${dt.year}-$
                           ),
                           labelText: 'تاریخ انتخاب کړۍ',
                         ),
-                   
                       ),
                     ),
                     SizedBox(
