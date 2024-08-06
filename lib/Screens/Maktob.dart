@@ -613,7 +613,10 @@ Write(BuildContext context) {
                     Expanded(
                       child: DropdownButtonFormField<String>(
                         decoration: InputDecoration(
-                          labelText: ' مکتوب نوعه',
+                          label: Align(
+                            alignment: Alignment.topRight,
+                            child: Text('مکتوب نوعه '),
+                          ),
                           filled: true,
                           fillColor: Colors.grey[200],
                           border: OutlineInputBorder(
@@ -634,8 +637,11 @@ Write(BuildContext context) {
                         items: MaktobTypes.map((String e) {
                           return DropdownMenuItem<String>(
                             value: e,
-                            child: Text(
-                              e,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                e,
+                              ),
                             ),
                           );
                         }).toList(),
@@ -661,6 +667,7 @@ Write(BuildContext context) {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        textAlign: TextAlign.right,
                         enabled: false,
                         initialValue: dateController.text.toString(),
                         decoration: InputDecoration(
@@ -669,16 +676,22 @@ Write(BuildContext context) {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          labelText: 'تاریخ انتخاب کړۍ',
+                          label: Align(
+                            alignment: Alignment.topRight,
+                            child: Text('تاریخ انتخاب کړۍ'),
+                          ),
                         ),
                       ),
                     ),
                     SizedBox(
                       width: 10,
                     ),
-                    Text(
-                      'تاریخ',
-                      style: TextStyle(color: Colors.black),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        'تاریخ',
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                   ],
                 ),
@@ -699,7 +712,10 @@ Write(BuildContext context) {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          labelText: 'د مکتوب عنوان',
+                          label: Align(
+                            alignment: Alignment.topRight,
+                            child: Text('د مکتوب عنوان'),
+                          ),
                         ),
                         controller: titleController,
                         validator: (value) {
@@ -730,12 +746,14 @@ Write(BuildContext context) {
                         maxLines: 5,
                         textAlign: TextAlign.right,
                         decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.grey[200],
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          labelText: 'د مکتوب تشریح',
-                        ),
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            label: Align(
+                              child: Text('د مکتوب تشریح'),
+                              alignment: Alignment.topRight,
+                            )),
                         controller: descriptionController,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -747,9 +765,12 @@ Write(BuildContext context) {
                     SizedBox(
                       width: 10,
                     ),
-                    Text(
-                      'ډیسکریبشن',
-                      style: TextStyle(color: Colors.black),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        'ډیسکریبشن',
+                        style: TextStyle(color: Colors.black),
+                      ),
                     )
                   ],
                 ),
@@ -804,13 +825,16 @@ Write(BuildContext context) {
                                     },
                                     value: _selectedUniversity,
                                     items:
-                                        universitiesInFaculty.map((String e) {
+                                      universitiesInFaculty.map((String e) {
                                       return DropdownMenuItem<String>(
                                         value: e,
-                                        child: Text(
-                                          e,
-                                          style: TextStyle(
-                                            color: Colors.black,
+                                        child: Align(
+                                          alignment: Alignment.topRight,
+                                          child: Text(
+                                            e,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                            ),
                                           ),
                                         ),
                                       );

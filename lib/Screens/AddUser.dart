@@ -26,7 +26,8 @@ class AddUser extends StatelessWidget {
         foregroundColor: Colors.white,
         backgroundColor: Color.fromARGB(255, 15, 31, 253),
         centerTitle: true,
-        title: Text('د اسنادو د لیږد را لیږد مدیریتی سیستم', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        title: Text('د اسنادو د لیږد را لیږد مدیریتی سیستم',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       ),
     );
   }
@@ -86,10 +87,10 @@ class _AddUserScreenState extends State<AddUserScreen> {
                           '${snapshot.data[index]['email']} :ایمیل ',
                           style:
                               TextStyle(fontSize: _currentWidt > 500 ? 18 : 36),
-
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20), // Adjust border radius as needed
+                          borderRadius: BorderRadius.circular(
+                              20), // Adjust border radius as needed
                         ),
                       ),
                     ),
@@ -153,7 +154,7 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
     String universityId = '';
 
     //method for getting university admin last number
-   Future _getUniversitiesAdmins() async {
+    Future _getUniversitiesAdmins() async {
       List universities = await ApiService().fetchData('users');
       for (int i = 0; i < universities.length; i++) {
         _selectedId = universities[i]['id'].toString();
@@ -214,12 +215,13 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                               child: CircularProgressIndicator(),
                             );
                           } else if (snapshot.hasError) {
-                              print(snapshot.error);
+                            print(snapshot.error);
                             return Center(
                               child: Icon(Icons.error_outline_outlined),
                             );
                           } else if (snapshot.hasData) {
                             return TextFormField(
+                              textAlign: TextAlign.right,
                               textDirection: TextDirection.ltr,
                               enabled: false,
                               initialValue: snapshot.data.toString(),
@@ -233,8 +235,12 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                                   fontSize: 12,
                                   fontWeight: FontWeight.w100,
                                 ),
-                                labelText: ' مسلسله شمیره',
-                                prefixIcon: const Icon(Icons.confirmation_number_outlined),
+                                label: Align(
+                                  alignment: Alignment.topRight,
+                                  child: Text(' مسلسله شمیره'),
+                                ),
+                                suffixIcon: const Icon(
+                                    Icons.confirmation_number_outlined),
                               ),
                             );
                           } else {
@@ -246,6 +252,7 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        textAlign: TextAlign.right,
                         controller: nameController,
                         textDirection: TextDirection.rtl,
                         validator: (value) {
@@ -263,12 +270,15 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                             fontSize: 12,
                             fontWeight: FontWeight.w100,
                           ),
-                          labelText: 'نوم',
-                          prefixIcon: const Icon(Icons.person_outline),
+                          label: Align(
+                              alignment: Alignment.topRight,
+                              child: Text('نوم')),
+                          suffixIcon: const Icon(Icons.person_outline),
                         ),
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        textAlign: TextAlign.right,
                         controller: emailController,
                         textDirection: TextDirection.rtl,
                         validator: (value) {
@@ -286,12 +296,15 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                             fontSize: 12,
                             fontWeight: FontWeight.w100,
                           ),
-                          labelText: 'ایمیل',
-                          prefixIcon: const Icon(Icons.email_outlined),
+                          label: Align(
+                              alignment: Alignment.topRight,
+                              child: Text('ایمیل')),
+                          suffixIcon: const Icon(Icons.email_outlined),
                         ),
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        textAlign: TextAlign.right,
                         controller: passwordController,
                         textDirection: TextDirection.rtl,
                         obscureText: true,
@@ -310,8 +323,11 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                             fontSize: 12,
                             fontWeight: FontWeight.w100,
                           ),
-                          labelText: 'پټ نوم',
-                          prefixIcon: const Icon(Icons.lock_outline),
+                          label: Align(
+                            alignment: Alignment.topRight,
+                            child: Text('پټ نوم'),
+                          ),
+                          suffixIcon: const Icon(Icons.lock_outline),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -329,8 +345,10 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                             print(snapshot.data);
                             return DropdownButtonFormField<String>(
                               decoration: InputDecoration(
-                                labelText: ' پوهنتون',
-                                prefixIcon: const Icon(Icons.school_outlined),
+                                label: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Text(' پوهنتون'),),
+                                suffixIcon: const Icon(Icons.school_outlined),
                                 border: OutlineInputBorder(),
                               ),
                               hint: Text('انتخاب کړۍ'),
@@ -345,16 +363,19 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                               items: _universities.map((String e) {
                                 return DropdownMenuItem<String>(
                                   value: e,
-                                  child: Text(
-                                    e,
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Text(
+                                      e,
+                                    ),
                                   ),
                                 );
                               }).toList(),
                               onChanged: (cha) {
                                 _selectedUniversity = cha!;
                                 chooseUniversity.forEach((element) {
-                                   print(element);
-                                   print(_selectedUniversity);
+                                  print(element);
+                                  print(_selectedUniversity);
                                   if (element['name'] == _selectedUniversity) {
                                     universityId = element['id'].toString();
                                   }
@@ -376,19 +397,19 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                                 created_at:
                                     DateTime.now().toString().substring(0, 10),
                                 role: 'university');
-                
+
                             int response =
                                 await ApiService().sendUAdmin(model, 'users');
-                            
+
                             if (response == 201) {
                               Navigator.pop(context);
                               showMessage(true, context);
                             } else {
                               print(model.name);
-                               print(model.email); 
-                               print(model.password);
-                               print(model.university_id);
-                               print(model.created_at);
+                              print(model.email);
+                              print(model.password);
+                              print(model.university_id);
+                              print(model.created_at);
                               showMessage(false, context);
                             }
                           }
@@ -429,7 +450,8 @@ class _AddUserToUniversityState extends State<AddUserToUniversity> {
                           child: Text(
                             'بهر شۍ',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, color: Colors.blue),
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue),
                           )),
                     ],
                   ),

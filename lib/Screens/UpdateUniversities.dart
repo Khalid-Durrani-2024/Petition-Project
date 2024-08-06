@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Screens/Admin.dart';
 import '../models/ApiService.dart';
-
 import '../Colors/Colors.dart';
 
 UpdateUniversity(BuildContext context, Map university) {

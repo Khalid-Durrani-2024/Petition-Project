@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:petition/Screens/Admin.dart';
 import '../Screens/AddUniversities.dart';
 import '../Screens/AddUser.dart';
 import '../Screens/UpdateUniversities.dart';
@@ -20,7 +21,13 @@ class _UniversitiesState extends State<Universities> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(),
+        leading: BackButton(onPressed: () {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Admin(),
+              ));
+        }),
         centerTitle: true,
         foregroundColor: Colors.white,
         backgroundColor: Color.fromARGB(255, 15, 31, 253),
@@ -53,6 +60,15 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
   void initState() {
     super.initState();
     _future = _getUniversities();
+  }
+
+  universitiesPics(String name) {
+    List _universitiesPics = ['helman', 'hewad', 'kabul', 'paktia', 'shaikh'];
+    if (_universitiesPics.contains(name)) {
+      return 'lib/Assets/${name}.jpeg';
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -88,11 +104,16 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
               ),
             );
           } else if (snapshot.hasData) {
+            print(currentWidth);
             return GridView.builder(
               physics: BouncingScrollPhysics(),
               itemCount: snapshot.data.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: currentWidth > 300 ? 3 : 1,
+                crossAxisCount: currentWidth > 600
+                    ? 3
+                    : currentWidth > 500
+                        ? 2
+                        : 1,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 childAspectRatio: 1.5,
@@ -114,29 +135,41 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
                             255), // Adjust to your light color theme
                       ),
                       padding: EdgeInsets.all(15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      child: Stack(
+                        alignment: Alignment.center,
                         children: [
+                          universitiesPics(snapshot.data[index]['name']) ==
+                                  false
+                              ? Expanded(
+                                  child: AspectRatio(
+                                    aspectRatio: 16 / 9,
+                                    child: Icon(
+                                      Icons.school_outlined,
+                                      color: Colors.grey,
+                                      size: 120,
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  alignment: Alignment.center,
+                                  width: MediaQuery.of(context).size.width / 6,
+                                  height:
+                                      MediaQuery.of(context).size.height / 6,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.asset(
+                                      universitiesPics(
+                                          snapshot.data[index]['name']),
+                                    ),
+                                  ),
+                                ),
                           Text(
                             snapshot.data[index]['name'],
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
-                              color: Colors
-                                  .black, // Adjust to your light color theme
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Expanded(
-                            child: AspectRatio(
-                              aspectRatio: 16 / 9,
-                              child: Icon(
-                                Icons.school_outlined,
-                                color: Colors.black,
-                                size: 120,
-                              ),
+                              color: Colors.black,
                             ),
                           ),
                         ],

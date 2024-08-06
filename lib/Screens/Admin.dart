@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:petition/models/ApiService.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Authentication/AuthData.dart';
 import '../Screens/AddUser.dart';
 import '../Screens/Login.dart';
@@ -31,34 +33,43 @@ class _AdminState extends State<Admin> {
   void initState() {
     super.initState();
     getUserData();
+    TakingAutomaticBackup();
+  }
+
+  TakingAutomaticBackup() async {
+    SharedPreferences shr = await SharedPreferences.getInstance();
+    if (shr.getInt('time') != DateTime.now().hour) {
+      ApiService().takeBackup('backup');
+      print('autmatic backup getted');
+    } else {
+      shr.setInt('time', DateTime.now().hour);
+      print('no time date equal to take backup');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 15,31, 253),
+        backgroundColor: Color.fromARGB(255, 15, 31, 253),
         foregroundColor: Colors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-                Text('د اسنادو د لیږد را لیږد مدیریتی سیستم',textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold
-                ),
-                ),
+            Text(
+              'د اسنادو د لیږد را لیږد مدیریتی سیستم',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+            ),
             Row(
               children: [
                 Column(
-
                   children: [
                     InkWell(child: Icon(Icons.notifications_none_outlined)),
                     Text(
                       'خبرداری',
                       style: TextStyle(fontSize: 10),
                     )
-
                   ],
                 ),
                 SizedBox(width: 10),
@@ -82,18 +93,17 @@ class _AdminState extends State<Admin> {
                     )
                   ],
                 ),
-                SizedBox(width: 10,),
+                SizedBox(
+                  width: 10,
+                ),
                 Column(
                   children: [
                     InkWell(
                         onTap: () {
                           setState(() {
-
-                            Navigator.of(
-                                context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ProfileScreen(),
-                                ));
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ProfileScreen(),
+                            ));
                           });
                         },
                         child: Icon(Icons.account_circle_outlined)),
@@ -103,10 +113,8 @@ class _AdminState extends State<Admin> {
                     )
                   ],
                 ),
-
               ],
             ),
-
           ],
         ),
       ),
@@ -130,7 +138,7 @@ class AdminScreen extends StatefulWidget {
 String userName = '';
 String userEmail = '';
 String userType = '';
-String userId='n ';
+String userId = 'n ';
 
 class _AdminScreenState extends State<AdminScreen> {
   List adminList = [
@@ -172,8 +180,9 @@ class _AdminScreenState extends State<AdminScreen> {
             height: height,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color.fromARGB(255, 223, 217, 215),
-                Color.fromARGB(252, 215, 246, 239)
+                colors: [
+                  Color.fromARGB(255, 223, 217, 215),
+                  Color.fromARGB(252, 215, 246, 239)
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -192,11 +201,11 @@ class _AdminScreenState extends State<AdminScreen> {
                           backgroundImage: NetworkImage(ministryImage),
                           radius: 100,
                         ),
-                       const SizedBox(height: 10),
-                        Text('د لوړو زده کړو وزارت',
+                        const SizedBox(height: 10),
+                        Text(
+                          'د لوړو زده کړو وزارت',
                           style: TextStyle(
-                            color: Color.fromRGBO(0, 0,
-                                0, 0.933),
+                            color: Color.fromRGBO(0, 0, 0, 0.933),
                             fontSize: 34,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'CustomFont',
@@ -206,11 +215,13 @@ class _AdminScreenState extends State<AdminScreen> {
                     ),
                   ),
                 ),
-              const  SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Expanded(
                   flex: 1,
                   child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
+                    scrollDirection: Axis.horizontal,
                     itemCount: adminList.length,
                     itemBuilder: (context, index) {
                       return Padding(
@@ -219,42 +230,47 @@ class _AdminScreenState extends State<AdminScreen> {
                           onTap: () {
                             index == 0
                                 ? Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return Maktob(index: 0);
-                                },
-                              ),
-                            )
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Maktob(index: 0);
+                                      },
+                                    ),
+                                  )
                                 : index == 1
-                                ? Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => Maktob(index: 1),
-                              ),
-                            )
-                                : index == 2
-                                ? Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => SignedPetitions(),
-                              ),
-                            )
-                                : index == 3
-                                ? Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Universities()))
-                                : index == 5
-                                ? Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => AddUser(),
-                              ),
-                            )
-                                : Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Setting(),
-                              ),
-                            );
+                                    ? Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              Maktob(index: 1),
+                                        ),
+                                      )
+                                    : index == 2
+                                        ? Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SignedPetitions(),
+                                            ),
+                                          )
+                                        : index == 3
+                                            ? Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Universities()))
+                                            : index == 5
+                                                ? Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          AddUser(),
+                                                    ),
+                                                  )
+                                                : Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Setting(),
+                                                    ),
+                                                  );
                           },
                           child: Container(
                             margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -267,23 +283,21 @@ class _AdminScreenState extends State<AdminScreen> {
                                   offset: Offset(3, 3),
                                 )
                               ],
-                              color: Color.fromARGB(255,
-                                  48, 145, 235),
+                              color: Color.fromARGB(255, 48, 145, 235),
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            width: width/6.7,
+                            width: width / 6.7,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 adminIcons[index],
-                              const  SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Text(
                                   adminList[index],
                                   style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold
-                                  ),
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
                                   textAlign: TextAlign.center,
                                 ),
                               ],

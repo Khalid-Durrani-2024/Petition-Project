@@ -36,7 +36,7 @@ class FacultyScreen extends StatefulWidget {
 }
 
 List universitiesMap = [];
-String _selectedId ='';
+String _selectedId = '';
 TextEditingController _noFaculty = TextEditingController();
 String _selectedFaculty = '';
 
@@ -110,8 +110,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(22),
                           color: Colors.white,
-                          border: Border.all(
-                              color: Colors.grey),
+                          border: Border.all(color: Colors.grey),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.2),
@@ -149,7 +148,9 @@ class _FacultyScreenState extends State<FacultyScreen> {
                                       fontSize: 14,
                                       fontWeight: FontWeight.w100),
                                   label: _noFaculty.text != ''
-                                      ? Text('د پوهنځي مسلسله شمیره')
+                                      ? Align(
+                                          alignment: Alignment.topRight,
+                                          child: Text('د پوهنځي مسلسله شمیره'))
                                       : Icon(
                                           Icons.error_outline,
                                           color: Colors.black,
@@ -176,25 +177,36 @@ class _FacultyScreenState extends State<FacultyScreen> {
                                     color: Colors.black,
                                     fontSize: 14,
                                   ),
-                                  label: Text('پوهنځي نوم')),
+                                  label: Align(
+                                      alignment: Alignment.topRight,
+                                      child: Text('پوهنځي نوم'))),
                             ),
                             SizedBox(
                               height: 15,
                             ),
                             //University Selection
+
                             DropdownButtonFormField<String>(
+                              
+                              alignment: Alignment.topRight,
                               decoration: InputDecoration(
-                                labelText: ' پوهنتون',
-                                labelStyle:
-                                    TextStyle(color: Colors.black, fontSize: 14),
+                                alignLabelWithHint: true,
+                                label: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Text(' پوهنتون')),
+                                labelStyle: TextStyle(
+                                    color: Colors.black, fontSize: 14),
                                 border: OutlineInputBorder(),
                               ),
                               hint: Text('انتخاب کړۍ'),
                               items: [
                                 DropdownMenuItem(
-                                  child: Text(
-                                    _selectedUniversity,
-                                    style: TextStyle(color: Colors.black),
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      _selectedUniversity,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
                                   ),
                                 )
                               ],
@@ -206,29 +218,30 @@ class _FacultyScreenState extends State<FacultyScreen> {
                               height: 15,
                             ),
                             TextFormField(
-                              textDirection: TextDirection.rtl,
-                              controller: emailController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'ایمیل ادرس مو دننه کړۍ';
-                                } else if (!value.contains('@')) {
-                                  return 'خپل ایمیل ادرس مو چیک کړۍ او بیا هڅه وکړۍ "@"';
-                                } else if (!value.contains('.')) {
-                                  return 'خپل ایمیل ادرس مو چیک کړۍ او بیا هڅه وکړۍ "."';
-                                }
-                                return null;
-                              },
-                              keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(color: Colors.black),
-                              decoration: InputDecoration(
-
+                                textDirection: TextDirection.rtl,
+                                controller: emailController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'ایمیل ادرس مو دننه کړۍ';
+                                  } else if (!value.contains('@')) {
+                                    return 'خپل ایمیل ادرس مو چیک کړۍ او بیا هڅه وکړۍ "@"';
+                                  } else if (!value.contains('.')) {
+                                    return 'خپل ایمیل ادرس مو چیک کړۍ او بیا هڅه وکړۍ "."';
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.emailAddress,
+                                style: TextStyle(color: Colors.black),
+                                decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize: 14,
                                   ),
-                                  labelText: 'ایمیل'),
-                            ),
+                                  label: Align(
+                                      alignment: Alignment.topRight,
+                                      child: Text('ایمیل')),
+                                )),
                             SizedBox(
                               height: 15,
                             ),
@@ -251,7 +264,9 @@ class _FacultyScreenState extends State<FacultyScreen> {
                                     color: Colors.black,
                                     fontSize: 14,
                                   ),
-                                  label: Text('پټ نوم')),
+                                  label: Align(
+                                      alignment: Alignment.topRight,
+                                      child: Text('پټ نوم'))),
                             ),
                             SizedBox(
                               height: 15,
@@ -277,12 +292,13 @@ class _FacultyScreenState extends State<FacultyScreen> {
                                     print(faculty.password);
                                     print(faculty.university_name);
                                     print(faculty.role);
-                  
+
                                     int res = await ApiService()
                                         .sendFaculty(faculty, 'faculty');
-                  
+
                                     if (res == 201) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
                                           content: Text('پوهنځی اضافه شو'),
                                           showCloseIcon: true,
@@ -293,7 +309,8 @@ class _FacultyScreenState extends State<FacultyScreen> {
                                       emailController.text = '';
                                       passwordController.text = '';
                                     } else {
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
                                           content: Text('ستونزه ده'),
                                           showCloseIcon: true,
