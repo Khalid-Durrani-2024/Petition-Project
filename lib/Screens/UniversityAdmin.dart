@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Screens/Admin.dart';
-import 'package:petition/models/ApiService.dart';
+import '../models/ApiService.dart';
 import '../Assets/NetworkImages.dart';
 import '../Authentication/AuthData.dart';
 import '../Widgets/Drawer.dart';
@@ -14,26 +13,28 @@ class Universityadmin extends StatefulWidget {
   State<Universityadmin> createState() => _UniversityadminState();
 }
 
-Map currentUser = {};
+late Future currentUser;
 
 class _UniversityadminState extends State<Universityadmin> {
   getUserData() async {
     User = await AuthData().getSharedData();
     List response = await ApiService().fetchData('universities');
+    Map uni = {};
     response.forEach(
       (element) {
         if (element['id'] == User['university_id']) {
-          currentUser = element;
+          uni = element;
         }
       },
     );
+    return uni;
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getUserData();
+    currentUser = getUserData();
   }
 
   @override
@@ -97,10 +98,6 @@ class _UniversityadminState extends State<Universityadmin> {
 }
 
 class UniversityDashboard extends StatefulWidget {
-  getUserData() async {
-    return await AuthData().getSharedData();
-  }
-
   const UniversityDashboard({super.key});
 
   @override
@@ -108,11 +105,21 @@ class UniversityDashboard extends StatefulWidget {
 }
 
 class _UniversityDashboardState extends State<UniversityDashboard> {
+  universitiesPics(String name) {
+    List _universitiesPics = ['helman', 'hewad', 'kabul', 'paktia', 'shaikh'];
+    if (_universitiesPics.contains(name)) {
+      return 'lib/Assets/${name}.jpeg';
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getUserData(),
+      future: currentUser,
       builder: (context, snapshot) {
+        print(snapshot.data);
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         } else if (snapshot.hasError) {
@@ -131,19 +138,47 @@ class _UniversityDashboardState extends State<UniversityDashboard> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(ministryImage),
-                      radius: 100,
+                    FutureBuilder(
+                      future: currentUser,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else {
+                          return universitiesPics(snapshot.data['name']) ==
+                                  false
+                              ? CircleAvatar(
+                                  backgroundImage: NetworkImage(ministryImage),
+                                  radius: 100,
+                                )
+                              : Container(
+                                  alignment: Alignment.center,
+                                  // width: MediaQuery.of(context).size.width / 6,
+                                  width: 220,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Image.asset(
+                                      universitiesPics(snapshot.data['name']),
+                                    ),
+                                  ),
+                                );
+                        }
+                      },
                     ),
                     const SizedBox(height: 10),
-                    Text(
-                      currentUser['name'],
-                      style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 0.933),
-                        fontSize: 34,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'CustomFont',
-                      ),
+                    FutureBuilder(
+                      future: currentUser,
+                      builder: (context, snapshot) {
+                        return Text(
+                          snapshot.data['name'].toString(),
+                          style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 0.933),
+                            fontSize: 34,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'CustomFont',
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
