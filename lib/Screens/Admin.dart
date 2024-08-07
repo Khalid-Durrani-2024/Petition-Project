@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petition/models/ApiService.dart';
+import '../models/ApiService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Authentication/AuthData.dart';
 import '../Screens/AddUser.dart';
@@ -38,7 +38,7 @@ class _AdminState extends State<Admin> {
 
   TakingAutomaticBackup() async {
     SharedPreferences shr = await SharedPreferences.getInstance();
-    if (shr.getInt('time') != DateTime.now().hour) {
+    if (shr.getInt('time') == 24) {
       ApiService().takeBackup('backup');
       print('autmatic backup getted');
     } else {
