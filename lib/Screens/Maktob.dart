@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import '../Screens/FacultyDashboard.dart';
 import '../Assets/NetworkImages.dart';
 import '../Screens/Admin.dart';
 import 'package:file_picker/file_picker.dart';
@@ -35,7 +36,15 @@ class _MaktobState extends State<Maktob> {
                     ));
                   },
                 )
-              : SizedBox(),
+              : User['role'] == 'Faculty'
+                  ? BackButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => FacultyDashboard(),
+                        ));
+                      },
+                    )
+                  : SizedBox(),
           foregroundColor: Colors.white,
           backgroundColor: Color.fromARGB(255, 15, 31, 253),
           title: Text('د اسنادو د لیږد رالیږد مدیریتی سسیتم'),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:petition/Screens/UniversityAdmin.dart';
+import '../Screens/FacultyDashboard.dart';
+import '../Screens/UniversityAdmin.dart';
 import '../Screens/Admin.dart';
 import '../Screens/Login.dart';
-import '../Screens/Maktob.dart';
 import '../models/ApiService.dart';
 
 import 'AuthData.dart';
@@ -51,7 +51,8 @@ class _AuthWrapperState extends State<AuthWrapper> {
           return Admin();
         } else if (snapshot.data == 'Faculty') {
           print('returning Faculty');
-          return Maktob(index: 10);
+          return FacultyDashboard();
+          //Maktob(index: 10);
         } else if (snapshot.data == 'university') {
           print('returning university');
           return Universityadmin();

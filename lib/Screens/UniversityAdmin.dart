@@ -95,6 +95,8 @@ class _UniversityadminState extends State<Universityadmin> {
           ],
         ),
       ),
+     
+     
       body: UniversityDashboard(),
     );
   }
@@ -147,7 +149,9 @@ class _UniversityDashboardState extends State<UniversityDashboard> {
           );
         } else if (snapshot.hasData) {
           print(snapshot.data);
-          return Column(mainAxisSize: MainAxisSize.max, children: [
+          return Column(
+            mainAxisSize: MainAxisSize.max,
+             children: [
             Expanded(
               flex: 2,
               child: Center(
@@ -265,7 +269,9 @@ class _UniversityDashboardState extends State<UniversityDashboard> {
                       ),
                     );
                   },
-                ))
+                ),
+                ),
+      
           ]);
         } else {
           return const Center(

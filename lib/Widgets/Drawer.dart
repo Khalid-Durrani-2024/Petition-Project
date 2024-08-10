@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../Screens/FacultyDashboard.dart';
 import '../Screens/Faculty.dart';
 import '../Screens/Maktob.dart';
 import '../Screens/Setting.dart';
@@ -255,6 +256,8 @@ class _DrawerForFacultyState extends State<DrawerForFaculty> {
             ),
           ),
           Divider(),
+          _createDrawerItem(context, Icons.book_outlined, 'کور پاڼه',
+              () => _navigateTo(context, FacultyDashboard())),
           _createDrawerItem(
               context,
               Icons.book_outlined,
