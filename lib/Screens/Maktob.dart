@@ -27,6 +27,15 @@ class _MaktobState extends State<Maktob> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: User['role'] == 'admin'
+              ? BackButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => Admin(),
+                    ));
+                  },
+                )
+              : SizedBox(),
           foregroundColor: Colors.white,
           backgroundColor: Color.fromARGB(255, 15, 31, 253),
           title: Text('د اسنادو د لیږد رالیږد مدیریتی سسیتم'),
@@ -825,7 +834,7 @@ Write(BuildContext context) {
                                     },
                                     value: _selectedUniversity,
                                     items:
-                                      universitiesInFaculty.map((String e) {
+                                        universitiesInFaculty.map((String e) {
                                       return DropdownMenuItem<String>(
                                         value: e,
                                         child: Align(

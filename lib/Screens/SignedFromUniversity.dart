@@ -225,7 +225,7 @@ showMaktobBeforeSendingToMinistry(BuildContext context, Map snapshot) {
                     ],
                   ),
                   Text(
-                    "نمبر مکتوب: " + snapshot['id'],
+                    "نمبر مکتوب: " + snapshot['id'].toString(),
                     style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                   Text(
